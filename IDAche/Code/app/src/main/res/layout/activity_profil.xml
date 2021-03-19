@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:background="@drawable/ic_launcher_idache_background"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_gravity="left"
+        android:layout_marginStart="20dp"
+        android:fontFamily="@font/avenir_next_lt_pro"
+        android:text="PROFIL"
+        android:textColor="@android:color/white"
+        android:textSize="36sp">
+    </TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GENDER"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/avenir_next_lt_pro"
+        android:textColor="@android:color/white"
+        android:layout_gravity="left"
+        android:layout_marginStart="20dp">
+    </TextView>
+
+    <io.ghyeok.stickyswitch.widget.StickySwitch
+        android:id="@+id/sticky_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/avenir_next_lt_pro_demi"
+        app:ss_animationDuration="300"
+        app:ss_iconPadding="15dp"
+        app:ss_iconSize="22dp"
+        app:ss_leftIcon="@drawable/ic_male_symbole"
+        app:ss_leftText="Male"
+        app:ss_rightIcon="@drawable/ic_female_symbole"
+        app:ss_rightText="Female"
+        app:ss_selectedTextSize="14sp"
+        app:ss_sliderBackgroundColor="@color/colorGreenPrimaryDark"
+        app:ss_switchColor="@android:color/white"
+        app:ss_textColor="@android:color/white"
+        app:ss_textSize="12sp"
+        app:ss_animationType="line"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/birthdate"
+        android:fontFamily="@font/avenir_next_lt_pro"
+        android:textColor="@android:color/white"
+        android:layout_gravity="left"
+        android:layout_marginStart="20dp">
+    </TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginHorizontal="40dp"
+        android:orientation="horizontal">
+        
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/day"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:textColor="@android:color/white">
+            </TextView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                app:cardCornerRadius="10dp"
+                android:layout_gravity="center">
+
+                <EditText
+                    android:id="@+id/profil_edittext_birthdate_day"
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="20dp"
+                    android:background="@null"
+                    android:ems="10"
+                    android:hint="27"
+                    android:importantForAutofill="no"
+                    android:textAlignment="center"
+                    android:textSize="20sp">
+
+                </EditText>
+
+            </androidx.cardview.widget.CardView>
+            
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/month"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:textColor="@android:color/white">
+            </TextView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                app:cardCornerRadius="10dp"
+                android:layout_gravity="center">
+
+                <EditText
+                    android:id="@+id/profil_edittext_birthdate_month"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:layout_marginHorizontal="20dp"
+                    android:inputType="text"
+                    android:background="@null"
+                    android:hint="10"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:importantForAutofill="no">
+
+                </EditText>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/year"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:textColor="@android:color/white">
+            </TextView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:background="#FFFFFF"
+                app:cardCornerRadius="10dp"
+                android:layout_gravity="center">
+
+                <EditText
+                    android:id="@+id/profil_edittext_birthdate_year"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:layout_marginHorizontal="20dp"
+                    android:inputType="text"
+                    android:background="@null"
+                    android:hint="@string/_1997"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:importantForAutofill="no">
+
+                </EditText>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HEIGHT (cm)"
+        android:fontFamily="@font/avenir_next_lt_pro"
+        android:textColor="@android:color/white"
+        android:layout_gravity="left"
+        android:layout_marginStart="20dp">
+    </TextView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="#FFFFFF"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        app:cardCornerRadius="10dp"
+        android:layout_gravity="center">
+
+        <EditText
+            android:id="@+id/profil_edittext_height"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginHorizontal="20dp"
+            android:background="@null"
+            android:hint="@string/_178"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:importantForAutofill="no"
+            android:inputType="text">
+        </EditText>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WEIGHT (kg)"
+        android:fontFamily="@font/avenir_next_lt_pro"
+        android:textColor="@android:color/white"
+        android:layout_gravity="left"
+        android:layout_marginStart="20dp">
+    </TextView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="#FFFFFF"
+        android:layout_marginTop="5dp"
+        app:cardCornerRadius="10dp"
+        android:layout_gravity="center">
+
+        <EditText
+            android:id="@+id/profil_edittext_weight"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginHorizontal="20dp"
+            android:background="@null"
+            android:hint="@string/_75"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:importantForAutofill="no"
+            android:inputType="text">
+        </EditText>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="50dp"
+        android:background="#FFFFFF"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@color/colorGreenPrimaryDark"
+        android:layout_marginHorizontal="40dp"
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/next_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/avenir_next_lt_pro_demi"
+            android:text="@string/next">
+
+        </Button>
+
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

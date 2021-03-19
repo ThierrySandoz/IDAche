@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">IUAM_IDache</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="idache">IDAche</string>
+    <string name="next">Next</string>
+    <string name="headachelogo">HeadacheLogo</string>
+    <string name="birthdate">BIRTHDATE</string>
+    <string name="day">Day</string>
+    <string name="month">Month</string>
+    <string name="_1997">1997</string>
+    <string name="year">Year</string>
+    <string name="_178">178</string>
+    <string name="_75">75</string>
+</resources>

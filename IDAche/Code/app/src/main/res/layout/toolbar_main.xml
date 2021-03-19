@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/conversation_toolbar"
+    android:layout_height="60dp"
+    android:layout_width="match_parent"
+    android:background="@drawable/ic_launcher_idache_background"
+    android:orientation="horizontal"
+    android:titleTextColor="@android:color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/main_toolbar_textView_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:layout_marginStart="10dp"
+            android:textColor="@android:color/white"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/avenir_next_lt_pro_bold"
+            android:text="IDAche">
+        </TextView>
+
+        <ImageButton
+            android:id="@+id/main_toolbar_imageButton_history"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:background="@null"
+            android:src="@drawable/ic_history">
+        </ImageButton>
+
+
+    </RelativeLayout>
+
+</Toolbar>
