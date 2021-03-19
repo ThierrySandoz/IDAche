@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/conversation_toolbar"
+    android:layout_height="60dp"
+    android:layout_width="match_parent"
+    android:background="@drawable/ic_toolbar_background"
+    android:orientation="horizontal"
+    android:titleTextColor="@android:color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/headache_toolbar_close_imageButton"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_close"
+            android:background="@null"
+            android:layout_marginEnd="10dp"
+            android:layout_centerVertical="true"/>
+
+        <ImageButton
+            android:id="@+id/headache_toolbar_help_imageButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/headache_toolbar_close_imageButton"
+            android:layout_marginEnd="10dp"
+            android:background="@null"
+            android:src="@drawable/ic_help">
+        </ImageButton>
+
+        <TextView
+            android:id="@+id/headache_toolbar_title_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/white"
+            android:text="HEADACHE"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/avenir_next_lt_pro_bold">
+        </TextView>
+
+        <ImageButton
+            android:id="@+id/headache_toolbar_back_imageButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/headache_toolbar_next_imageButton"
+            android:layout_marginEnd="10dp"
+            android:background="@null"
+            android:visibility="invisible"
+            android:src="@drawable/ic_left_arrow">
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/headache_toolbar_next_imageButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:background="@null"
+            android:src="@drawable/ic_right_arrow">
+        </ImageButton>
+
+    </RelativeLayout>
+
+</Toolbar>

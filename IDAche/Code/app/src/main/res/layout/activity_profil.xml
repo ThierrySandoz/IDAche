@@ -15,7 +15,7 @@
         android:layout_gravity="left"
         android:layout_marginStart="20dp"
         android:fontFamily="@font/avenir_next_lt_pro"
-        android:text="PROFIL"
+        android:text="PROFILE"
         android:textColor="@android:color/white"
         android:textSize="36sp">
     </TextView>
@@ -32,7 +32,7 @@
     </TextView>
 
     <io.ghyeok.stickyswitch.widget.StickySwitch
-        android:id="@+id/sticky_switch"
+        android:id="@+id/profil_stickySwitch_gender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
@@ -99,7 +99,7 @@
                     android:layout_marginHorizontal="20dp"
                     android:background="@null"
                     android:ems="10"
-                    android:hint="27"
+                    android:hint="01"
                     android:importantForAutofill="no"
                     android:textAlignment="center"
                     android:textSize="20sp">
@@ -141,7 +141,7 @@
                     android:layout_marginHorizontal="20dp"
                     android:inputType="text"
                     android:background="@null"
-                    android:hint="10"
+                    android:hint="01"
                     android:layout_gravity="center"
                     android:textAlignment="center"
                     android:textSize="20sp"
@@ -184,7 +184,7 @@
                     android:layout_marginHorizontal="20dp"
                     android:inputType="text"
                     android:background="@null"
-                    android:hint="@string/_1997"
+                    android:hint="1900"
                     android:layout_gravity="center"
                     android:textAlignment="center"
                     android:textSize="20sp"
@@ -279,7 +279,7 @@
         android:layout_gravity="center">
 
         <Button
-            android:id="@+id/next_button"
+            android:id="@+id/profil_button_next"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
