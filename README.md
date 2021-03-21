@@ -29,11 +29,12 @@
 
 - [ ] Bracelet
   - [ ] Capteurs 
-    - [ ] Obtention des données du capteur cardiaque
-    - [ ] Obtention des données de l'accéléromètre
+    - [x] Obtention des données du capteur cardiaque
+    - [x] Obtention des données de l'accéléromètre
+    - [ ] Simulation de récéption du capteur cardiaque
 
 - [ ] Communication
   - [ ] Bracelet - Application
-    - [ ] Transmission des données obtenues depuis la montre sur le téléphone
+    - [x] Transmission des données obtenues depuis la montre sur le téléphone
   - [ ] Application - Serveur
     - [ ] Transmission/Récupération des données
