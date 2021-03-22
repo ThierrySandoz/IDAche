@@ -21,8 +21,8 @@
     - [ ] Implémentation du fragment contenant le visualisation
     - [ ] Implémentation des aides aux utilisateurs
   - [ ] Capteurs
-    - [ ] Obtention des données météorologiques depuis l'API weatherstack
- 
+    - [x] Obtention des données météorologiques depuis l'API (weatherstack) / openweathermap
+
 - [ ] Serveur
   - [ ] Stockage des données
   - [ ] Machine learning

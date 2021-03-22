@@ -11,10 +11,16 @@ import com.example.iuam_idache.R
 import com.example.iuam_idache.classes.CallbackPolar
 import com.example.iuam_idache.classes.Polar0H1
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.kwabenaberko.openweathermaplib.constant.Units
+import com.kwabenaberko.openweathermaplib.implementation.OpenWeatherMapHelper
+import com.kwabenaberko.openweathermaplib.implementation.callback.CurrentWeatherCallback
+import com.kwabenaberko.openweathermaplib.model.currentweather.CurrentWeather
 import java.util.*
 import kotlin.concurrent.schedule
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var actualWeather: CurrentWeather
 
     /** true : for communiacte with Polar 0H1 **/
     val BLE_MODE = false
@@ -32,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
+        //------------------------------- CONNECT WITH POLAR --------------------------------
         /** Communiacte with Polar 0H1 **/
         if(BLE_MODE){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && savedInstanceState == null) {
@@ -60,6 +67,53 @@ class MainActivity : AppCompatActivity() {
                 pola0H1.getStreamACC();
             }
         }
+
+        //------------------------------- GET WEATHER --------------------------------
+        val helper = OpenWeatherMapHelper(getString(R.string.OPEN_WEATHER_MAP_API_KEY))
+        helper.setUnits(Units.METRIC)
+
+        helper.getCurrentWeatherByCityName("Yverdon-les-Bains", object : CurrentWeatherCallback {
+            override fun onSuccess(currentWeather: CurrentWeather) {
+                actualWeather = currentWeather
+                // https://openweathermap.org/current#current_JSON
+                // get icon : http://openweathermap.org/img/wn/<IconNumber>@2x.png :
+                //          Ex : http://openweathermap.org/img/wn/04d@2x.png
+
+                /** TEST PRINT MAX INFO **/
+                Log.v(
+                    "TAG_WEATHER",
+                    """
+        Coordinates: ${actualWeather.coord.lat}, ${actualWeather.coord.lon}
+        Weather Description: ${actualWeather.weather[0].description}
+        Temp. Max: ${actualWeather.main.tempMax}
+        Wind Speed: ${actualWeather.wind.speed}
+        City, Country: ${actualWeather.name}, ${actualWeather.sys.country}
+        """.trimIndent()
+                )
+
+                Log.v(
+                    "TAG_WEATHER", """
+     getClouds: ${actualWeather.clouds.all}
+     getHumidity: ${actualWeather.main.humidity}
+     getPressure: ${actualWeather.main.pressure}
+     getTemp: ${actualWeather.main.temp}
+     getTempMin: ${actualWeather.main.tempMin}
+     getFeelsLike: ${actualWeather.main.feelsLike}
+     getGrndLevel: ${actualWeather.main.grndLevel}
+     getVisibility: ${actualWeather.visibility}
+     getRain: ${actualWeather.rain}
+     size: ${actualWeather.weather.size}
+     getIcon: ${actualWeather.weather[0].icon}
+     getMain: ${actualWeather.weather[0].main}
+     
+     """.trimIndent()
+                )
+            }
+
+            override fun onFailure(throwable: Throwable) {
+                Log.v("TAG_WEATHER", throwable.message!!)
+            }
+        })
 
 
 
