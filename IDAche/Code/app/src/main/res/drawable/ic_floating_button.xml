@@ -5,16 +5,16 @@
             <gradient
                 android:type="linear"
                 android:angle="0"
-                android:startColor="#0a8270"
-                android:endColor="#7cff6b" />
+                android:startColor="@color/colorStartGradient"
+                android:endColor="@color/colorEndGradient" />
         </shape>
 
     </item>
     <item android:gravity="center"
-        android:left="200dp"
-        android:right="200dp"
-        android:top="200dp"
-        android:bottom="200dp"
+        android:left="150dp"
+        android:right="150dp"
+        android:top="150dp"
+        android:bottom="150dp"
         >
         <bitmap
             android:src="@drawable/ic_headache_png"

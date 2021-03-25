@@ -13,4 +13,13 @@
     <string name="_178">178</string>
     <string name="_75">75</string>
     <string name="OPEN_WEATHER_MAP_API_KEY">950092aa5826bb291fb34348b79a951d</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="select_elements_that_could_have_trigger_the_headache">Select elements that could have trigger the headache</string>
+    <string name="weight_kg">WEIGHT (kg)</string>
+    <string name="height_cm">HEIGHT (cm)</string>
+    <string name="_1900">1900</string>
+    <string name="_01">01</string>
+    <string name="gender">GENDER</string>
+    <string name="profile">PROFILE</string>
 </resources>

@@ -8,7 +8,10 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.example.iuam_idache.R
+import com.example.iuam_idache.adapters.SymptomSelectorAdapter
+import com.example.iuam_idache.fragments.SelectSymptomsFragment
 
 class HeadacheActivity : AppCompatActivity() {
     //-------------- Buttons

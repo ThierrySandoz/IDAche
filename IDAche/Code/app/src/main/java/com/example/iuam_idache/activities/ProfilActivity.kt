@@ -1,15 +1,23 @@
 package com.example.iuam_idache.activities
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.example.iuam_idache.R
 import com.example.iuam_idache.classes.GenderType
 import io.ghyeok.stickyswitch.widget.StickySwitch
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.ZoneId
+
 
 class ProfilActivity : AppCompatActivity() {
 
@@ -81,32 +89,110 @@ class ProfilActivity : AppCompatActivity() {
             heightEditText.setText(sharedPreferences.getString(userHeightKey, "178"))
         }
 
+        //----------------------------- Clear data -------------------------------
+        // prevent the user from writing a 0 as the first caracter
+        weightEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                if (s.toString().length == 1 && s.toString().startsWith("0")) {
+                    s.clear()
+                }
+            }
+        })
+
+        // prevent the user from writing a 0 as the first caracter
+        heightEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable) {
+                if (s.toString().length == 1 && s.toString().startsWith("0")) {
+                    s.clear()
+                }
+            }
+        })
+
         //------------------------------- Buttons --------------------------------
         // Next button
         btnNext = findViewById(R.id.profil_button_next)
         btnNext.setOnClickListener {
 
-            // TODO -> Check if the data are OK
+            // Check the datas
+            // Recover the string
+            val birthDate = birthDayEditText.text.toString() + "/" + birthMonthEditText.text.toString() + "/" + birthYearEditText.text.toString()
+            val validator = DateValidatorUsingDateFormat("dd/MM/yyyy")
 
-            // Get the data
-            // Gender
-            when(btnGender.getDirection()) {
-                StickySwitch.Direction.LEFT -> editor.putString(userGenderKey, GenderType.MAN)
-                StickySwitch.Direction.RIGHT -> editor.putString(userGenderKey, GenderType.WOMAN)
-                else -> throw IllegalArgumentException("Error in gender selection")
+            if (validator.isValid(birthDate) && birthYearEditText.text.toString().toInt() > 1900) {
+
+                val birthDate2 = birthYearEditText.text.toString() + "-" + birthMonthEditText.text.toString() + '-' + birthDayEditText.text.toString()
+                // Check if before today
+
+                if (LocalDate.parse(birthDate2).isBefore(LocalDate.now(ZoneId.of("Africa/Tunis")))) {
+
+                    // Gender
+                    when (btnGender.getDirection()) {
+                        StickySwitch.Direction.LEFT -> editor.putString(
+                            userGenderKey,
+                            GenderType.MAN
+                        )
+                        StickySwitch.Direction.RIGHT -> editor.putString(
+                            userGenderKey,
+                            GenderType.WOMAN
+                        )
+                        else -> throw IllegalArgumentException("Error in gender selection")
+                    }
+
+                    // Save the data in shared preferences
+                    editor.putString(userBirthDayKey, birthDayEditText.text.toString())
+                    editor.putString(userBirthMonthKey, birthMonthEditText.text.toString())
+                    editor.putString(userBirthYearKey, birthYearEditText.text.toString())
+                    editor.putString(userHeightKey, heightEditText.text.toString())
+                    editor.putString(userWeightKey, weightEditText.text.toString())
+                    editor.apply()
+
+                    // Go to main menu
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                }
+                else {
+                    birthDayEditText.error = "this date cannot be later than today"
+                }
             }
+            else {
+                if (birthDayEditText.text.toString().toInt() > 31) {
+                    birthDayEditText.error = "Invalid date"
+                }
+                if (birthMonthEditText.text.toString().toInt() > 12) {
+                    birthMonthEditText.error = "Invalid date"
+                }
+                if (birthYearEditText.text.toString().toInt() < 1900)  {
+                    birthYearEditText.error = "Invalid date"
+                }
+                else {
+                    birthDayEditText.error = "Invalid date"
+                    birthMonthEditText.error = "Invalid date"
+                }
+            }
+        }
+    }
 
-            // Save the data in shared preferences
-            editor.putString(userBirthDayKey, birthDayEditText.text.toString())
-            editor.putString(userBirthMonthKey, birthMonthEditText.text.toString())
-            editor.putString(userBirthYearKey, birthYearEditText.text.toString())
-            editor.putString(userHeightKey, heightEditText.text.toString())
-            editor.putString(userWeightKey, weightEditText.text.toString())
-            editor.apply()
+    interface DateValidator {
+        fun isValid(dateStr: String?): Boolean
+    }
 
-            // Go to main menu
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+    @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+    class DateValidatorUsingDateFormat(private val dateFormat: String) :
+        DateValidator {
+        @SuppressLint("SimpleDateFormat")
+        override fun isValid(dateStr: String?): Boolean {
+            val sdf = SimpleDateFormat(dateFormat)
+            sdf.isLenient = false
+            try {
+                sdf.parse(dateStr)
+            } catch (e: ParseException) {
+                return false
+            }
+            return true
         }
     }
 
