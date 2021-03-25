@@ -8,7 +8,7 @@
   - [x] Splash Screen
   - [ ] Page de profile
     - [x] Stockage des informations de l'utilisateur (date de naissance, genre, taille, poids) dans les shared preferences
-    - [ ] Vérification des champs entrés par l'utilisateur dans la création de son profil
+    - [x] Vérification des champs entrés par l'utilisateur dans la création de son profil
   - [ ] Page principale
     - [ ] Création de la ListView permettant de visualiser les différentes données provenant des capteurs
     - [ ] Création de la ListView permettant de visualiser les données météorologiques
@@ -17,6 +17,7 @@
     - [ ] Création du fragment récapitulatif de la journée sélectionnée
     - [ ] Implémentation de l'outil de recherche dans l'historique
   - [ ] Page de déclaration de maux de tête
+    - [x] Implémentation du fragment permettant de sélectionner les symptômes liés au mal de tête
     - [ ] Implémentation du fragment contenant le slider permettant de sélectionner le niveau de mal à la tête
     - [ ] Implémentation du fragment contenant le visualisation
     - [ ] Implémentation des aides aux utilisateurs
