@@ -6,7 +6,7 @@
     - [x] Implémentations des toolbars
     - [ ] Implémentation de notifications (?)
   - [x] Splash Screen
-  - [ ] Page de profile
+  - [x] Page de profile
     - [x] Stockage des informations de l'utilisateur (date de naissance, genre, taille, poids) dans les shared preferences
     - [x] Vérification des champs entrés par l'utilisateur dans la création de son profil
   - [ ] Page principale
