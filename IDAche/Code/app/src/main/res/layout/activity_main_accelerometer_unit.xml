@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:paddingEnd="15dp"
+    android:paddingVertical="15dp"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="5dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_axis">
+    </ImageView>
+
+    <LinearLayout
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginHorizontal="9dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="2dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="x : "
+                android:fontFamily="@font/avenir_next_lt_pro_demi"
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray">
+            </TextView>
+
+            <TextView
+                android:id="@+id/activity_main_accel_textView_x"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="- - -"
+                android:fontFamily="@font/avenir_next_lt_pro_bold"
+                android:textSize="16sp">
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" m/s"
+                android:fontFamily="@font/avenir_next_lt_pro_demi"
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray">
+            </TextView>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="2dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="y : "
+                android:fontFamily="@font/avenir_next_lt_pro_demi"
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray">
+            </TextView>
+
+            <TextView
+                android:id="@+id/activity_main_accel_textView_y"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="- - -"
+                android:fontFamily="@font/avenir_next_lt_pro_bold"
+                android:textSize="16sp">
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" m/s"
+                android:fontFamily="@font/avenir_next_lt_pro_demi"
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray">
+            </TextView>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="2dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="z : "
+                android:fontFamily="@font/avenir_next_lt_pro_demi"
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray">
+            </TextView>
+
+            <TextView
+                android:id="@+id/activity_main_accel_textView_z"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="- - -"
+                android:fontFamily="@font/avenir_next_lt_pro_bold"
+                android:textSize="16sp">
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" m/s"
+                android:fontFamily="@font/avenir_next_lt_pro_demi"
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray">
+            </TextView>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View style="@style/VerticalDivider"/>
+
+</LinearLayout>

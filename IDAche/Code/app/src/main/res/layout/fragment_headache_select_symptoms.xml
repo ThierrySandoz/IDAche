@@ -13,7 +13,7 @@
         android:singleLine="false"
         android:fontFamily="@font/avenir_next_lt_pro_demi"
         android:textSize="18sp"
-        android:text="@string/select_elements_that_could_have_trigger_the_headache">
+        android:text="Select relevant elements of your day">
     </TextView>
 
     <androidx.recyclerview.widget.RecyclerView
