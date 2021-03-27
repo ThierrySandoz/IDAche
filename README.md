@@ -10,8 +10,14 @@
     - [x] Stockage des informations de l'utilisateur (date de naissance, genre, taille, poids) dans les shared preferences
     - [x] Vérification des champs entrés par l'utilisateur dans la création de son profil
   - [ ] Page principale
-    - [ ] Création de la ListView permettant de visualiser les différentes données provenant des capteurs
-    - [ ] Création de la ListView permettant de visualiser les données météorologiques
+    - [x] Création de la vue permettant de visualiser les différentes données provenant des capteurs
+    - [x] Création de la vue permettant de visualiser les données météorologiques
+    - [x] Création de la vue permettant de visualiser les données des activités sportives
+    - [x] Création de la vue permettant de visualiser les données de sommeil
+    - [ ] Affichage des valeurs obtenues depuis la montre sur le téléphone (rythme cardiaque + acceleromètre) => implémenté, mais pas pu tester
+    - [x] Affichage des données météorologiques en fonction de la position de l'utilisateur
+    - [ ] Affichage des données relatives au sommeil de l'utilisateur
+    - [ ] Affichage des données relatives à l'activité physique de l'utilisateur
   - [ ] Page d'historique
     - [ ] Création du fragment contenant le slider permettant de naviguer dans l'historique
     - [ ] Création du fragment récapitulatif de la journée sélectionnée
