@@ -51,6 +51,9 @@ dependencies {
     // Needed for image features (image form URL + rounded image)
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    // Needed for customization of the wheel data picker
+    implementation 'com.super_rabbit.wheel_picker:NumberPicker:1.0.1'
+
     // Needed for getting the user location
     implementation "com.google.android.gms:play-services-location:18.0.0"
 

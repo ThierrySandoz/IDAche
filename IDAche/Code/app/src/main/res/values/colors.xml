@@ -9,4 +9,5 @@
     <color name="colorGreenPrimaryDark">#106b5d</color>
     <color name="colorEndGradient">#65d457</color>
     <color name="colorStartGradient">#0a8270</color>
+    <color name="colorDarkGray">#AAAAAA</color>
 </resources>

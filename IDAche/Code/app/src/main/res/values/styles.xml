@@ -28,4 +28,13 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="NumberPickerTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@android:color/darker_gray </item>
+        <item name="colorPrimary">@android:color/darker_gray</item>
+        <item name="fontFamily">@font/avenir_next_lt_pro_bold</item>
+        <item name="colorControlNormal">@color/colorGreenLight</item>
+        <item name="android:textColor">@android:color/darker_gray</item>
+        <item name="android:textSize">40sp</item>
+    </style>
+
 </resources>
