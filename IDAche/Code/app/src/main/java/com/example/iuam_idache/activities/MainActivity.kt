@@ -59,6 +59,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var pressureTextView : TextView
     private lateinit var windSpeedTextView : TextView
     private lateinit var hearthBeatTextView: TextView
+    private lateinit var hearthBeatMinTextView: TextView
+    private lateinit var hearthBeatAverageTextView: TextView
+    private lateinit var hearthBeatMaxTextView: TextView
     private lateinit var accelXTextView: TextView
     private lateinit var accelYTextView: TextView
     private lateinit var accelZTextView: TextView
@@ -92,6 +95,15 @@ class MainActivity : AppCompatActivity() {
 
         // Hearth beat text view
         hearthBeatTextView = findViewById(R.id.activity_main_medical_textView_hearthBeat)
+
+        // Hearth beat min text view
+        hearthBeatMinTextView = findViewById(R.id.activity_main_medical_textView_hearthBeat_min)
+
+        // Hearth beat average text view
+        hearthBeatAverageTextView = findViewById(R.id.activity_main_medical_textView_hearthBeat_average)
+
+        // Hearth beat max text view
+        hearthBeatMaxTextView = findViewById(R.id.activity_main_medical_textView_hearthBeat_max)
 
         // Accel x text view
         accelXTextView = findViewById(R.id.activity_main_accel_textView_x)
@@ -148,7 +160,6 @@ class MainActivity : AppCompatActivity() {
                 requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
             }
 
-
             // Interface (Callback via la classe Polar0H1)
             val myPolarCB: CallbackPolar = object : CallbackPolar {
                 override fun getHr(hr: Int) {
@@ -164,9 +175,9 @@ class MainActivity : AppCompatActivity() {
                     val HR_min = HR_saved.minOrNull()
 
                     // Print valus
-                    accelXTextView.text = HR_min.toString()
-                    accelYTextView.text = String.format("%.2f", HR_ave)
-                    accelZTextView.text = HR_max.toString()
+                    hearthBeatMinTextView.text = HR_min.toString()
+                    hearthBeatAverageTextView.text = String.format("%.2f", HR_ave)
+                    hearthBeatMaxTextView.text = HR_max.toString()
 
                     Log.v("TAG", "GET HR : $hr[bpm] \n");
 
