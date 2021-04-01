@@ -19,12 +19,12 @@
     - [ ] Affichage des données relatives au sommeil de l'utilisateur
     - [ ] Affichage des données relatives à l'activité physique de l'utilisateur
   - [ ] Page d'historique
-    - [ ] Création du fragment contenant le slider permettant de naviguer dans l'historique
+    - [x] Création du fragment contenant le slider permettant de naviguer dans l'historique
     - [ ] Création du fragment récapitulatif de la journée sélectionnée
     - [ ] Implémentation de l'outil de recherche dans l'historique
   - [ ] Page de déclaration de maux de tête
     - [x] Implémentation du fragment permettant de sélectionner les symptômes liés au mal de tête
-    - [ ] Implémentation du fragment contenant le slider permettant de sélectionner le niveau de mal à la tête
+    - [x] Implémentation du fragment contenant le slider permettant de sélectionner le niveau de mal à la tête
     - [ ] Implémentation du fragment contenant le visualisation
     - [ ] Implémentation des aides aux utilisateurs
   - [ ] Capteurs
