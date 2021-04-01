@@ -39,6 +39,10 @@ class MainActivity : AppCompatActivity() {
     /** true : for communiacte with Polar 0H1 **/
     val BLE_MODE = false
 
+    // List of N last measure of HR TODO : maybe opti with LinkedList
+    var HR_saved = mutableListOf<Int>()
+    val N_LAST_MEASURE_HR = 300;
+
     //-------------- Polar variables
     private lateinit var pola0H1: Polar0H1
 
@@ -144,9 +148,26 @@ class MainActivity : AppCompatActivity() {
                 requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
             }
 
+
             // Interface (Callback via la classe Polar0H1)
             val myPolarCB: CallbackPolar = object : CallbackPolar {
                 override fun getHr(hr: Int) {
+
+                    // add measure at list
+                    HR_saved.add(0,hr)
+                    if (HR_saved.size > N_LAST_MEASURE_HR)
+                        HR_saved.removeAt(N_LAST_MEASURE_HR)
+
+                    // Calcul values max / min / average
+                    val HR_ave = HR_saved.average()
+                    val HR_max = HR_saved.maxOrNull()
+                    val HR_min = HR_saved.minOrNull()
+
+                    // Print valus
+                    accelXTextView.text = HR_min.toString()
+                    accelYTextView.text = String.format("%.2f", HR_ave)
+                    accelZTextView.text = HR_max.toString()
+
                     Log.v("TAG", "GET HR : $hr[bpm] \n");
 
                     // Set the data to the visualisation
@@ -157,9 +178,9 @@ class MainActivity : AppCompatActivity() {
                     Log.v("TAG", "GET ACC : x=$x y=$y z=$z\n");
 
                     // Set the data to the visualisation
-                    accelXTextView.text = x.toString()
-                    accelYTextView.text = y.toString()
-                    accelZTextView.text = z.toString()
+//                    accelXTextView.text = x.toString()
+//                    accelYTextView.text = y.toString()
+//                    accelZTextView.text = z.toString()
                 }
             }
 
