@@ -2,16 +2,16 @@ package com.example.iuam_idache.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import com.example.iuam_idache.R
-import com.example.iuam_idache.adapters.SymptomSelectorAdapter
-import com.example.iuam_idache.fragments.SelectSymptomsFragment
+import com.example.iuam_idache.apiREST.classes.ClientRestAPI
+import com.example.iuam_idache.apiREST.interfaces.getLongCallback
+import com.example.iuam_idache.apiREST.models.EventsAche
 
 class HeadacheActivity : AppCompatActivity() {
     //-------------- Buttons
@@ -96,6 +96,26 @@ class HeadacheActivity : AppCompatActivity() {
             // If last page -> Save the data + go back to main menu
             if (actualPage == lastPage) {
                 // TODO -> Save the data
+
+                // TODO : crete event
+                // test event without postition + weahter
+                val user_id : Long = 3;
+                val myEvent = EventsAche(user_id, 97, 126, 65, 8, 4, 1, 5, 0)
+
+                // TODO change code weather byte to string
+
+                // TODO uncomment request for add event to database
+//                val myClientRestAPI = ClientRestAPI()
+//                myClientRestAPI.addNewEvents(myEvent, object : getLongCallback {
+//                    override fun onSuccess(myID: Long) {
+//                        Log.v("TAG", "i get my id event : $myID")
+//                    }
+//
+//                    override fun onFailure() {
+//                        // TODO : add notif
+//                        Log.v("TAG", "addNewEvents -> Failed ! ")
+//                    }
+//                })
 
                 // Go back to main menu
                 val intent = Intent(this, MainActivity::class.java)

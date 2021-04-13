@@ -7,19 +7,24 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.example.iuam_idache.R
+import com.example.iuam_idache.apiREST.models.User
 import com.example.iuam_idache.classes.GenderType
 import io.ghyeok.stickyswitch.widget.StickySwitch
+import com.example.iuam_idache.apiREST.classes.ClientRestAPI
+import com.example.iuam_idache.apiREST.interfaces.getLongCallback
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneId
 
-
 class ProfilActivity : AppCompatActivity() {
+
+    private var newUser = true;
 
     //-------------- Buttons
     private lateinit var btnNext : Button
@@ -58,6 +63,7 @@ class ProfilActivity : AppCompatActivity() {
 
         // If userGender in memory -> set the stickySwitch
         if (sharedPreferences.contains(userGenderKey)) {
+            newUser = false;
             when(sharedPreferences.getString(userGenderKey, GenderType.MAN)) {
                 GenderType.MAN -> btnGender.setDirection(StickySwitch.Direction.LEFT, false)
                 GenderType.WOMAN -> btnGender.setDirection(StickySwitch.Direction.RIGHT, false)
@@ -127,6 +133,8 @@ class ProfilActivity : AppCompatActivity() {
                 val birthDate2 = birthYearEditText.text.toString() + "-" + birthMonthEditText.text.toString() + '-' + birthDayEditText.text.toString()
                 // Check if before today
 
+                // TODO : control day & month (we need to enter the 0 for the month or the day.
+                //  Ex : month mars = 3 ERROR need 03)
                 if (LocalDate.parse(birthDate2).isBefore(LocalDate.now(ZoneId.of("Africa/Tunis")))) {
 
                     // Gender
@@ -142,6 +150,7 @@ class ProfilActivity : AppCompatActivity() {
                         else -> throw IllegalArgumentException("Error in gender selection")
                     }
 
+                    // TODO controle if height and weight are numbuer
                     // Save the data in shared preferences
                     editor.putString(userBirthDayKey, birthDayEditText.text.toString())
                     editor.putString(userBirthMonthKey, birthMonthEditText.text.toString())
@@ -150,11 +159,53 @@ class ProfilActivity : AppCompatActivity() {
                     editor.putString(userWeightKey, weightEditText.text.toString())
                     editor.apply()
 
+
+
+                    // Build the user
+                    var user = buildMyUser();
+
+                    // TODO : check if is a update or new profil
+                    if (isUpdateProfil()){
+
+                        val myClientRestAPI = ClientRestAPI()
+                        myClientRestAPI.updateUser(user, object : getLongCallback {
+                            override fun onSuccess(myID: Long) {
+                                // TODO : add notif (update OK)
+                                Log.v(
+                                    "TAG",
+                                    "i update user (id=" + myID + ") " + user.toString()
+                                )
+                            }
+
+                            override fun onFailure() {
+                                Log.v("TAG", "Update User -> Failed ! ")
+                                // TODO : add notif (update Failed)
+                            }
+                        })
+
+                    } else {
+                        val myClientRestAPI = ClientRestAPI()
+                        myClientRestAPI.addUser(user, object : getLongCallback {
+                            override fun onSuccess(myID: Long) {
+                                // TODO : add notif
+                                // TODO : save id in sharedPreferences
+                                user.user_id = myID
+                                Log.v("TAG", "i get my id $user")
+                            }
+
+                            override fun onFailure() {
+                                Log.v("TAG", "Add new User -> Failed ! ")
+                                // TODO : add notif
+                            }
+                        })
+                    }
+
                     // Go to main menu
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 }
                 else {
+                    // TODO : maybe not the day but month or year problem
                     birthDayEditText.error = "this date cannot be later than today"
                 }
             }
@@ -174,6 +225,35 @@ class ProfilActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    // Build the user
+    private fun buildMyUser(): User {
+        var sexe : Byte = 0;
+        when(sharedPreferences.getString(userGenderKey, GenderType.MAN)) {
+            GenderType.WOMAN -> sexe = 1;
+            GenderType.MAN -> sexe = 0;
+        }
+        val height = heightEditText.text.toString().toInt()
+        val weight = weightEditText.text.toString().toInt()
+        var user = User(
+            birthYearEditText.text.toString(),
+            birthMonthEditText.text.toString(),
+            birthDayEditText.text.toString(),
+            height,
+            sexe,
+            weight
+        );
+
+        // TODO get my real id if exist
+        user.user_id = 30;
+
+        return user
+    }
+
+    // TODO check if user ID is in sharedPreferences
+    private fun isUpdateProfil(): Boolean {
+        return !newUser;
     }
 
     interface DateValidator {
