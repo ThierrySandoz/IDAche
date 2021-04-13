@@ -99,6 +99,7 @@ class HistoryActivity : AppCompatActivity() {
                 // TODO -> display informations in the recap views
                 // https://stackoverflow.com/questions/33053765/how-to-make-a-wheel-picker/39662187
                 Log.v("TAG", "onValueChange old : " + oldVal + "  new : " + newVal)
+                // TODO how get the right date ??
             }
         })
 

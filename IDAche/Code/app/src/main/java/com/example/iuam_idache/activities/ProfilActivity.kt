@@ -150,7 +150,7 @@ class ProfilActivity : AppCompatActivity() {
                         else -> throw IllegalArgumentException("Error in gender selection")
                     }
 
-                    // TODO controle if height and weight are numbuer
+                    // (TODO control if height and weight are numbuer)
                     // Save the data in shared preferences
                     editor.putString(userBirthDayKey, birthDayEditText.text.toString())
                     editor.putString(userBirthMonthKey, birthMonthEditText.text.toString())
@@ -164,7 +164,7 @@ class ProfilActivity : AppCompatActivity() {
                     // Build the user
                     var user = buildMyUser();
 
-                    // TODO : check if is a update or new profil
+                    // TODO : check if is a update or new profil with ID in shared preferences
                     if (isUpdateProfil()){
 
                         val myClientRestAPI = ClientRestAPI()
@@ -205,7 +205,7 @@ class ProfilActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 else {
-                    // TODO : maybe not the day but month or year problem
+                    // (TODO : maybe not the day but month or year problem)
                     birthDayEditText.error = "this date cannot be later than today"
                 }
             }
