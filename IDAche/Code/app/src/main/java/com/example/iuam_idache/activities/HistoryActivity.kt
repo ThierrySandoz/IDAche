@@ -1,11 +1,17 @@
 package com.example.iuam_idache.activities
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.iuam_idache.R
+import com.example.iuam_idache.adapters.SymptomSelectorAdapter
 import com.example.iuam_idache.adapters.WPDayPickerAdapter
 import com.example.iuam_idache.apiREST.classes.ClientRestAPI
 import com.example.iuam_idache.apiREST.interfaces.getMyEventsCallback
@@ -17,33 +23,167 @@ import com.super_rabbit.wheel_picker.WheelPicker
 class HistoryActivity : AppCompatActivity() {
 
     private lateinit var eventsDisplay : List<EventsAche>
+    private lateinit var myClientRestAPI : ClientRestAPI
+
+    //-------------- Shared preferences
+    private lateinit var sharedPreferences: SharedPreferences
+    private val userInfoKey : String = "user_information"
 
     //-------------- Buttons
     private lateinit var searchButton : ImageButton
     private lateinit var backButton : ImageButton
 
+    //-------------- TextViews
+    private lateinit var locationTextView : TextView
+    private lateinit var meteoStateTextView : TextView
+    private lateinit var temperatureTextView : TextView
+    private lateinit var humidityTextView : TextView
+    private lateinit var pressureTextView : TextView
+    private lateinit var windSpeedTextView : TextView
+    private lateinit var hearthBeatTextView: TextView
+    private lateinit var hearthBeatMinTextView: TextView
+    private lateinit var hearthBeatAverageTextView: TextView
+    private lateinit var hearthBeatMaxTextView: TextView
+    private lateinit var hourTextView: TextView
+
+    //-------------- Lists
+    private val hearthBeatList : MutableList<String> = mutableListOf()
+    private val hearthBeatMinList : MutableList<String> = mutableListOf()
+    private val hearthBeatMaxList : MutableList<String> = mutableListOf()
+    private val hearthBeatAverageList : MutableList<String> = mutableListOf()
+    private val windSpeedList : MutableList<String> = mutableListOf()
+    private val pressureList : MutableList<String> = mutableListOf()
+    private val humidityList : MutableList<String> = mutableListOf()
+    private val temperatureList : MutableList<String> = mutableListOf()
+    private val meteoStateList : MutableList<String> = mutableListOf()
+    private val locationList : MutableList<String> = mutableListOf()
+
+
+
+    //-------------- ImageViews
+    private lateinit var meteoStateImageView : ImageView
+
     //-------------- DatePicker
     private lateinit var datePicker : WheelPicker
     private val nbDataToDisplay : Int = 5
+
+    // TODO -> Change the way to manage "Nothing to show"
     private val dates : MutableList<String> = mutableListOf(
-        "01/01/2021",
-        "02/01/2021",
-        "03/01/2021",
-        "04/01/2021",
-        "05/01/2021",
-//        "06/01/2021",
-//        "07/01/2021",
-//        "08/01/2021",
-//        "09/01/2021",
-//        "10/01/2021",
-//        "11/01/2021",
-//        "12/01/2021",
-//        "13/01/2021",
+        "Nothing       "
     )
+
+    //-------------- Adapters
+    private lateinit var datePickerAdapter: WPDayPickerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
+
+        //------------------------------ TextViews --------------------------------
+        // Location text view
+        locationTextView = findViewById(R.id.activity_main_meteo_textView_location)
+
+        // Meteo State text view
+        meteoStateTextView = findViewById(R.id.activity_main_meteo_textView_meteoState)
+
+        // Temperature text view
+        temperatureTextView = findViewById(R.id.activity_main_meteo_textView_temperature)
+
+        // Humidity text view
+        humidityTextView = findViewById(R.id.activity_main_meteo_textView_humidity)
+
+        // Pressure text view
+        pressureTextView = findViewById(R.id.activity_main_meteo_textView_pressure)
+
+        // Wind speed text view
+        windSpeedTextView = findViewById(R.id.activity_main_meteo_textView_windSpeed)
+
+        // Hearth beat text view
+        hearthBeatTextView = findViewById(R.id.activity_main_medical_textView_hearthBeat)
+
+        // Hearth beat min text view
+        hearthBeatMinTextView = findViewById(R.id.activity_main_medical_textView_hearthBeat_min)
+
+        // Hearth beat average text view
+        hearthBeatAverageTextView = findViewById(R.id.activity_main_medical_textView_hearthBeat_average)
+
+        // Hearth beat max text view
+        hearthBeatMaxTextView = findViewById(R.id.activity_main_medical_textView_hearthBeat_max)
+
+        // Hour text view
+        hourTextView = findViewById(R.id.activity_history_hour_textView)
+
+        //------------------------------ ImageViews --------------------------------
+        // Meteo state image
+        meteoStateImageView = findViewById(R.id.activity_main_meteo_imageView_meteoState)
+
+        //--------------------------------- Shared Preferences -------------------------------------
+
+        // Get shared preferences
+        sharedPreferences = getSharedPreferences(userInfoKey, Context.MODE_PRIVATE)
+
+        // Get the user ID from shared preferences
+        val userId = 3
+        //val userId : Long = sharedPreferences.getLong(ProfilActivity.userIDKey, -1) // TODO -> Decomment to get the real ID
+
+        //------------------------------------- Client API -----------------------------------------
+
+        // Get the client request API
+        myClientRestAPI = ClientRestAPI()
+
+        // Get data from server
+        myClientRestAPI.getMyEvents(userId.toInt(), object : getMyEventsCallback {
+            override fun onSuccess(myEvents: List<EventsAche?>?) {
+
+                // Display a msg to inform the user
+                Toast.makeText(this@HistoryActivity, "events successfully obtained ! (userID = $userId)", Toast.LENGTH_SHORT).show()
+
+                // Log the event success
+                Log.v(
+                    "TAG",
+                    "getMyEvents -> Sucess (" + myEvents!!.size + ") ! : " + myEvents.toString()
+                )
+
+                //
+                if (myEvents.isNotEmpty()){
+                    // remove old dates
+                    dates.clear()
+                    // take real date events
+                    myEvents.forEach {
+                        dates.add(it?.event_timestamp.toString().substring(0,10) + "           " + it?.event_timestamp.toString().substring(11,19))
+                        hearthBeatAverageList.add(it?.event_HR_ave.toString())
+                        hearthBeatMaxList.add(it?.event_HR_max.toString())
+                        hearthBeatMinList.add(it?.event_HR_min.toString())
+                        pressureList.add(it?.event_pressure.toString())
+                        humidityList.add(it?.event_humidity.toString())
+                        temperatureList.add(it?.event_temp.toString())
+                        meteoStateList.add(it?.event_code_weather.toString())
+
+                    }
+                }
+                else {
+                    // TODO -> Error in visualization : "Nothing" shows up only when scrolling
+                    dates.clear()
+                    dates.add("Nothing        ")
+                    datePicker.reset()
+                }
+
+                // update list
+                updateList()
+
+                eventsDisplay = myEvents as List<EventsAche>;
+
+            }
+
+            override fun onFailure() {
+                // Display a msg to inform the user
+                Toast.makeText(this@HistoryActivity, "error : events could not be obtained...", Toast.LENGTH_SHORT).show()
+
+                // Log the error
+                Log.v("TAG", "getMyEvents -> Failed ! ")
+            }
+        })
+
 
 
         //------------------------------- Buttons --------------------------------
@@ -59,35 +199,6 @@ class HistoryActivity : AppCompatActivity() {
         searchButton.setOnClickListener {
             // TODO -> make a research in the database
 
-            // TODO get my real ID
-            // Get all my events
-            val myUserID = 3
-
-            val myClientRestAPI = ClientRestAPI()
-            myClientRestAPI.getMyEvents(myUserID, object : getMyEventsCallback {
-                override fun onSuccess(myEvents: List<EventsAche?>?) {
-                    // TODO : add notif
-                    Log.v(
-                        "TAG",
-                        "getMyEvents -> Sucess (" + myEvents!!.size + ") ! : " + myEvents.toString()
-                    )
-
-                    // remove old dates
-                    dates.removeAll { true }
-                    // take real date events
-                    myEvents.forEach { dates.add(it?.event_timestamp.toString().substring(0,10)) }
-
-                    // update list
-                    updateList()
-                    eventsDisplay = myEvents as List<EventsAche>;
-
-                }
-
-                override fun onFailure() {
-                    // TODO : add notif
-                    Log.v("TAG", "getMyEvents -> Failed ! ")
-                }
-            })
         }
 
         //----------------------------- Number picker -----------------------------
@@ -97,12 +208,26 @@ class HistoryActivity : AppCompatActivity() {
         datePicker.setOnValueChangeListener(object : OnValueChangeListener {
             override fun onValueChange(picker: WheelPicker, oldVal: String, newVal: String) {
                 // TODO -> display informations in the recap views
-                // https://stackoverflow.com/questions/33053765/how-to-make-a-wheel-picker/39662187
-                Log.v("TAG", "onValueChange old : " + oldVal + "  new : " + newVal)
+
+                val position = datePickerAdapter.getPosition(newVal)
+
+                // HearthBeat values
+                hearthBeatAverageTextView.text = hearthBeatAverageList[position]
+                hearthBeatMinTextView.text = hearthBeatMinList[position]
+                hearthBeatMaxTextView.text = hearthBeatMaxList[position]
+
+                // Meteo values
+                pressureTextView.text = pressureList[position]
+                humidityTextView.text = humidityList[position]
+                temperatureTextView.text = temperatureList[position]
+                meteoStateTextView.text = meteoStateList[position]
+
+                // Hours values
+                hourTextView.text = dates[position].substring(11+10,11+18)
+
+
             }
         })
-
-
     }
 
     private fun updateList() {
@@ -117,11 +242,13 @@ class HistoryActivity : AppCompatActivity() {
         // Set wheel min index
         datePicker.setMin(0)
         // Set selected text color
-        datePicker.setSelectedTextColor(R.color.colorGreenLight)
+        datePicker.setSelectedTextColor(R.color.colorGreenMedium)
         // Set unselected text color
         datePicker.setUnselectedTextColor(R.color.colorGreenPrimaryDark)
-        // Set user defined adapter
-        datePicker.setAdapter(WPDayPickerAdapter(dates.toTypedArray(), nbDataToDisplay))
+        // Get the adapter
+        datePickerAdapter = WPDayPickerAdapter(dates.toTypedArray(), nbDataToDisplay)
+        // Set the adapter
+        datePicker.setAdapter(datePickerAdapter)
     }
 
 }
