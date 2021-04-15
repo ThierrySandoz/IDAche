@@ -26,7 +26,7 @@ import polar.com.sdk.api.model.PolarSensorSetting;
 
 public class Polar0H1 {
     Context context;
-    private CallbackPolar cb;
+    public CallbackPolar cb;
 
     PolarBleApi api;
     private static final String TAG = MainActivity.class.getSimpleName();

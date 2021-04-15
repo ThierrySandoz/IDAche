@@ -30,6 +30,12 @@ import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.concurrent.schedule
 
+// TODO handle connexion with Polar
+var firstLauchBLE = true;
+
+//-------------- Polar variables
+private lateinit var pola0H1: Polar0H1
+
 // TODO : handle langage
 class MainActivity : AppCompatActivity() {
 
@@ -37,14 +43,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var actualWeather: CurrentWeather
 
     /** true : for communiacte with Polar 0H1 **/
-    val BLE_MODE = false
+    val BLE_MODE = true
 
     // List of N last measure of HR TODO : maybe opti with LinkedList
     var HR_saved = mutableListOf<Int>()
     val N_LAST_MEASURE_HR = 300;
 
-    //-------------- Polar variables
-    private lateinit var pola0H1: Polar0H1
+
 
     //-------------- Buttons
     private lateinit var historyButton : ImageButton
@@ -153,47 +158,56 @@ class MainActivity : AppCompatActivity() {
             setLocation()
         }
 
+        // Interface (Callback via la classe Polar0H1)
+        val myPolarCB: CallbackPolar = object : CallbackPolar {
+            override fun getHr(hr: Int) {
+
+                // add measure at list
+                HR_saved.add(0,hr)
+                if (HR_saved.size > N_LAST_MEASURE_HR)
+                    HR_saved.removeAt(N_LAST_MEASURE_HR)
+
+                // Calcul values max / min / average
+                val HR_ave = HR_saved.average()
+                val HR_max = HR_saved.maxOrNull()
+                val HR_min = HR_saved.minOrNull()
+
+                // Print valus
+                hearthBeatMinTextView.text = HR_min.toString()
+                hearthBeatAverageTextView.text = String.format("%.1f", HR_ave)
+                hearthBeatMaxTextView.text = HR_max.toString()
+
+                Log.v("TAG", "GET HR : $hr[bpm] \n");
+
+                // Set the data to the visualisation
+                hearthBeatTextView.text = hr.toString()
+            }
+
+            override fun getACC(x: Int, y: Int, z: Int) {
+                Log.v("TAG", "GET ACC : x=$x y=$y z=$z\n");
+
+                // Set the data to the visualisation
+                accelXTextView.text = x.toString()
+                accelYTextView.text = y.toString()
+                accelZTextView.text = z.toString()
+            }
+        }
+        if(!firstLauchBLE){
+            pola0H1.cb = myPolarCB
+            pola0H1.connect()
+        }
+
+
+
         //------------------------------- CONNECT WITH POLAR --------------------------------
         /** Communiacte with Polar 0H1 **/
-        if(BLE_MODE){
+        if(BLE_MODE && firstLauchBLE){
+            firstLauchBLE = false
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && savedInstanceState == null) {
                 requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
             }
 
-            // Interface (Callback via la classe Polar0H1)
-            val myPolarCB: CallbackPolar = object : CallbackPolar {
-                override fun getHr(hr: Int) {
 
-                    // add measure at list
-                    HR_saved.add(0,hr)
-                    if (HR_saved.size > N_LAST_MEASURE_HR)
-                        HR_saved.removeAt(N_LAST_MEASURE_HR)
-
-                    // Calcul values max / min / average
-                    val HR_ave = HR_saved.average()
-                    val HR_max = HR_saved.maxOrNull()
-                    val HR_min = HR_saved.minOrNull()
-
-                    // Print valus
-                    hearthBeatMinTextView.text = HR_min.toString()
-                    hearthBeatAverageTextView.text = String.format("%.2f", HR_ave)
-                    hearthBeatMaxTextView.text = HR_max.toString()
-
-                    Log.v("TAG", "GET HR : $hr[bpm] \n");
-
-                    // Set the data to the visualisation
-                    hearthBeatTextView.text = hr.toString()
-                }
-
-                override fun getACC(x: Int, y: Int, z: Int) {
-                    Log.v("TAG", "GET ACC : x=$x y=$y z=$z\n");
-
-                    // Set the data to the visualisation
-//                    accelXTextView.text = x.toString()
-//                    accelYTextView.text = y.toString()
-//                    accelZTextView.text = z.toString()
-                }
-            }
 
             pola0H1 = Polar0H1(myPolarCB, "7D41F628", this)
             pola0H1.init()

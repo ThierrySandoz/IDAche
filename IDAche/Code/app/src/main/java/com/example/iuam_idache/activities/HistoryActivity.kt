@@ -212,6 +212,7 @@ class HistoryActivity : AppCompatActivity() {
                 val position = datePickerAdapter.getPosition(newVal)
 
                 // HearthBeat values
+                hearthBeatTextView.text = hearthBeatAverageList[position]
                 hearthBeatAverageTextView.text = hearthBeatAverageList[position]
                 hearthBeatMinTextView.text = hearthBeatMinList[position]
                 hearthBeatMaxTextView.text = hearthBeatMaxList[position]
@@ -249,6 +250,7 @@ class HistoryActivity : AppCompatActivity() {
         datePickerAdapter = WPDayPickerAdapter(dates.toTypedArray(), nbDataToDisplay)
         // Set the adapter
         datePicker.setAdapter(datePickerAdapter)
+
     }
 
 }
