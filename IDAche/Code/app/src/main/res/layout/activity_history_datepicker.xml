@@ -17,7 +17,8 @@
         android:id="@+id/activity_history_datePicker"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginHorizontal="40dp"
+        app:align="LEFT"
+        android:layout_marginHorizontal="80dp"
         app:textSize="30sp" />
 
     <ImageView

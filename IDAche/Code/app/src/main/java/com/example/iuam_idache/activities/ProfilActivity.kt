@@ -10,6 +10,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.iuam_idache.R
 import com.example.iuam_idache.apiREST.models.User
@@ -23,9 +24,6 @@ import java.time.LocalDate
 import java.time.ZoneId
 
 class ProfilActivity : AppCompatActivity() {
-
-    private var newUser = true;
-
     //-------------- Buttons
     private lateinit var btnNext : Button
 
@@ -34,15 +32,17 @@ class ProfilActivity : AppCompatActivity() {
 
     //-------------- EditText
     private lateinit var birthDayEditText : EditText
-    private lateinit var birthMonthEditText: EditText
-    private lateinit var birthYearEditText: EditText
-    private lateinit var weightEditText: EditText
-    private lateinit var heightEditText: EditText
+    private lateinit var birthMonthEditText : EditText
+    private lateinit var birthYearEditText : EditText
+    private lateinit var weightEditText : EditText
+    private lateinit var heightEditText : EditText
 
     //-------------- SharedPreferences
-    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferences : SharedPreferences
+    private lateinit var editor : SharedPreferences.Editor
     private val userInfoKey : String = "user_information"
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profil)
@@ -59,11 +59,10 @@ class ProfilActivity : AppCompatActivity() {
 
         //-------------------------- SharedPreferences ---------------------------
         sharedPreferences = getSharedPreferences(userInfoKey, Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor = sharedPreferences.edit()
 
         // If userGender in memory -> set the stickySwitch
         if (sharedPreferences.contains(userGenderKey)) {
-            newUser = false;
             when(sharedPreferences.getString(userGenderKey, GenderType.MAN)) {
                 GenderType.MAN -> btnGender.setDirection(StickySwitch.Direction.LEFT, false)
                 GenderType.WOMAN -> btnGender.setDirection(StickySwitch.Direction.RIGHT, false)
@@ -124,6 +123,15 @@ class ProfilActivity : AppCompatActivity() {
         btnNext.setOnClickListener {
 
             // Check the datas
+            // Add a 0 for the month and the day if there is not (to have the right format (dd/MM/yyyy))
+            if (birthDayEditText.text.toString().length == 1) {
+                birthDayEditText.setText("0" + birthDayEditText.text.toString())
+            }
+
+            if (birthMonthEditText.text.toString().length == 1) {
+                birthMonthEditText.setText("0" + birthMonthEditText.text.toString())
+            }
+
             // Recover the string
             val birthDate = birthDayEditText.text.toString() + "/" + birthMonthEditText.text.toString() + "/" + birthYearEditText.text.toString()
             val validator = DateValidatorUsingDateFormat("dd/MM/yyyy")
@@ -133,8 +141,6 @@ class ProfilActivity : AppCompatActivity() {
                 val birthDate2 = birthYearEditText.text.toString() + "-" + birthMonthEditText.text.toString() + '-' + birthDayEditText.text.toString()
                 // Check if before today
 
-                // TODO : control day & month (we need to enter the 0 for the month or the day.
-                //  Ex : month mars = 3 ERROR need 03)
                 if (LocalDate.parse(birthDate2).isBefore(LocalDate.now(ZoneId.of("Africa/Tunis")))) {
 
                     // Gender
@@ -150,7 +156,8 @@ class ProfilActivity : AppCompatActivity() {
                         else -> throw IllegalArgumentException("Error in gender selection")
                     }
 
-                    // (TODO control if height and weight are numbuer)
+                    // Build the user
+                    buildUser()
                     // Save the data in shared preferences
                     editor.putString(userBirthDayKey, birthDayEditText.text.toString())
                     editor.putString(userBirthMonthKey, birthMonthEditText.text.toString())
@@ -158,47 +165,6 @@ class ProfilActivity : AppCompatActivity() {
                     editor.putString(userHeightKey, heightEditText.text.toString())
                     editor.putString(userWeightKey, weightEditText.text.toString())
                     editor.apply()
-
-
-
-                    // Build the user
-                    var user = buildMyUser();
-
-                    // TODO : check if is a update or new profil with ID in shared preferences
-                    if (isUpdateProfil()){
-
-                        val myClientRestAPI = ClientRestAPI()
-                        myClientRestAPI.updateUser(user, object : getLongCallback {
-                            override fun onSuccess(myID: Long) {
-                                // TODO : add notif (update OK)
-                                Log.v(
-                                    "TAG",
-                                    "i update user (id=" + myID + ") " + user.toString()
-                                )
-                            }
-
-                            override fun onFailure() {
-                                Log.v("TAG", "Update User -> Failed ! ")
-                                // TODO : add notif (update Failed)
-                            }
-                        })
-
-                    } else {
-                        val myClientRestAPI = ClientRestAPI()
-                        myClientRestAPI.addUser(user, object : getLongCallback {
-                            override fun onSuccess(myID: Long) {
-                                // TODO : add notif
-                                // TODO : save id in sharedPreferences
-                                user.user_id = myID
-                                Log.v("TAG", "i get my id $user")
-                            }
-
-                            override fun onFailure() {
-                                Log.v("TAG", "Add new User -> Failed ! ")
-                                // TODO : add notif
-                            }
-                        })
-                    }
 
                     // Go to main menu
                     val intent = Intent(this, MainActivity::class.java)
@@ -228,32 +194,91 @@ class ProfilActivity : AppCompatActivity() {
     }
 
     // Build the user
-    private fun buildMyUser(): User {
-        var sexe : Byte = 0;
+    private fun buildUser() {
+
+        // Get the user information
+        var sex : Byte = 0
         when(sharedPreferences.getString(userGenderKey, GenderType.MAN)) {
-            GenderType.WOMAN -> sexe = 1;
-            GenderType.MAN -> sexe = 0;
+            GenderType.WOMAN -> sex = 1
+            GenderType.MAN -> sex = 0
         }
         val height = heightEditText.text.toString().toInt()
         val weight = weightEditText.text.toString().toInt()
-        var user = User(
+
+        // Build the user
+        val user = User(
             birthYearEditText.text.toString(),
             birthMonthEditText.text.toString(),
             birthDayEditText.text.toString(),
             height,
-            sexe,
+            sex,
             weight
-        );
+        )
 
-        // TODO get my real id if exist
-        user.user_id = 30;
+        // Get the client request API
+        val myClientRestAPI = ClientRestAPI()
 
-        return user
-    }
+        // If the profile already exists
+        if (isProfileExisting()){
 
-    // TODO check if user ID is in sharedPreferences
-    private fun isUpdateProfil(): Boolean {
-        return !newUser;
+            // Get the user ID from sharedPreferences
+            user.user_id = sharedPreferences.getLong(userIDKey, -1)
+
+            // Send a request to update the current user
+            myClientRestAPI.updateUser(user, object : getLongCallback {
+
+                override fun onSuccess(myID: Long) {
+                    // Display a Toast to inform the user
+                    Toast.makeText(this@ProfilActivity, "user profile updated ! (userID = $myID)", Toast.LENGTH_SHORT).show()
+
+                    // Log the update
+                    Log.v(
+                        "TAG",
+                        "i update user (id=$myID) $user"
+                    )
+                }
+
+                override fun onFailure() {
+                    // Display a Toast to inform the user
+                    Toast.makeText(this@ProfilActivity, "error : user profile not updated...", Toast.LENGTH_SHORT).show()
+
+                    // Log the error
+                    Log.v("TAG", "Update User -> Failed ! ")
+                }
+            })
+
+        }
+
+        // Else if the user profile do not exists
+        else {
+
+            // Add a new user to the server
+            myClientRestAPI.addUser(user, object : getLongCallback {
+
+                override fun onSuccess(myID: Long) {
+                    // Display a Toast to inform the user
+                    Toast.makeText(this@ProfilActivity, "new user added to server ! (userID = $myID)", Toast.LENGTH_SHORT).show()
+
+                    // Get the new user ID
+                    user.user_id = myID
+
+                    // Put the new user_id in shared preferences
+                    editor.putLong(userIDKey, user.user_id)
+                    editor.apply()
+
+                    Log.v("TAG", "i get my id $user")
+                }
+
+                override fun onFailure() {
+                    // Display a Toast to inform the user
+                    Toast.makeText(this@ProfilActivity, "error : new user not added to server...", Toast.LENGTH_SHORT).show()
+
+                    user.user_id = -1
+
+                    Log.v("TAG", "Add new User -> Failed ! ")
+                }
+            })
+        }
     }
 
     interface DateValidator {
@@ -276,6 +301,10 @@ class ProfilActivity : AppCompatActivity() {
         }
     }
 
+    private fun isProfileExisting(): Boolean {
+        return sharedPreferences.contains(userIDKey)
+    }
+
     companion object {
         const val userGenderKey = "userGenderKey"
         const val userBirthDayKey = "userBirthDayKey"
@@ -283,5 +312,6 @@ class ProfilActivity : AppCompatActivity() {
         const val userBirthYearKey = "userBirthYearKey"
         const val userHeightKey = "userHeightKey"
         const val userWeightKey = "userWeightKey"
+        const val userIDKey = "userIDKey"
     }
 }

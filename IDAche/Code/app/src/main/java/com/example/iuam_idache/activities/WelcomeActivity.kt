@@ -26,8 +26,8 @@ class WelcomeActivity : AppCompatActivity() {
             // Get shared preferences
             sharedPreferences = getSharedPreferences(userInfoKey, Context.MODE_PRIVATE)
 
-            // If profile already completed -> go to main menu
-            if (sharedPreferences.contains(ProfilActivity.userWeightKey)) {
+            // If profile already exist -> go to main menu
+            if (isProfileExisting()) {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -38,5 +38,9 @@ class WelcomeActivity : AppCompatActivity() {
                 finish()
             }
         }, 1000)
+    }
+
+    private fun isProfileExisting(): Boolean {
+        return sharedPreferences.contains(ProfilActivity.userIDKey)
     }
 }
