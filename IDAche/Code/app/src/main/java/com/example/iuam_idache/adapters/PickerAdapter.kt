@@ -45,7 +45,7 @@ class PickerAdapter : RecyclerView.Adapter<PickerAdapter.PickerItemViewHolder>()
 
         when (selectedItem) {
             position -> {
-                holder.tvItem?.setTextColor(ContextCompat.getColor(ctx!!, R.color.colorGreenLight))
+                holder.tvItem?.setTextColor(ContextCompat.getColor(ctx!!, R.color.colorGreenMedium))
                 selectedItem = -1
             }
             else -> holder.tvItem?.setTextColor(ContextCompat.getColor(ctx!!, R.color.colorDarkGray))

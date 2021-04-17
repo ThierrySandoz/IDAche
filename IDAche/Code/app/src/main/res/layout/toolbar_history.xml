@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/conversation_toolbar"
     android:layout_height="60dp"
+    android:paddingHorizontal="10dp"
     android:layout_width="match_parent"
     android:background="@drawable/ic_toolbar_background"
     android:orientation="horizontal"
@@ -37,11 +38,42 @@
             android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"
             android:background="@null"
             android:src="@drawable/ic_loupe">
         </ImageButton>
 
     </RelativeLayout>
 
-</Toolbar>
+    <RelativeLayout
+        android:id="@+id/history_toolbar_searchView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="0dp"
+        android:layout_marginVertical="4dp"
+        android:background="@drawable/ic_background_research"
+        android:visibility="invisible">
+
+        <View
+            android:id="@+id/history_toolbar_close_search_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/ic_close_green" />
+
+        <EditText
+            android:id="@+id/history_toolbar_search_inputText_editText"
+            android:layout_width="match_parent"
+            android:hint="@string/search_here"
+            android:backgroundTint="@color/colorGreenMedium"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/avenir_next_lt_pro_demi"
+            android:layout_toEndOf="@id/history_toolbar_close_search_button" />
+
+    </RelativeLayout>
+
+</FrameLayout>

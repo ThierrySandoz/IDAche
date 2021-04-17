@@ -49,8 +49,6 @@ class MainActivity : AppCompatActivity() {
     var HR_saved = mutableListOf<Int>()
     val N_LAST_MEASURE_HR = 300;
 
-
-
     //-------------- Buttons
     private lateinit var historyButton : ImageButton
     private lateinit var profilButton : ImageButton
@@ -74,6 +72,9 @@ class MainActivity : AppCompatActivity() {
     //-------------- ImageViews
     private lateinit var meteoStateImageView : ImageView
     private lateinit var hearthbeatImageView : ImageView
+
+    //-------------- Animation
+    private var isAnimationStarted = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,8 +137,6 @@ class MainActivity : AppCompatActivity() {
         scaleDown.repeatCount = ObjectAnimator.INFINITE
         scaleDown.repeatMode = ObjectAnimator.REVERSE
 
-        scaleDown.start()
-
         //----------------------- Check permissions for localisation ------------------------
         // Check permissions
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -161,6 +160,12 @@ class MainActivity : AppCompatActivity() {
         // Interface (Callback via la classe Polar0H1)
         val myPolarCB: CallbackPolar = object : CallbackPolar {
             override fun getHr(hr: Int) {
+
+                // Start the animation
+                if (!isAnimationStarted) {
+                    scaleDown.start()
+                    isAnimationStarted = true
+                }
 
                 // add measure at list
                 HR_saved.add(0,hr)
@@ -197,7 +202,9 @@ class MainActivity : AppCompatActivity() {
             pola0H1.connect()
         }
 
-
+        // TODO -> Stop heartBeat animation when polar disconnected
+        //scaleDown.end()
+        //isAnimationStarted = false
 
         //------------------------------- CONNECT WITH POLAR --------------------------------
         /** Communiacte with Polar 0H1 **/

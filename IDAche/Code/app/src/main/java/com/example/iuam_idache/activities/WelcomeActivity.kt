@@ -11,7 +11,6 @@ import com.example.iuam_idache.R
 class WelcomeActivity : AppCompatActivity() {
 
     private lateinit var handler: Handler
-
     private lateinit var sharedPreferences: SharedPreferences
     private val userInfoKey : String = "user_information"
 

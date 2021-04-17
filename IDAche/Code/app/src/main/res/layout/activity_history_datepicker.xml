@@ -6,26 +6,36 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <ImageView
+    <ImageButton
+        android:id="@+id/activity_history_buttonUp"
+        android:background="@null"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/ic_baseline_keyboard_arrow_up">
-    </ImageView>
+    </ImageButton>
 
-    <com.super_rabbit.wheel_picker.WheelPicker
+    <com.aigestudio.wheelpicker.WheelPicker
         android:id="@+id/activity_history_datePicker"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:align="LEFT"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="80dp"
-        app:textSize="30sp" />
+        app:wheel_item_align="center"
+        app:wheel_item_space="20dp"
+        app:wheel_curved="true"
+        app:wheel_atmospheric="true"
+        app:wheel_indicator="false"
+        app:wheel_selected_item_text_color="@color/colorGreenMedium"
+        app:wheel_indicator_color="@color/colorGreenMedium"
+        app:wheel_item_text_size="36sp"/>
 
-    <ImageView
+    <ImageButton
+        android:id="@+id/activity_history_buttonDown"
+        android:background="@null"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/ic_baseline_keyboard_arrow_down">
-    </ImageView>
+    </ImageButton>
 
 </LinearLayout>

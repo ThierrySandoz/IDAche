@@ -1,28 +1,32 @@
 package com.example.iuam_idache.activities
 
+import android.animation.Animator
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.view.ViewAnimationUtils
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.aigestudio.wheelpicker.WheelPicker
 import com.example.iuam_idache.R
-import com.example.iuam_idache.adapters.SymptomSelectorAdapter
-import com.example.iuam_idache.adapters.WPDayPickerAdapter
 import com.example.iuam_idache.apiREST.classes.ClientRestAPI
 import com.example.iuam_idache.apiREST.interfaces.getMyEventsCallback
 import com.example.iuam_idache.apiREST.models.EventsAche
-import com.super_rabbit.wheel_picker.OnValueChangeListener
-import com.super_rabbit.wheel_picker.WheelPicker
+import com.example.iuam_idache.classes.HistoryUnit
+import java.util.stream.Collectors
 
-// TODO -> bug when extremity item are selected
+//TODO -> Change the way to manage location in DB (lat,long -> location) + Add windSpeed in DB + add heartBeat in DB
+
 class HistoryActivity : AppCompatActivity() {
 
-    private lateinit var eventsDisplay : List<EventsAche>
     private lateinit var myClientRestAPI : ClientRestAPI
 
     //-------------- Shared preferences
@@ -32,6 +36,15 @@ class HistoryActivity : AppCompatActivity() {
     //-------------- Buttons
     private lateinit var searchButton : ImageButton
     private lateinit var backButton : ImageButton
+    private lateinit var upButton : ImageButton
+    private lateinit var downButton: ImageButton
+    private lateinit var closeSearchButton : View
+
+    //-------------- EditTexts
+    private lateinit var searchEditText: EditText
+
+    //-------------- RelativeLayouts
+    private lateinit var searchRelativeLayout: RelativeLayout
 
     //-------------- TextViews
     private lateinit var locationTextView : TextView
@@ -47,33 +60,30 @@ class HistoryActivity : AppCompatActivity() {
     private lateinit var hourTextView: TextView
 
     //-------------- Lists
-    private val hearthBeatList : MutableList<String> = mutableListOf()
-    private val hearthBeatMinList : MutableList<String> = mutableListOf()
-    private val hearthBeatMaxList : MutableList<String> = mutableListOf()
-    private val hearthBeatAverageList : MutableList<String> = mutableListOf()
-    private val windSpeedList : MutableList<String> = mutableListOf()
-    private val pressureList : MutableList<String> = mutableListOf()
-    private val humidityList : MutableList<String> = mutableListOf()
-    private val temperatureList : MutableList<String> = mutableListOf()
-    private val meteoStateList : MutableList<String> = mutableListOf()
-    private val locationList : MutableList<String> = mutableListOf()
-
-
+    private val historyUnitList : MutableList<HistoryUnit> = mutableListOf(
+        HistoryUnit(
+            date = "Empty list",
+            hour = "--:--:--",
+            location = "LOCATION",
+            meteoState = "---",
+            temperature = "- -",
+            humidity = "--",
+            pressure = "----",
+            windSpeed = "---",
+            hearthBeat = "- - -",
+            hearthBeatMin = "---",
+            hearthBeatMax = "---",
+            meteoImage = "",
+            hearthBeatAverage = "---"
+        )
+    )
+    private var historyUnitDisplayedList : MutableList<HistoryUnit> = historyUnitList
 
     //-------------- ImageViews
     private lateinit var meteoStateImageView : ImageView
 
-    //-------------- DatePicker
-    private lateinit var datePicker : WheelPicker
-    private val nbDataToDisplay : Int = 5
-
-    // TODO -> Change the way to manage "Nothing to show"
-    private val dates : MutableList<String> = mutableListOf(
-        "Nothing       "
-    )
-
     //-------------- Adapters
-    private lateinit var datePickerAdapter: WPDayPickerAdapter
+    private lateinit var dateWheelPicker: WheelPicker
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,9 +123,30 @@ class HistoryActivity : AppCompatActivity() {
         // Hour text view
         hourTextView = findViewById(R.id.activity_history_hour_textView)
 
-        //------------------------------ ImageViews --------------------------------
+        //------------------------------------ ImageViews ------------------------------------------
         // Meteo state image
         meteoStateImageView = findViewById(R.id.activity_main_meteo_imageView_meteoState)
+
+        //--------------------------------- Relative layouts ---------------------------------------
+        searchRelativeLayout = findViewById(R.id.history_toolbar_searchView)
+
+        //------------------------------------ EditTexts -------------------------------------------
+        searchEditText = findViewById(R.id.history_toolbar_search_inputText_editText)
+        searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                dateFilter(s.toString())
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+        })
+
+        //------------------------------------ DatePicker ------------------------------------------
+        dateWheelPicker = findViewById(R.id.activity_history_datePicker)
+        updateList(historyUnitDisplayedList)
 
         //--------------------------------- Shared Preferences -------------------------------------
 
@@ -127,16 +158,19 @@ class HistoryActivity : AppCompatActivity() {
         //val userId : Long = sharedPreferences.getLong(ProfilActivity.userIDKey, -1) // TODO -> Decomment to get the real ID
 
         //------------------------------------- Client API -----------------------------------------
-
         // Get the client request API
         myClientRestAPI = ClientRestAPI()
 
         // Get data from server
-        myClientRestAPI.getMyEvents(userId.toInt(), object : getMyEventsCallback {
+        myClientRestAPI.getMyEvents(userId, object : getMyEventsCallback {
             override fun onSuccess(myEvents: List<EventsAche?>?) {
 
                 // Display a msg to inform the user
-                Toast.makeText(this@HistoryActivity, "events successfully obtained ! (userID = $userId)", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@HistoryActivity,
+                    "events successfully obtained ! (userID = $userId)",
+                    Toast.LENGTH_SHORT
+                ).show()
 
                 // Log the event success
                 Log.v(
@@ -144,40 +178,72 @@ class HistoryActivity : AppCompatActivity() {
                     "getMyEvents -> Sucess (" + myEvents!!.size + ") ! : " + myEvents.toString()
                 )
 
-                //
-                if (myEvents.isNotEmpty()){
-                    // remove old dates
-                    dates.clear()
+                // remove old data
+                clearAllData(historyUnitList)
+                clearAllData(historyUnitDisplayedList)
+
+                // Check if there is data in DB and fill the local list with the recovered data
+                if (myEvents.isNotEmpty()) {
                     // take real date events
                     myEvents.forEach {
-                        dates.add(it?.event_timestamp.toString().substring(0,10) + "           " + it?.event_timestamp.toString().substring(11,19))
-                        hearthBeatAverageList.add(it?.event_HR_ave.toString())
-                        hearthBeatMaxList.add(it?.event_HR_max.toString())
-                        hearthBeatMinList.add(it?.event_HR_min.toString())
-                        pressureList.add(it?.event_pressure.toString())
-                        humidityList.add(it?.event_humidity.toString())
-                        temperatureList.add(it?.event_temp.toString())
-                        meteoStateList.add(it?.event_code_weather.toString())
-
+                        historyUnitList.add(
+                            HistoryUnit(
+                                date = it?.event_timestamp.toString().substring(8, 10) +
+                                        "/" +
+                                        it?.event_timestamp.toString().substring(5, 7) +
+                                        "/" +
+                                        it?.event_timestamp.toString().substring(0, 4),
+                                hour = it?.event_timestamp.toString().substring(11, 19),
+                                hearthBeat = it?.event_HR_ave.toString(),                 // TODO-> Change with real hearthbeat (not average)
+                                hearthBeatAverage = it?.event_HR_ave.toString(),
+                                hearthBeatMin = it?.event_HR_min.toString(),
+                                hearthBeatMax = it?.event_HR_max.toString(),
+                                pressure = it?.event_pressure.toString(),
+                                humidity = it?.event_humidity.toString(),
+                                temperature = it?.event_temp.toString(),
+                                meteoState = it?.event_code_weather.toString(),           // TODO, Store the meteo state string in DB (instead of weather code)
+                                location = "LOCATION",                                    // TODO, Store the location in DB (instead of lat/long)
+                                windSpeed = "---",                                        // TODO, Store the windSpeed in DB
+                                meteoImage = "",                                          // TODO, Change the way to manage image
+                            )
+                        )
                     }
+
+                    historyUnitDisplayedList = historyUnitList
+
+                    // Update the list of dates
+                    updateList(historyUnitDisplayedList)
+
+                    // Set the indicator
+                    dateWheelPicker.setIndicator(true)
+
+                    // Go to last position
+                    dateWheelPicker.setSelectedItemPosition(historyUnitList.size - 1, false)
+
+                } else {
+                    // Set empty data visualization
+                    setEmptyData(historyUnitList)
+
+                    historyUnitDisplayedList = historyUnitList
+
+                    // Remove the indicator
+                    dateWheelPicker.setIndicator(false)
+
+                    // Set the position to 0
+                    dateWheelPicker.setSelectedItemPosition(0, false)
                 }
-                else {
-                    // TODO -> Error in visualization : "Nothing" shows up only when scrolling
-                    dates.clear()
-                    dates.add("Nothing        ")
-                    datePicker.reset()
-                }
 
-                // update list
-                updateList()
-
-                eventsDisplay = myEvents as List<EventsAche>;
-
+                // Update the visulization
+                updateVisualization(historyUnitDisplayedList)
             }
 
             override fun onFailure() {
                 // Display a msg to inform the user
-                Toast.makeText(this@HistoryActivity, "error : events could not be obtained...", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@HistoryActivity,
+                    "error : events could not be obtained...",
+                    Toast.LENGTH_SHORT
+                ).show()
 
                 // Log the error
                 Log.v("TAG", "getMyEvents -> Failed ! ")
@@ -197,60 +263,197 @@ class HistoryActivity : AppCompatActivity() {
         // Search button
         searchButton = findViewById(R.id.history_toolbar_search_imagebutton)
         searchButton.setOnClickListener {
-            // TODO -> make a research in the database
+            // Open the research view
+            openSearchView()
+        }
 
+        // Up button
+        upButton = findViewById(R.id.activity_history_buttonUp)
+        upButton.setOnClickListener {
+            // Increment the wheel picker value
+            previousDate()
+        }
+
+        // Down button
+        downButton = findViewById(R.id.activity_history_buttonDown)
+        downButton.setOnClickListener {
+            // Decrement the wheel picker value
+            nextDate()
+        }
+
+        // Close search button
+        closeSearchButton = findViewById(R.id.history_toolbar_close_search_button)
+        closeSearchButton.setOnClickListener {
+            // Close the research
+            closeSearchView()
+
+            // Close the keyboard
+            try {
+                val imm: InputMethodManager =
+                    getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+            } catch (e: Exception) {
+            }
+
+            // Recover the old data
+            //historyUnitDisplayedList = historyUnitList
+
+            // Update the visualization
+            updateList(historyUnitDisplayedList)
+            updateVisualization(historyUnitDisplayedList)
         }
 
         //----------------------------- Number picker -----------------------------
-        updateList()
+        // setOnItemSelectedListener
+        dateWheelPicker.setOnItemSelectedListener { _, _, _ ->
+            updateVisualization(historyUnitDisplayedList)
+        }
+    }
 
-        // OnValueChangeListener
-        datePicker.setOnValueChangeListener(object : OnValueChangeListener {
-            override fun onValueChange(picker: WheelPicker, oldVal: String, newVal: String) {
-                // TODO -> display informations in the recap views
+    private fun updateList(data: MutableList<HistoryUnit>) {
+        // Set the data
+        dateWheelPicker.data = data.stream().map(HistoryUnit::date).collect(Collectors.toList())
+    }
 
-                val position = datePickerAdapter.getPosition(newVal)
+    private fun updateVisualization(data: MutableList<HistoryUnit>) {
 
-                // HearthBeat values
-                hearthBeatTextView.text = hearthBeatAverageList[position]
-                hearthBeatAverageTextView.text = hearthBeatAverageList[position]
-                hearthBeatMinTextView.text = hearthBeatMinList[position]
-                hearthBeatMaxTextView.text = hearthBeatMaxList[position]
+        // Get the current item to update the fields
+        val position = dateWheelPicker.currentItemPosition
 
-                // Meteo values
-                pressureTextView.text = pressureList[position]
-                humidityTextView.text = humidityList[position]
-                temperatureTextView.text = temperatureList[position]
-                meteoStateTextView.text = meteoStateList[position]
+        // HearthBeat values
+        hearthBeatTextView.text = data[position].hearthBeat
+        hearthBeatAverageTextView.text = data[position].hearthBeatAverage
+        hearthBeatMinTextView.text = data[position].hearthBeatMin
+        hearthBeatMaxTextView.text = data[position].hearthBeatMax
 
-                // Hours values
-                hourTextView.text = dates[position].substring(11+10,11+18)
+        // Meteo values
+        pressureTextView.text = data[position].pressure
+        humidityTextView.text = data[position].humidity
+        temperatureTextView.text = data[position].temperature
+        meteoStateTextView.text = data[position].meteoState
 
+        // Hours values
+        hourTextView.text = data[position].hour
 
+        // Change arrow color if first or last element
+        if (position == data.lastIndex) {
+            downButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_gray)
+        }
+        else {
+            downButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down)
+        }
+
+        if (position == 0) {
+            upButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_gray)
+        }
+        else {
+            upButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up)
+        }
+    }
+
+    private fun nextDate() {
+        if (dateWheelPicker.currentItemPosition < historyUnitDisplayedList.size-1) {
+            dateWheelPicker.setSelectedItemPosition(dateWheelPicker.currentItemPosition + 1, true)
+
+            // Wait until animation has finished
+            Handler(Looper.getMainLooper()).postDelayed({
+                updateVisualization(historyUnitDisplayedList)
+            }, 300)
+        }
+    }
+
+    private fun previousDate(){
+        if (dateWheelPicker.currentItemPosition > 0) {
+            dateWheelPicker.setSelectedItemPosition(dateWheelPicker.currentItemPosition - 1, true)
+            // Wait until animation has finished
+            Handler(Looper.getMainLooper()).postDelayed({
+                updateVisualization(historyUnitDisplayedList)
+            }, 300)
+        }
+    }
+
+    private fun clearAllData(data: MutableList<HistoryUnit>) {
+        data.clear()
+    }
+
+    private fun setEmptyData(data: MutableList<HistoryUnit>) {
+
+        // Clear the previous data
+        clearAllData(data)
+
+        // Fill with default values
+        data.add(
+            HistoryUnit(
+                date = "Empty list",
+                hour = "--:--:--",
+                location = "LOCATION",
+                meteoState = "---",
+                temperature = "- -",
+                humidity = "--",
+                pressure = "----",
+                windSpeed = "---",
+                hearthBeat = "- - -",
+                hearthBeatMin = "---",
+                hearthBeatMax = "---",
+                meteoImage = "",
+                hearthBeatAverage = "---"
+            )
+        )
+    }
+
+    private fun openSearchView() {
+        searchEditText.setText("")
+        searchRelativeLayout.visibility = View.VISIBLE
+        val width = 300
+        val circularReveal = ViewAnimationUtils.createCircularReveal(
+            searchRelativeLayout,
+            (searchButton.right + searchButton.left) / 2,
+            (searchButton.top + searchButton.bottom) / 2,
+            0f, searchRelativeLayout.width.toFloat()
+        )
+        circularReveal.duration = 300
+        circularReveal.start()
+    }
+
+    private fun closeSearchView() {
+        val circularConceal = ViewAnimationUtils.createCircularReveal(
+            searchRelativeLayout,
+            (searchButton.right + searchButton.left) / 2,
+            (searchButton.top + searchButton.bottom) / 2,
+            searchRelativeLayout.width.toFloat(), 0f
+        )
+
+        circularConceal.duration = 300
+        circularConceal.start()
+        circularConceal.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) = Unit
+            override fun onAnimationCancel(animation: Animator?) = Unit
+            override fun onAnimationStart(animation: Animator?) = Unit
+            override fun onAnimationEnd(animation: Animator?) {
+                searchRelativeLayout.visibility = View.INVISIBLE
+                searchEditText.setText("")
+                circularConceal.removeAllListeners()
             }
         })
     }
 
-    private fun updateList() {
-        datePicker = findViewById(R.id.activity_history_datePicker)
-        // Date picker
-        // Set rounded wrap enable
-        datePicker.setSelectorRoundedWrapPreferred(false)
-        // Set wheel item count
-        datePicker.setWheelItemCount(nbDataToDisplay)
-        // Set wheel max index
-        datePicker.setMax(dates.size - 1)
-        // Set wheel min index
-        datePicker.setMin(0)
-        // Set selected text color
-        datePicker.setSelectedTextColor(R.color.colorGreenMedium)
-        // Set unselected text color
-        datePicker.setUnselectedTextColor(R.color.colorGreenPrimaryDark)
-        // Get the adapter
-        datePickerAdapter = WPDayPickerAdapter(dates.toTypedArray(), nbDataToDisplay)
-        // Set the adapter
-        datePicker.setAdapter(datePickerAdapter)
+    private fun dateFilter(text: String) {
+        val filteredList : ArrayList<HistoryUnit> = ArrayList()
+        for (historyUnit : HistoryUnit in historyUnitList) {
+            if (historyUnit.date.contains(text)) {
+                filteredList.add(historyUnit)
+            }
+        }
+        if (filteredList.isNotEmpty()) {
+            historyUnitDisplayedList = filteredList
+            dateWheelPicker.setIndicator(true)
+        }
+        else {
+            setEmptyData(historyUnitDisplayedList)
+            dateWheelPicker.setIndicator(false)
+        }
 
+        updateList(historyUnitDisplayedList)
+        updateVisualization(historyUnitDisplayedList)
     }
-
 }

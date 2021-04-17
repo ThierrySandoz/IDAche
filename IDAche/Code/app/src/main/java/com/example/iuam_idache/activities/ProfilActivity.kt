@@ -4,13 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.iuam_idache.R
 import com.example.iuam_idache.apiREST.models.User
@@ -37,6 +36,12 @@ class ProfilActivity : AppCompatActivity() {
     private lateinit var weightEditText : EditText
     private lateinit var heightEditText : EditText
 
+    //-------------- RelativeLayout
+    private lateinit var backgroundLinearLayout : LinearLayout
+
+    //-------------- AnimationDrawable
+    private lateinit var animationDrawable : AnimationDrawable
+
     //-------------- SharedPreferences
     private lateinit var sharedPreferences : SharedPreferences
     private lateinit var editor : SharedPreferences.Editor
@@ -49,6 +54,16 @@ class ProfilActivity : AppCompatActivity() {
 
         //----------------------------- StickSwitch ------------------------------
         btnGender = findViewById(R.id.profil_stickySwitch_gender)
+
+        //----------------------------- Background -------------------------------
+        // Get the background layout
+        backgroundLinearLayout = findViewById(R.id.activity_profile_background_linearLayout)
+
+        // Create the animated drawable
+        animationDrawable = backgroundLinearLayout.background as AnimationDrawable
+        animationDrawable.setEnterFadeDuration(2000)
+        animationDrawable.setExitFadeDuration(4000)
+        animationDrawable.start()
 
         //------------------------------ EditTexts -------------------------------
         birthDayEditText = findViewById(R.id.profil_edittext_birthdate_day)
