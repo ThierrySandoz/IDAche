@@ -1,21 +1,18 @@
 package com.example.iuam_idache.fragments
 
-import android.graphics.drawable.AnimationDrawable
-import android.media.Image
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.example.iuam_idache.R
-import com.example.iuam_idache.adapters.PickerAdapter
-import com.example.iuam_idache.classes.PickerLayoutManager
-import com.example.iuam_idache.classes.ScreenUtils
+import com.example.iuam_idache.classes.NumberPickerSharedViewModel
+import java.nio.channels.Selector
 
 class CoffeeFragment : Fragment() {
 
@@ -25,8 +22,9 @@ class CoffeeFragment : Fragment() {
     //-------------- ImageViews
     private lateinit var coffeeImage : ImageView
 
-    //-------------- Bundle
-    private lateinit var bundle : Bundle
+    //-------------- itemSelector
+    private lateinit var itemSelector : Selector
+    private lateinit var model : NumberPickerSharedViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -40,21 +38,50 @@ class CoffeeFragment : Fragment() {
         //----------------- TextViews
         coffeeDescription = view.findViewById(R.id.headache_coffee_description_textView)
 
-        //----------------- Bundle
-        bundle = Bundle()
+        //----------------- Shared view model
+        model = ViewModelProviders.of(requireActivity()).get(NumberPickerSharedViewModel::class.java)
 
-        when (bundle.getInt("position_key")) {
-            1 -> coffeeImage.setImageResource(R.drawable.ic_coffee_animation_1)
-            2 -> coffeeImage.setImageResource(R.drawable.ic_coffee_animation_2)
-            3 -> coffeeImage.setImageResource(R.drawable.ic_coffee_animation_3)
-            4 -> coffeeImage.setImageResource(R.drawable.ic_coffee_animation_4)
-            5 -> coffeeImage.setImageResource(R.drawable.ic_coffee_animation_5)
-            6 -> coffeeImage.setImageResource(R.drawable.ic_coffee_animation_6)
-            7 -> coffeeImage.setImageResource(R.drawable.ic_coffee_animation_7)
-            8 -> coffeeImage.setImageResource(R.drawable.ic_coffee_animation_8)
-            9 -> coffeeImage.setImageResource(R.drawable.ic_coffee_animation_9)
-            else -> coffeeImage.setImageResource(R.drawable.ic_coffee_animation_1)
-        }
+        model.selectedItem.observe(viewLifecycleOwner, { t ->
+            when(t) {
+                1 -> {
+                    coffeeImage.setImageResource(R.drawable.ic_coffee_animation_1)
+                    coffeeDescription.text = "Few : 1 coffee"
+                }
+                2 -> {
+                    coffeeImage.setImageResource(R.drawable.ic_coffee_animation_2)
+                    coffeeDescription.text = "Few : 2 coffees"
+                }
+                3 -> {
+                    coffeeImage.setImageResource(R.drawable.ic_coffee_animation_3)
+                    coffeeDescription.text = "Medium : 3 coffees"
+                }
+                4 -> {
+                    coffeeImage.setImageResource(R.drawable.ic_coffee_animation_4)
+                    coffeeDescription.text = "Medium : 4 coffees"
+                }
+                5 -> {
+                    coffeeImage.setImageResource(R.drawable.ic_coffee_animation_5)
+                    coffeeDescription.text = "Medium : 5 coffees"
+                }
+                6 -> {
+                    coffeeImage.setImageResource(R.drawable.ic_coffee_animation_6)
+                    coffeeDescription.text = "A lot : 6 coffees"
+                }
+                7 -> {
+                    coffeeImage.setImageResource(R.drawable.ic_coffee_animation_7)
+                    coffeeDescription.text = "A lot : 7 coffees"
+                }
+                8 -> {
+                    coffeeImage.setImageResource(R.drawable.ic_coffee_animation_8)
+                    coffeeDescription.text = "A lot : 8 coffees"
+                }
+                9 -> {
+                    coffeeImage.setImageResource(R.drawable.ic_coffee_animation_9)
+                    coffeeDescription.text = "A lot : More than 9 coffees"
+                }
+                else -> coffeeImage.setImageResource(R.drawable.ic_coffee_animation_5)
+            }
+        })
 
         // Return the fragment view/layout
         return view

@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.example.iuam_idache.R
 import com.example.iuam_idache.activities.HeadacheActivity
 import com.example.iuam_idache.adapters.PickerAdapter
+import com.example.iuam_idache.classes.NumberPickerSharedViewModel
 import com.example.iuam_idache.classes.PickerLayoutManager
 import com.example.iuam_idache.classes.ScreenUtils
 
@@ -24,6 +27,8 @@ class NumberPickerFragment : Fragment() {
     private lateinit var sliderAdapter: PickerAdapter
     private val defaultPosition: Int = 5
 
+    private lateinit var model : NumberPickerSharedViewModel
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
@@ -32,6 +37,9 @@ class NumberPickerFragment : Fragment() {
 
         // Get the mainActivity
         //headacheActivity = activity as HeadacheActivity
+
+        // Get the shared view model
+        model = ViewModelProviders.of(requireActivity()).get(NumberPickerSharedViewModel::class.java)
 
         // Get the recyclerView
         rvHorizontalPicker = view.findViewById(R.id.rv_horizontal_picker)
@@ -49,8 +57,17 @@ class NumberPickerFragment : Fragment() {
                     //headacheActivity.fragmentCoffee(layoutPosition)
 
                     sliderAdapter.setSelectedItem(layoutPosition)
-                    Log.d("selected text", data[layoutPosition])
-                    Toast.makeText(context, data[layoutPosition], Toast.LENGTH_SHORT).show()
+                    //Log.d("selected text", data[layoutPosition])
+                    //Toast.makeText(context, data[layoutPosition], Toast.LENGTH_SHORT).show()
+
+                    //set the message to share to another fragment
+                    model.onItemSelected(layoutPosition+1)
+
+                    val fragment = CoffeeFragment()
+                    val fragmentTransaction = fragmentManager!!.beginTransaction()
+                    fragmentTransaction.replace(R.id.fragment_headache_coffee, fragment)
+                    fragmentTransaction.addToBackStack(null)
+                    fragmentTransaction.commit()
                 }
             }
         }
