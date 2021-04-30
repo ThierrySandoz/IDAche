@@ -167,10 +167,12 @@ class MainActivity : AppCompatActivity() {
                     isAnimationStarted = true
                 }
 
-                // add measure at list
-                HR_saved.add(0,hr)
-                if (HR_saved.size > N_LAST_MEASURE_HR)
-                    HR_saved.removeAt(N_LAST_MEASURE_HR)
+                // add measure at list (if not 0)
+                if (hr != 0){
+                    HR_saved.add(0,hr)
+                    if (HR_saved.size > N_LAST_MEASURE_HR)
+                        HR_saved.removeAt(N_LAST_MEASURE_HR)
+                }
 
                 // Calcul values max / min / average
                 val HR_ave = HR_saved.average()
@@ -183,6 +185,14 @@ class MainActivity : AppCompatActivity() {
                 hearthBeatMaxTextView.text = HR_max.toString()
 
                 Log.v("TAG", "GET HR : $hr[bpm] \n");
+
+                if ( pola0H1.ACCisStreamed() ) {
+                    Log.d("DBG","ACCisStreamed = true");
+                } else {
+                    Log.d("DBG","ACCisStreamed = false");
+                    // TODO acc not always OK..
+                    pola0H1.getStreamACC();
+                }
 
                 // Set the data to the visualisation
                 hearthBeatTextView.text = hr.toString()
@@ -215,16 +225,19 @@ class MainActivity : AppCompatActivity() {
             }
 
 
-
             pola0H1 = Polar0H1(myPolarCB, "7D41F628", this)
             pola0H1.init()
             pola0H1.connect()
 
-            /* TODO : ask stream acc not clean ... */
+            /*
             Timer("SteamACC", false).schedule(10000) {
-                Log.v("TAG", "ASK ACC STREAM NOW !\n");
-                pola0H1.getStreamACC();
-            }
+                if (pola0H1.BLEPowered && pola0H1.connected){
+                    Log.v("TAG", "ASK ACC STREAM NOW !\n");
+                    pola0H1.getStreamACC();
+                } else {
+                    Log.v("TAG", "DONT ASK ACC STREAM NOW !\n");
+                }
+            }*/
         }
 
 
