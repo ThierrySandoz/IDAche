@@ -23,4 +23,21 @@
     <string name="gender">GENDER</string>
     <string name="profile">PROFILE</string>
     <string name="search_here">Search here</string>
+    <string name="activity_time">activity time :</string>
+    <string name="steps">number of steps :</string>
+    <string name="minimum">minimum :</string>
+    <string name="average">average :</string>
+    <string name="maximum" translatable="false">maximum :</string>
+    <string name="location">LOCATION</string>
+    <string name="humidity">humidity :</string>
+    <string name="pressure">pressure :</string>
+    <string name="wind_speed">wind speed :</string>
+    <string name="sleep">sleep :</string>
+    <string name="deep_sleep">deep sleep :</string>
+    <string name="select_the_amount_of_coffee_consumed_today">Select the amount of coffee consumed today</string>
+    <string name="few_1_expresso">Few : 1 expresso</string>
+    <string name="history">HISTORY</string>
+    <string name="description">description</string>
+    <string name="EmptyList">Empty list...</string>
+    <string name="Unknown">Unknown</string>
 </resources>

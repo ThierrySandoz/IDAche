@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/avenir_next_lt_pro_demi"
-            android:text="LOCATION"
+            android:text="@string/location"
             android:textColor="@android:color/darker_gray"
             android:textSize="14sp">
         </TextView>
@@ -88,7 +88,7 @@
                 android:textSize="13sp"
                 android:textColor="@android:color/darker_gray"
                 android:fontFamily="@font/avenir_next_lt_pro_demi"
-                android:text="humidity : ">
+                android:text="@string/humidity">
             </TextView>
 
             <TextView
@@ -121,7 +121,7 @@
                 android:textSize="14sp"
                 android:textColor="@android:color/darker_gray"
                 android:fontFamily="@font/avenir_next_lt_pro_demi"
-                android:text="pressure : ">
+                android:text="@string/pressure">
             </TextView>
 
             <TextView
@@ -154,7 +154,7 @@
                 android:textColor="@android:color/darker_gray"
                 android:textSize="13sp"
                 android:fontFamily="@font/avenir_next_lt_pro_demi"
-                android:text="wind speed : ">
+                android:text="@string/wind_speed">
             </TextView>
 
             <TextView

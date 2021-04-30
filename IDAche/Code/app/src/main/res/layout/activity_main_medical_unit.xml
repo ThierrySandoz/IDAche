@@ -67,7 +67,7 @@
                 android:textSize="13sp"
                 android:textColor="@android:color/darker_gray"
                 android:fontFamily="@font/avenir_next_lt_pro_demi"
-                android:text="minimum : ">
+                android:text="@string/minimum">
             </TextView>
 
             <TextView
@@ -100,7 +100,7 @@
                 android:textSize="14sp"
                 android:textColor="@android:color/darker_gray"
                 android:fontFamily="@font/avenir_next_lt_pro_demi"
-                android:text="average : ">
+                android:text="@string/average">
             </TextView>
 
             <TextView
@@ -133,7 +133,7 @@
                 android:textColor="@android:color/darker_gray"
                 android:textSize="13sp"
                 android:fontFamily="@font/avenir_next_lt_pro_demi"
-                android:text="maximum : ">
+                android:text="@string/maximum">
             </TextView>
 
             <TextView

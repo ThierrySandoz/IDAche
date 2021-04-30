@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="activity_time">temps d\'activité :</string>
+    <string name="steps">nombre de pas :</string>
+    <string name="minimum">minimum :</string>
+    <string name="average">moyenne :</string>
+    <string name="location">LOCALITE</string>
+    <string name="humidity">humidité :</string>
+    <string name="pressure">pression :</string>
+    <string name="wind_speed">vitesse du vent :</string>
+    <string name="sleep">sommeil :</string>
+    <string name="deep_sleep">sommeil profond :</string>
+    <string name="select_the_amount_of_coffee_consumed_today">Selectionnez la valeur de café consommée</string>
+    <string name="few_1_expresso">Peu : 1 expresso</string>
+    <string name="history">HISTORIQUE</string>
+    <string name="description">description</string>
+    <string name="app_name">IUAM_IDache</string>
+    <string name="action_settings">Options</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="idache">IDAche</string>
+    <string name="next">Suivant</string>
+    <string name="headachelogo">HeadacheLogo</string>
+    <string name="birthdate">ANNIVERSAIRE</string>
+    <string name="day">Jour</string>
+    <string name="month">Mois</string>
+    <string name="_1997">1997</string>
+    <string name="year">Annee</string>
+    <string name="_178">178</string>
+    <string name="_75">75</string>
+    <string name="OPEN_WEATHER_MAP_API_KEY">950092aa5826bb291fb34348b79a951d</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="select_elements_that_could_have_trigger_the_headache">Seletionne les elemets qui sont pertinents.</string>
+    <string name="weight_kg">Poids (kg)</string>
+    <string name="height_cm">Taille (cm)</string>
+    <string name="_1900">1900</string>
+    <string name="_01">01</string>
+    <string name="gender">GENRE</string>
+    <string name="profile">PROFIL</string>
+    <string name="search_here">Recherche ici</string>
+    <string name="EmptyList">Liste vide...</string>
+    <string name="Unknown">Inconnu</string>
+</resources>

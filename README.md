@@ -5,6 +5,7 @@
     - [x] Navigation entre les activités
     - [x] Implémentations des toolbars
     - [ ] Implémentation de notifications (?)
+    - [x] Gestion de la langue francais & anglais
   - [x] Splash Screen
   - [x] Page de profile
     - [x] Stockage des informations de l'utilisateur (date de naissance, genre, taille, poids) dans les shared preferences
@@ -28,8 +29,8 @@
     - [ ] Implémentation du fragment contenant le visualisation
     - [ ] Implémentation des aides aux utilisateurs
   - [ ] Capteurs
-    - [x] Obtention des données météorologiques depuis l'API (weatherstack) / openweathermap
-
+  - [x] Obtention des données météorologiques depuis l'API (weatherstack) / openweathermap
+  
 - [ ] Serveur
   - [ ] Stockage des données
   - [ ] Machine learning

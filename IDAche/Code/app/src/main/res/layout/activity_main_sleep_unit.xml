@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:text="sleep : "
+                android:text="@string/sleep"
                 android:fontFamily="@font/avenir_next_lt_pro_demi"
                 android:textColor="@android:color/darker_gray">
             </TextView>
@@ -65,7 +65,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="deep sleep : "
+                android:text="@string/deep_sleep"
                 android:textSize="18sp"
                 android:fontFamily="@font/avenir_next_lt_pro_demi"
                 android:textColor="@android:color/darker_gray">

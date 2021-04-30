@@ -30,7 +30,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="activity time : "
+                android:text="@string/activity_time"
                 android:textSize="18sp"
                 android:fontFamily="@font/avenir_next_lt_pro_demi"
                 android:textColor="@android:color/darker_gray">
@@ -63,7 +63,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="steps : "
+                android:text="@string/steps"
                 android:textSize="18sp"
                 android:fontFamily="@font/avenir_next_lt_pro_demi"
                 android:textColor="@android:color/darker_gray">

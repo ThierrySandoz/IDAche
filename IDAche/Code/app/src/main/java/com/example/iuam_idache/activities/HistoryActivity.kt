@@ -25,6 +25,8 @@ import java.util.stream.Collectors
 
 //TODO -> Change the way to manage location in DB (lat,long -> location) + add heartBeat in DB
 
+val test = "salut"
+
 class HistoryActivity : AppCompatActivity() {
 
     private lateinit var myClientRestAPI : ClientRestAPI
@@ -328,7 +330,7 @@ class HistoryActivity : AppCompatActivity() {
 
         // Meteo values
         if (data[position].location.equals("") || data[position].location.equals("None"))
-            locationTextView.text = "Unknown";
+            locationTextView.text = getString(R.string.Unknown);
         else
                 locationTextView.text = data[position].location
 

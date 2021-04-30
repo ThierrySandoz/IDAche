@@ -9,11 +9,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/avenir_next_lt_pro_bold"
         android:padding="15dp"
-        android:textSize="20sp"
-        android:text="Select the amount of coffee consumed today"
-        android:fontFamily="@font/avenir_next_lt_pro_bold">
-    </TextView>
+        android:text="@string/select_the_amount_of_coffee_consumed_today"
+        android:textSize="20sp"></TextView>
 
     <TextView
         android:id="@+id/headache_coffee_description_textView"
@@ -25,7 +24,7 @@
         android:textSize="26sp"
         android:textColor="@color/colorGreenMedium"
         android:fontFamily="@font/avenir_next_lt_pro_bold"
-        android:text="Few : 1 expresso">
+        android:text="@string/few_1_expresso">
     </TextView>
 
     <ImageView
