@@ -111,6 +111,7 @@ abstract class RequestInBackGround : AsyncTask<String?, Void?, Any?> {
                 if (br!!.readLine().also { line = it } == null) break
             } catch (e: IOException) {
                 e.printStackTrace()
+                return null;
             }
             sb.append(
                 """
