@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <fragment
-        android:id="@+id/fragment_headache_select_symptom"
-        android:name="com.example.iuam_idache.fragments.SelectSymptomsFragment"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_headache_coffee"
+        android:name="com.example.iuam_idache.fragments.CoffeeFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </fragment>
+    </androidx.fragment.app.FragmentContainerView>
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_headache_numberpicker"
         android:name="com.example.iuam_idache.fragments.NumberPickerFragment"
-        android:layout_marginVertical="40dp"
-        android:layout_marginHorizontal="20dp"
+        android:layout_margin="20dp"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </fragment>
+    </androidx.fragment.app.FragmentContainerView>
 
 
-</LinearLayout>
+</RelativeLayout>

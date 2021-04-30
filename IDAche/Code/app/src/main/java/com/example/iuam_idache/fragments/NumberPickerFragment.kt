@@ -9,11 +9,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.iuam_idache.R
+import com.example.iuam_idache.activities.HeadacheActivity
 import com.example.iuam_idache.adapters.PickerAdapter
 import com.example.iuam_idache.classes.PickerLayoutManager
 import com.example.iuam_idache.classes.ScreenUtils
 
 class NumberPickerFragment : Fragment() {
+
+    //------------ Activities
+    //private lateinit var headacheActivity: HeadacheActivity
 
     private val data = (1..9).toList().map { it.toString() } as ArrayList<String>
     private lateinit var rvHorizontalPicker: RecyclerView
@@ -25,6 +29,9 @@ class NumberPickerFragment : Fragment() {
 
         // Inflate the view
         val view = inflater.inflate(R.layout.fragment_headache_numberpicker, container, false)
+
+        // Get the mainActivity
+        //headacheActivity = activity as HeadacheActivity
 
         // Get the recyclerView
         rvHorizontalPicker = view.findViewById(R.id.rv_horizontal_picker)
@@ -38,6 +45,9 @@ class NumberPickerFragment : Fragment() {
         rvHorizontalPicker.layoutManager = PickerLayoutManager(context).apply {
             callback = object : PickerLayoutManager.OnItemSelectedListener {
                 override fun onItemSelected(layoutPosition: Int) {
+
+                    //headacheActivity.fragmentCoffee(layoutPosition)
+
                     sliderAdapter.setSelectedItem(layoutPosition)
                     Log.d("selected text", data[layoutPosition])
                     Toast.makeText(context, data[layoutPosition], Toast.LENGTH_SHORT).show()
