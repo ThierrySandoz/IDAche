@@ -40,6 +40,12 @@ public class Polar0H1 {
     Disposable ppiDisposable;
 
     String DEVICE_ID = "7D41F628";
+    public boolean BLEPowered = false;
+    public boolean connected = false;
+
+    public Boolean ACCisStreamed(){
+        return accDisposable == null ? false : true;
+    }
 
 
     public Polar0H1(CallbackPolar myPolarCB, String device_id, Context this_con) {
@@ -61,12 +67,14 @@ public class Polar0H1 {
             @Override
             public void blePowerStateChanged(boolean powered) {
                 Log.d(TAG, "BLE power: " + powered);
+                BLEPowered = powered;
             }
 
             @Override
             public void deviceConnected(@NonNull PolarDeviceInfo polarDeviceInfo) {
                 Log.d(TAG, "CONNECTED: " + polarDeviceInfo.deviceId);
                 DEVICE_ID = polarDeviceInfo.deviceId;
+                connected = true;
             }
 
             @Override
@@ -78,6 +86,7 @@ public class Polar0H1 {
             @Override
             public void deviceDisconnected(@NonNull PolarDeviceInfo polarDeviceInfo) {
                 Log.d(TAG, "DISCONNECTED: " + polarDeviceInfo.deviceId);
+                connected = false;
                 ecgDisposable = null;
                 accDisposable = null;
                 gyrDisposable = null;

@@ -23,7 +23,7 @@ import com.example.iuam_idache.apiREST.models.EventsAche
 import com.example.iuam_idache.classes.HistoryUnit
 import java.util.stream.Collectors
 
-//TODO -> Change the way to manage location in DB (lat,long -> location) + Add windSpeed in DB + add heartBeat in DB
+//TODO -> Change the way to manage location in DB (lat,long -> location) + add heartBeat in DB
 
 class HistoryActivity : AppCompatActivity() {
 
@@ -201,9 +201,9 @@ class HistoryActivity : AppCompatActivity() {
                                 pressure = it?.event_pressure.toString(),
                                 humidity = it?.event_humidity.toString(),
                                 temperature = it?.event_temp.toString(),
-                                meteoState = it?.event_code_weather.toString(),           // TODO, Store the meteo state string in DB (instead of weather code)
-                                location = "LOCATION",                                    // TODO, Store the location in DB (instead of lat/long)
-                                windSpeed = "---",                                        // TODO, Store the windSpeed in DB
+                                meteoState = it?.event_code_weather!!,
+                                location = it?.event_localisation ,
+                                windSpeed = it?.event_wind_speed.toString(),
                                 meteoImage = "",                                          // TODO, Change the way to manage image
                             )
                         )
@@ -327,10 +327,16 @@ class HistoryActivity : AppCompatActivity() {
         hearthBeatMaxTextView.text = data[position].hearthBeatMax
 
         // Meteo values
+        if (data[position].location.equals("") || data[position].location.equals("None"))
+            locationTextView.text = "Unknown";
+        else
+                locationTextView.text = data[position].location
+
         pressureTextView.text = data[position].pressure
         humidityTextView.text = data[position].humidity
         temperatureTextView.text = data[position].temperature
         meteoStateTextView.text = data[position].meteoState
+        windSpeedTextView.text = data[position].windSpeed
 
         // Hours values
         hourTextView.text = data[position].hour
