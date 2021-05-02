@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -14,10 +15,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.lifecycleScope
 import com.example.iuam_idache.R
 import com.example.iuam_idache.classes.CallbackPolar
 import com.example.iuam_idache.classes.Polar0H1
+import com.example.iuam_idache.classes.WeatherIcons
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -25,10 +26,7 @@ import com.kwabenaberko.openweathermaplib.constant.Units
 import com.kwabenaberko.openweathermaplib.implementation.OpenWeatherMapHelper
 import com.kwabenaberko.openweathermaplib.implementation.callback.CurrentWeatherCallback
 import com.kwabenaberko.openweathermaplib.model.currentweather.CurrentWeather
-import com.squareup.picasso.Picasso
-import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.concurrent.schedule
 
 // TODO handle connexion with Polar
 var firstLauchBLE = true;
@@ -76,6 +74,76 @@ class MainActivity : AppCompatActivity() {
     //-------------- Animation
     private var isAnimationStarted = false
 
+    //-------------- List of meteoIcons
+    private val weatherIconsList : ArrayList<WeatherIcons> = arrayListOf(
+        WeatherIcons(200, R.drawable.ic_weather_icon_thunder, "thunderstorm with light rain"),
+        WeatherIcons(201, R.drawable.ic_weather_icon_thunder, "thunderstorm with rain"),
+        WeatherIcons(202, R.drawable.ic_weather_icon_thunder, "thunderstorm with heavy rain"),
+        WeatherIcons(210, R.drawable.ic_weather_icon_thunder, "light thunderstorm"),
+        WeatherIcons(211, R.drawable.ic_weather_icon_thunder, "thunderstorm"),
+        WeatherIcons(212, R.drawable.ic_weather_icon_thunder, "heavy thunderstorm"),
+        WeatherIcons(221, R.drawable.ic_weather_icon_thunder, "ragged thunderstorm"),
+        WeatherIcons(230, R.drawable.ic_weather_icon_thunder, "thunderstorm with light drizzle"),
+        WeatherIcons(231, R.drawable.ic_weather_icon_thunder, "thunderstorm with drizzle"),
+        WeatherIcons(232, R.drawable.ic_weather_icon_thunder, "thunderstorm with heavy drizzle"),
+
+        WeatherIcons(300, R.drawable.ic_weather_icon_rainy_4, "light intensity drizzle"),
+        WeatherIcons(301, R.drawable.ic_weather_icon_rainy_4, "drizzle"),
+        WeatherIcons(302, R.drawable.ic_weather_icon_rainy_4, "heavy intensity drizzle"),
+        WeatherIcons(310, R.drawable.ic_weather_icon_rainy_5, "light intensity drizzle rain"),
+        WeatherIcons(311, R.drawable.ic_weather_icon_rainy_5, "drizzle rain"),
+        WeatherIcons(312, R.drawable.ic_weather_icon_rainy_5, "heavy intensity drizzle rain"),
+        WeatherIcons(313, R.drawable.ic_weather_icon_rainy_6, "shower rain and drizzle"),
+        WeatherIcons(314, R.drawable.ic_weather_icon_rainy_6, "heavy shower rain and drizzle"),
+        WeatherIcons(321, R.drawable.ic_weather_icon_rainy_6, "shower drizzle"),
+
+        WeatherIcons(500, R.drawable.ic_weather_icon_rainy_2, "light rain"),
+        WeatherIcons(501, R.drawable.ic_weather_icon_rainy_2, "moderate rain"),
+        WeatherIcons(502, R.drawable.ic_weather_icon_rainy_2, "heavy intensity rain"),
+        WeatherIcons(503, R.drawable.ic_weather_icon_rainy_3, "very heavy rain"),
+        WeatherIcons(504, R.drawable.ic_weather_icon_rainy_3, "extreme rain"),
+        WeatherIcons(511, R.drawable.ic_weather_icon_rainy_7, "freezing rain"),
+        WeatherIcons(520, R.drawable.ic_weather_icon_rainy_4, "light intensity shower rain"),
+        WeatherIcons(521, R.drawable.ic_weather_icon_rainy_5, "shower rain"),
+        WeatherIcons(522, R.drawable.ic_weather_icon_rainy_5, "heavy intensity shower rain"),
+        WeatherIcons(531, R.drawable.ic_weather_icon_rainy_6, "ragged shower rain"),
+
+        WeatherIcons(600, R.drawable.ic_weather_icon_snowy_4, "light snow"),
+        WeatherIcons(601, R.drawable.ic_weather_icon_snowy_5, "Snow"),
+        WeatherIcons(602, R.drawable.ic_weather_icon_snowy_6, "Heavy snow"),
+        WeatherIcons(611, R.drawable.ic_weather_icon_snowy_2, "Sleet"),
+        WeatherIcons(612, R.drawable.ic_weather_icon_snowy_2, "Light shower sleet"),
+        WeatherIcons(613, R.drawable.ic_weather_icon_snowy_3, "Shower sleet"),
+        WeatherIcons(615, R.drawable.ic_weather_icon_snowy_4, "Light rain and snow"),
+        WeatherIcons(616, R.drawable.ic_weather_icon_snowy_5, "Rain and snow"),
+        WeatherIcons(620, R.drawable.ic_weather_icon_snowy_4, "Light shower snow"),
+        WeatherIcons(621, R.drawable.ic_weather_icon_snowy_5, "Shower snow"),
+        WeatherIcons(622, R.drawable.ic_weather_icon_snowy_6, "Heavy shower snow"),
+
+        WeatherIcons(701, R.drawable.ic_weather_icon_mist, "mist"),
+        WeatherIcons(711, R.drawable.ic_weather_icon_mist, "Smoke"),
+        WeatherIcons(721, R.drawable.ic_weather_icon_mist, "Haze"),
+        WeatherIcons(731, R.drawable.ic_weather_icon_mist, "sand/ dust whirls"),
+        WeatherIcons(741, R.drawable.ic_weather_icon_mist, "fog"),
+        WeatherIcons(751, R.drawable.ic_weather_icon_mist, "sand"),
+        WeatherIcons(761, R.drawable.ic_weather_icon_mist, "dust"),
+        WeatherIcons(762, R.drawable.ic_weather_icon_mist, "volcanic ash"),
+        WeatherIcons(771, R.drawable.ic_weather_icon_mist, "squalls"),
+        WeatherIcons(781, R.drawable.ic_weather_icon_mist, "tornado"),
+
+        WeatherIcons(800, R.drawable.ic_weather_icon_day, "clear sky"),
+        WeatherIcons(801, R.drawable.ic_weather_icon_cloudy_day_1, "few clouds (11-25%)"),
+        WeatherIcons(802, R.drawable.ic_weather_icon_cloudy_day_2, "scattered clouds (25-50%)"),
+        WeatherIcons(803, R.drawable.ic_weather_icon_cloudy_day_3, "broken clouds (51-84%)"),
+        WeatherIcons(804, R.drawable.ic_weather_icon_cloudy, "overcast clouds (85-100%)"),
+
+        WeatherIcons(900, R.drawable.ic_weather_icon_night, "clear sky"),
+        WeatherIcons(901, R.drawable.ic_weather_icon_cloudy_night_1, "few clouds (11-25%)"),
+        WeatherIcons(902, R.drawable.ic_weather_icon_cloudy_night_2, "scattered clouds (25-50%)"),
+        WeatherIcons(903, R.drawable.ic_weather_icon_cloudy_night_3, "broken clouds (51-84%)"),
+        WeatherIcons(904, R.drawable.ic_weather_icon_cloudy, "overcast clouds (85-100%)"),
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -84,8 +152,24 @@ class MainActivity : AppCompatActivity() {
         // Location text view
         locationTextView = findViewById(R.id.activity_main_meteo_textView_location)
 
+        // Scroll the text if too long
+        locationTextView.postDelayed(Runnable {
+            locationTextView.maxLines = 1
+            locationTextView.ellipsize = TextUtils.TruncateAt.MARQUEE
+            locationTextView.marqueeRepeatLimit = 10000
+            locationTextView.isSelected = true
+        }, 5000)
+
         // Meteo State text view
         meteoStateTextView = findViewById(R.id.activity_main_meteo_textView_meteoState)
+
+        // Scroll the text if too long
+        meteoStateTextView.postDelayed(Runnable {
+            meteoStateTextView.maxLines = 1
+            meteoStateTextView.ellipsize = TextUtils.TruncateAt.MARQUEE
+            meteoStateTextView.marqueeRepeatLimit = 10000
+            meteoStateTextView.isSelected = true
+        }, 5000)
 
         // Temperature text view
         temperatureTextView = findViewById(R.id.activity_main_meteo_textView_temperature)
@@ -169,7 +253,7 @@ class MainActivity : AppCompatActivity() {
 
                 // add measure at list (if not 0)
                 if (hr != 0){
-                    HR_saved.add(0,hr)
+                    HR_saved.add(0, hr)
                     if (HR_saved.size > N_LAST_MEASURE_HR)
                         HR_saved.removeAt(N_LAST_MEASURE_HR)
                 }
@@ -187,9 +271,9 @@ class MainActivity : AppCompatActivity() {
                 Log.v("TAG", "GET HR : $hr[bpm] \n");
 
                 if ( pola0H1.ACCisStreamed() ) {
-                    Log.d("DBG","ACCisStreamed = true");
+                    Log.d("DBG", "ACCisStreamed = true");
                 } else {
-                    Log.d("DBG","ACCisStreamed = false");
+                    Log.d("DBG", "ACCisStreamed = false");
                     // TODO acc not always OK..
                     pola0H1.getStreamACC();
                 }
@@ -286,45 +370,56 @@ class MainActivity : AppCompatActivity() {
                 val helper = OpenWeatherMapHelper(getString(R.string.OPEN_WEATHER_MAP_API_KEY))
                 helper.setUnits(Units.METRIC)
 
-                helper.getCurrentWeatherByCityName("Yverdon-les-Bains", object : CurrentWeatherCallback {
-                    override fun onSuccess(currentWeather: CurrentWeather) {
-                        actualWeather = currentWeather
-                        // https://openweathermap.org/current#current_JSON
-                        // get icon : http://openweathermap.org/img/wn/<IconNumber>@2x.png :
-                        //          Ex : http://openweathermap.org/img/wn/04d@2x.png
+                helper.getCurrentWeatherByCityName(
+                    "Yverdon-les-Bains",
+                    object : CurrentWeatherCallback {
+                        override fun onSuccess(currentWeather: CurrentWeather) {
+                            // Get current weather
+                            actualWeather = currentWeather
 
-                        // Display infos to screen
-                        locationTextView.text = actualWeather.name.toString()
-                        meteoStateTextView.text = actualWeather.weather[0].main.toString()
-                        temperatureTextView.text = actualWeather.main.temp.toInt().toString()
-                        humidityTextView.text = actualWeather.main.humidity.toString()
-                        pressureTextView.text = actualWeather.main.pressure.toInt().toString()
-                        windSpeedTextView.text = actualWeather.wind.speed.toInt().toString()
+                            val weatherId = weatherIconsList.findLast { weatherIcons ->
+                                // Check if night and ID > 800
+                                if (actualWeather.weather[0].icon.toString().contains(
+                                        "n",
+                                        ignoreCase = true
+                                    ) && (actualWeather.weather[0].id.toInt() >= 800)
+                                ) {
+                                    // If night and ID > 800 -> Add 100 to the ID
+                                    weatherIcons.iconOpenWeatherID == actualWeather.weather[0].id.toInt() + 100
+                                } else {
+                                    weatherIcons.iconOpenWeatherID == actualWeather.weather[0].id.toInt()
+                                }
+                            }
 
-                        // Change the meteo image view
-                        val iconNumber = actualWeather.weather[0].icon.toString()
-                        val imageURL = "https://openweathermap.org/img/wn/$iconNumber@2x.png"
+                            if (weatherId != null) {
+                                meteoStateTextView.text = weatherId.description
+                                meteoStateImageView.setImageResource(weatherId.iconDrawableID)
+                            } else {
+                                meteoStateTextView.text = "Unknown"
+                                meteoStateImageView.setImageResource(R.drawable.ic_weather_icon_cloudy)
+                            }
 
-                        Picasso.get()
-                            .load(imageURL)
-                            .centerCrop()
-                            .resize(meteoStateImageView.measuredWidth, meteoStateImageView.measuredHeight)
-                            .into(meteoStateImageView);
+                            // Display infos to screen
+                            locationTextView.text = actualWeather.name.toString()
+                            temperatureTextView.text = actualWeather.main.temp.toInt().toString()
+                            humidityTextView.text = actualWeather.main.humidity.toString()
+                            pressureTextView.text = actualWeather.main.pressure.toInt().toString()
+                            windSpeedTextView.text = actualWeather.wind.speed.toInt().toString()
 
-                        /** TEST PRINT MAX INFO **/
-                        Log.v(
-                            "TAG_WEATHER",
-                            """
+                            /** TEST PRINT MAX INFO **/
+                            Log.v(
+                                "TAG_WEATHER",
+                                """
         Coordinates: ${actualWeather.coord.lat}, ${actualWeather.coord.lon}
         Weather Description: ${actualWeather.weather[0].description}
         Temp. Max: ${actualWeather.main.tempMax}
         Wind Speed: ${actualWeather.wind.speed}
         City, Country: ${actualWeather.name}, ${actualWeather.sys.country}
         """.trimIndent()
-                        )
+                            )
 
-                        Log.v(
-                            "TAG_WEATHER", """
+                            Log.v(
+                                "TAG_WEATHER", """
      getClouds: ${actualWeather.clouds.all}
      getHumidity: ${actualWeather.main.humidity}
      getPressure: ${actualWeather.main.pressure}
@@ -339,13 +434,13 @@ class MainActivity : AppCompatActivity() {
      getMain: ${actualWeather.weather[0].main}
      
      """.trimIndent()
-                        )
-                    }
+                            )
+                        }
 
-                    override fun onFailure(throwable: Throwable) {
-                        Log.v("TAG_WEATHER", throwable.message!!)
-                    }
-                })
+                        override fun onFailure(throwable: Throwable) {
+                            Log.v("TAG_WEATHER", throwable.message!!)
+                        }
+                    })
             }
         }
     }
@@ -385,66 +480,97 @@ class MainActivity : AppCompatActivity() {
                     val latitude = it.latitude
                     val longitude = it.longitude
 
-                    helper.getCurrentWeatherByGeoCoordinates(latitude, longitude, object : CurrentWeatherCallback {
-                        override fun onSuccess(currentWeather: CurrentWeather) {
-                            // Get current weather
-                            actualWeather = currentWeather
+                    helper.getCurrentWeatherByGeoCoordinates(
+                        latitude,
+                        longitude,
+                        object : CurrentWeatherCallback {
+                            override fun onSuccess(currentWeather: CurrentWeather) {
+                                // Get current weather
+                                actualWeather = currentWeather
 
-                            // Display infos to screen
-                            locationTextView.text = actualWeather.name.toString()
-                            meteoStateTextView.text = actualWeather.weather[0].main.toString()
-                            temperatureTextView.text = actualWeather.main.temp.toInt().toString()
-                            humidityTextView.text = actualWeather.main.humidity.toString()
-                            pressureTextView.text = actualWeather.main.pressure.toInt().toString()
-                            windSpeedTextView.text = actualWeather.wind.speed.toInt().toString()
+                                val weatherId = weatherIconsList.findLast { weatherIcons ->
+                                    // Check if night and ID > 800
+                                    if (actualWeather.weather[0].icon.toString().contains(
+                                            "n",
+                                            ignoreCase = true
+                                        ) && (actualWeather.weather[0].id.toInt() >= 800)
+                                    ) {
+                                        // If night and ID > 800 -> Add 100 to the ID
+                                        weatherIcons.iconOpenWeatherID == actualWeather.weather[0].id.toInt() + 100
+                                    } else {
+                                        weatherIcons.iconOpenWeatherID == actualWeather.weather[0].id.toInt()
+                                    }
+                                }
 
-                            // Change the meteo image view
-                            val iconNumber = actualWeather.weather[0].icon.toString()
-                            val imageURL = "https://openweathermap.org/img/wn/$iconNumber@2x.png"
+                                if (weatherId != null) {
+                                    meteoStateTextView.text = weatherId.description
+                                    meteoStateImageView.setImageResource(weatherId.iconDrawableID)
+                                } else {
+                                    meteoStateTextView.text = "Unknown"
+                                    meteoStateImageView.setImageResource(R.drawable.ic_weather_icon_cloudy)
+                                }
 
-                            Picasso.get()
-                                .load(imageURL)
-                                .centerCrop()
-                                .resize(meteoStateImageView.measuredWidth, meteoStateImageView.measuredHeight)
-                                .into(meteoStateImageView);
-                        }
+                                // Display infos to screen
+                                locationTextView.text = actualWeather.name.toString()
+                                temperatureTextView.text =
+                                    actualWeather.main.temp.toInt().toString()
+                                humidityTextView.text = actualWeather.main.humidity.toString()
+                                pressureTextView.text =
+                                    actualWeather.main.pressure.toInt().toString()
+                                windSpeedTextView.text = actualWeather.wind.speed.toInt().toString()
+                            }
 
-                        override fun onFailure(throwable: Throwable) {
-                            Log.v("TAG_WEATHER", throwable.message!!)
-                        }
-                    })
+                            override fun onFailure(throwable: Throwable) {
+                                Log.v("TAG_WEATHER", throwable.message!!)
+                            }
+                        })
                 }
                 else {
                     Toast.makeText(this, "The location could not be obtained...", Toast.LENGTH_LONG).show()
 
-                    helper.getCurrentWeatherByCityName("Yverdon-les-Bains", object : CurrentWeatherCallback {
-                        override fun onSuccess(currentWeather: CurrentWeather) {
-                            // Get current weather
-                            actualWeather = currentWeather
+                    helper.getCurrentWeatherByCityName(
+                        "Yverdon-les-Bains",
+                        object : CurrentWeatherCallback {
+                            override fun onSuccess(currentWeather: CurrentWeather) {
+                                // Get current weather
+                                actualWeather = currentWeather
 
-                            // Display infos to screen
-                            locationTextView.text = actualWeather.name.toString()
-                            meteoStateTextView.text = actualWeather.weather[0].main.toString()
-                            temperatureTextView.text = actualWeather.main.temp.toInt().toString()
-                            humidityTextView.text = actualWeather.main.humidity.toString()
-                            pressureTextView.text = actualWeather.main.pressure.toInt().toString()
-                            windSpeedTextView.text = actualWeather.wind.speed.toInt().toString()
+                                val weatherId = weatherIconsList.findLast { weatherIcons ->
+                                    // Check if night and ID > 800
+                                    if (actualWeather.weather[0].icon.toString().contains(
+                                            "n",
+                                            ignoreCase = true
+                                        ) && (actualWeather.weather[0].id.toInt() >= 800)
+                                    ) {
+                                        // If night and ID > 800 -> Add 100 to the ID
+                                        weatherIcons.iconOpenWeatherID == actualWeather.weather[0].id.toInt() + 100
+                                    } else {
+                                        weatherIcons.iconOpenWeatherID == actualWeather.weather[0].id.toInt()
+                                    }
+                                }
 
-                            // Change the meteo image view
-                            val iconNumber = actualWeather.weather[0].icon.toString()
-                            val imageURL = "https://openweathermap.org/img/wn/$iconNumber@2x.png"
+                                if (weatherId != null) {
+                                    meteoStateTextView.text = weatherId.description
+                                    meteoStateImageView.setImageResource(weatherId.iconDrawableID)
+                                } else {
+                                    meteoStateTextView.text = "Unknown"
+                                    meteoStateImageView.setImageResource(R.drawable.ic_weather_icon_cloudy)
+                                }
 
-                            Picasso.get()
-                                .load(imageURL)
-                                .centerCrop()
-                                .resize(meteoStateImageView.measuredWidth, meteoStateImageView.measuredHeight)
-                                .into(meteoStateImageView);
-                        }
+                                // Display infos to screen
+                                locationTextView.text = actualWeather.name.toString()
+                                temperatureTextView.text =
+                                    actualWeather.main.temp.toInt().toString()
+                                humidityTextView.text = actualWeather.main.humidity.toString()
+                                pressureTextView.text =
+                                    actualWeather.main.pressure.toInt().toString()
+                                windSpeedTextView.text = actualWeather.wind.speed.toInt().toString()
+                            }
 
-                        override fun onFailure(throwable: Throwable) {
-                            Log.v("TAG_WEATHER", throwable.message!!)
-                        }
-                    })
+                            override fun onFailure(throwable: Throwable) {
+                                Log.v("TAG_WEATHER", throwable.message!!)
+                            }
+                        })
                 }
             }
         }

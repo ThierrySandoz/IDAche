@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
@@ -95,8 +96,24 @@ class HistoryActivity : AppCompatActivity() {
         // Location text view
         locationTextView = findViewById(R.id.activity_main_meteo_textView_location)
 
+        // Scroll the text if too long
+        locationTextView.postDelayed(Runnable {
+            locationTextView.maxLines = 1
+            locationTextView.ellipsize = TextUtils.TruncateAt.MARQUEE
+            locationTextView.marqueeRepeatLimit = 10000
+            locationTextView.isSelected = true
+        }, 5000)
+
         // Meteo State text view
         meteoStateTextView = findViewById(R.id.activity_main_meteo_textView_meteoState)
+
+        // Scroll the text if to long
+        meteoStateTextView.postDelayed(Runnable {
+            meteoStateTextView.maxLines = 1
+            meteoStateTextView.ellipsize = TextUtils.TruncateAt.MARQUEE
+            meteoStateTextView.marqueeRepeatLimit = 10000
+            meteoStateTextView.isSelected = true
+        }, 5000)
 
         // Temperature text view
         temperatureTextView = findViewById(R.id.activity_main_meteo_textView_temperature)

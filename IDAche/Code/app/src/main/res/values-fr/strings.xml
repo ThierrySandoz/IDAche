@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="activity_time">temps d\'activité :</string>
-    <string name="steps">nombre de pas :</string>
-    <string name="minimum">minimum :</string>
-    <string name="average">moyenne :</string>
+    <string name="activity_time">"temps d'activité : "</string>
+    <string name="steps">"nombre de pas : "</string>
+    <string name="minimum">"minimum : "</string>
+    <string name="average">"moyenne : "</string>
     <string name="location">LOCALITE</string>
-    <string name="humidity">humidité :</string>
-    <string name="pressure">pression :</string>
-    <string name="wind_speed">vitesse du vent :</string>
-    <string name="sleep">sommeil :</string>
-    <string name="deep_sleep">sommeil profond :</string>
+    <string name="humidity">"humidité : "</string>
+    <string name="pressure">"pression : "</string>
+    <string name="wind_speed">"vitesse du vent : "</string>
+    <string name="sleep">"sommeil : "</string>
+    <string name="deep_sleep">"sommeil profond : "</string>
     <string name="select_the_amount_of_coffee_consumed_today">Selectionnez la valeur de café consommée</string>
     <string name="few_1_expresso">Peu : 1 expresso</string>
     <string name="history">HISTORIQUE</string>

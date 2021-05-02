@@ -3,7 +3,6 @@ package com.example.iuam_idache.activities
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
@@ -11,8 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.iuam_idache.R
-import com.example.iuam_idache.apiREST.classes.ClientRestAPI
-import com.example.iuam_idache.apiREST.interfaces.getLongCallback
 import com.example.iuam_idache.apiREST.models.EventsAche
 import com.example.iuam_idache.fragments.CoffeeFragment
 import com.example.iuam_idache.fragments.NumberPickerFragment
@@ -27,12 +24,6 @@ class HeadacheActivity : AppCompatActivity() {
     //-------------- TextViews
     private lateinit var pageTitle : TextView
 
-    //-------------- Fragment manager
-    private lateinit var fragmentManager: FragmentManager
-    private lateinit var fragmentTransaction: FragmentTransaction
-    private lateinit var fragmentCoffee: CoffeeFragment
-    private lateinit var fragmentNumberPicker: NumberPickerFragment
-
     //-------------- Variables
     private var actualPage : Int = 1
     private val lastPage : Int = 4
@@ -41,9 +32,6 @@ class HeadacheActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_headache)
-
-        //--------------------------- Fragment manager ---------------------------
-
 
         //------------------------------ TextViews -------------------------------
         //------ Page title
