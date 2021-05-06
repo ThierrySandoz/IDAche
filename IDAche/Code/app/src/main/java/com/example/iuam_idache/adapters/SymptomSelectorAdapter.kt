@@ -40,7 +40,7 @@ class SymptomSelectorAdapter(
         // Set description
         holder.textViewSelectorDescription.text = selector.description
 
-        // Set image TODO -> change with image pressed
+        // Set image
         if(selector.selected) {
             holder.imageViewSelectorImage.borderWidth = 300f
             holder.imageViewSelectorImage.foreground = ContextCompat.getDrawable(context!!, selector.imagePressedID)

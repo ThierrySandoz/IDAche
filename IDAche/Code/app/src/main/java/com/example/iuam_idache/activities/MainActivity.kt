@@ -343,7 +343,7 @@ class MainActivity : AppCompatActivity() {
         // Headache floating button
         headacheButton = findViewById(R.id.main_floatingButton_headache)
         headacheButton.setOnClickListener {
-            val intent = Intent(this, HeadacheActivity::class.java)
+            val intent = Intent(this, SelectSymptomActivity::class.java)
             startActivity(intent)
         }
     }

@@ -14,10 +14,8 @@
     <string name="few_1_expresso">Peu : 1 expresso</string>
     <string name="history">HISTORIQUE</string>
     <string name="description">description</string>
-    <string name="app_name">IUAM_IDache</string>
     <string name="action_settings">Options</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="idache">IDAche</string>
     <string name="next">Suivant</string>
     <string name="headachelogo">HeadacheLogo</string>
     <string name="birthdate">ANNIVERSAIRE</string>

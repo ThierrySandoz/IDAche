@@ -4,19 +4,19 @@
     android:layout_height="500dp"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:id="@+id/fragment_headache_coffee"
-    tools:context=".fragments.CoffeeFragment">
+    android:id="@+id/fragment_headache_painLevel"
+    tools:context=".fragments.PainLevelFragment">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/avenir_next_lt_pro_bold"
         android:padding="15dp"
-        android:text="@string/select_the_amount_of_coffee_consumed_today"
+        android:text="@string/indicate_according_to_you_on_a_scale_from_1_to_9_what_is_the_level_of_pain_of_your_headache"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/headache_coffee_description_textView"
+        android:id="@+id/headache_painLevel_description_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -25,16 +25,15 @@
         android:textSize="26sp"
         android:textColor="@color/colorGreenMedium"
         android:fontFamily="@font/avenir_next_lt_pro_bold"
-        android:text="@string/few_1_expresso">
+        android:text="@string/slight_headache">
     </TextView>
 
     <ImageView
-        android:id="@+id/headache_coffee_imageView"
+        android:id="@+id/headache_painLevel_imageView"
         android:padding="20dp"
-        android:layout_marginStart="30dp"
         android:layout_width="wrap_content"
         android:layout_height="250dp"
-        android:src="@drawable/ic_coffee_animation_5">
+        android:src="@drawable/ic_headache">
 
     </ImageView>
 

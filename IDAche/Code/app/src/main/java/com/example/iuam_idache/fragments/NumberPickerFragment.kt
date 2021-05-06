@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.iuam_idache.R
 import com.example.iuam_idache.activities.HeadacheActivity
 import com.example.iuam_idache.adapters.PickerAdapter
+import com.example.iuam_idache.classes.HeadachePages
 import com.example.iuam_idache.classes.NumberPickerSharedViewModel
 import com.example.iuam_idache.classes.PickerLayoutManager
 import com.example.iuam_idache.classes.ScreenUtils
@@ -34,9 +35,6 @@ class NumberPickerFragment : Fragment() {
 
         // Inflate the view
         val view = inflater.inflate(R.layout.fragment_headache_numberpicker, container, false)
-
-        // Get the mainActivity
-        //headacheActivity = activity as HeadacheActivity
 
         // Get the shared view model
         model = ViewModelProviders.of(requireActivity()).get(NumberPickerSharedViewModel::class.java)
@@ -63,11 +61,31 @@ class NumberPickerFragment : Fragment() {
                     //set the message to share to another fragment
                     model.onItemSelected(layoutPosition+1)
 
-                    val fragment = CoffeeFragment()
-                    val fragmentTransaction = fragmentManager!!.beginTransaction()
-                    fragmentTransaction.replace(R.id.fragment_headache_coffee, fragment)
-                    fragmentTransaction.addToBackStack(null)
-                    fragmentTransaction.commit()
+                    // Get the actual page to inflate the right layout
+                    when(model.actualPage) {
+                        HeadachePages.PAIN_LEVEL -> {
+                            val fragment = PainLevelFragment()
+                            val fragmentTransaction = parentFragmentManager.beginTransaction()
+                            fragmentTransaction.replace(R.id.fragment_headache_painLevel, fragment)
+                            fragmentTransaction.addToBackStack(null)
+                            fragmentTransaction.commit()
+                        }
+                        HeadachePages.COFFEE -> {
+                            //val fragment = CoffeeFragment()
+                            //val fragmentTransaction = parentFragmentManager.beginTransaction()
+                            //fragmentTransaction.replace(R.id.fragment_headache_coffee, fragment)
+                            //fragmentTransaction.addToBackStack(null)
+                            //fragmentTransaction.commit()
+                        }
+                        HeadachePages.HEADACHE_AREA -> TODO()
+                        HeadachePages.CIGARETTE -> TODO()
+                        HeadachePages.ALCOHOL -> TODO()
+                        HeadachePages.DIZZINESS -> TODO()
+                        HeadachePages.TEMPERATURE -> TODO()
+                        HeadachePages.TOOTHACHE -> TODO()
+                    }
+
+
                 }
             }
         }

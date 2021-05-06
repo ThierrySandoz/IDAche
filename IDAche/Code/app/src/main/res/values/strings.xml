@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">IUAM_IDache</string>
+    <string name="app_name" translatable="false">IDAche</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="idache">IDAche</string>
+    <string name="idache" translatable="false">IDAche</string>
     <string name="next">Next</string>
     <string name="headachelogo">HeadacheLogo</string>
     <string name="birthdate">BIRTHDATE</string>
@@ -42,4 +42,6 @@
     <string name="Unknown">Unknown</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
+    <string name="indicate_according_to_you_on_a_scale_from_1_to_9_what_is_the_level_of_pain_of_your_headache">Indicate according to you on a scale from 1 to 9, what is the level of pain of your headache</string>
+    <string name="slight_headache">slight headache</string>
 </resources>

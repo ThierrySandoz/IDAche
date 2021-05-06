@@ -1,18 +1,23 @@
 package com.example.iuam_idache.activities
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.example.iuam_idache.R
 import com.example.iuam_idache.apiREST.models.EventsAche
-import com.example.iuam_idache.fragments.CoffeeFragment
-import com.example.iuam_idache.fragments.NumberPickerFragment
+import com.example.iuam_idache.classes.HeadachePages
+import com.example.iuam_idache.classes.NumberPickerSharedViewModel
+import com.example.iuam_idache.fragments.PainLevelFragment
+import java.util.*
+
 
 class HeadacheActivity : AppCompatActivity() {
     //-------------- Buttons
@@ -26,12 +31,54 @@ class HeadacheActivity : AppCompatActivity() {
 
     //-------------- Variables
     private var actualPage : Int = 1
-    private val lastPage : Int = 4
+    private var lastPage : Int = 1
+    private var actualPageType : HeadachePages = HeadachePages.PAIN_LEVEL
+
+    //-------------- SharedPreferences
+    private lateinit var sharedPreferences : SharedPreferences
+    private lateinit var lastSelectedPages : String
+    private val headachePagesKey : String = "headache_pages"
+    private lateinit var stringTokenizer: StringTokenizer
+    private lateinit var symptomList: MutableList<HeadachePages>
+
+    //-------------- Shared View model
+    private lateinit var model : NumberPickerSharedViewModel
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_headache)
+
+        //-------------------------- SharedPreferences ---------------------------
+        sharedPreferences = getSharedPreferences(headachePagesKey, Context.MODE_PRIVATE)
+
+        // Get back the last selected values
+        lastSelectedPages = sharedPreferences.getString("headachePages", "").toString()
+        stringTokenizer = StringTokenizer(lastSelectedPages, ",")
+
+        symptomList = mutableListOf()
+
+        // Add default pages
+        symptomList.add(HeadachePages.PAIN_LEVEL)
+
+        val nbTokens = stringTokenizer.countTokens()
+        if (nbTokens != 0) {
+            for (i in 1..nbTokens) {
+                symptomList.add(HeadachePages.values()[stringTokenizer.nextToken().toInt()])
+            }
+        }
+        lastPage = symptomList.size
+
+        //----------------- Shared view model
+        model = ViewModelProviders.of(this).get(NumberPickerSharedViewModel::class.java)
+        model.actualPage = symptomList[0]
+
+        //----------------- Set the first fragment
+       //val painLevelFragment = PainLevelFragment().newInstance()
+       //val fragmentTransaction = supportFragmentManager.beginTransaction()
+       //fragmentTransaction.replace(R.id.fragment_headache_painLevel, painLevelFragment!!)
+       //fragmentTransaction.addToBackStack(null)
+       //fragmentTransaction.commit()
 
         //------------------------------ TextViews -------------------------------
         //------ Page title
@@ -74,8 +121,9 @@ class HeadacheActivity : AppCompatActivity() {
             actualPage--
 
             // If 1st page -> disable back button
-            if (actualPage == 1) {
-                backButton.visibility = View.INVISIBLE
+            if (actualPage == 0) {
+                val intent = Intent(this, SelectSymptomActivity::class.java)
+                startActivity(intent)
             }
 
             // Change the page title

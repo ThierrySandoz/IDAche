@@ -1,7 +1,7 @@
 package com.example.iuam_idache.classes
 
 enum class HeadachePages {
-    SYMPTOM,
+    PAIN_LEVEL,
     HEADACHE_AREA,
     COFFEE,
     CIGARETTE,
