@@ -5,12 +5,16 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.example.iuam_idache.R
+import com.example.iuam_idache.apiREST.classes.ClientRestAPI
+import com.example.iuam_idache.apiREST.interfaces.getLongCallback
 import com.example.iuam_idache.apiREST.models.EventsAche
 import com.example.iuam_idache.classes.HeadachePages
 import com.example.iuam_idache.classes.NumberPickerSharedViewModel
@@ -38,6 +42,10 @@ class HeadacheActivity : AppCompatActivity() {
     private val headachePagesKey : String = "headache_pages"
     private lateinit var stringTokenizer: StringTokenizer
     private lateinit var symptomList: MutableList<HeadachePages>
+    private lateinit var symptomValuesList : MutableList<Int>
+    private lateinit var sharedPreferencesID: SharedPreferences
+    private val userInfoKey : String = "user_information"
+    private var userId : Long = -1
 
     //-------------- Shared View model
     private lateinit var model : NumberPickerSharedViewModel
@@ -50,6 +58,10 @@ class HeadacheActivity : AppCompatActivity() {
         //-------------------------- SharedPreferences ---------------------------
         sharedPreferences = getSharedPreferences(headachePagesKey, Context.MODE_PRIVATE)
 
+        // Get user ID
+        sharedPreferencesID = getSharedPreferences(userInfoKey, Context.MODE_PRIVATE)
+        userId = sharedPreferencesID.getLong(ProfilActivity.userIDKey, -1)
+
         // Get back the last selected values
         lastSelectedPages = sharedPreferences.getString("headachePages", "").toString()
         stringTokenizer = StringTokenizer(lastSelectedPages, ",")
@@ -58,6 +70,7 @@ class HeadacheActivity : AppCompatActivity() {
 
         // Add default pages
         symptomList.add(HeadachePages.PAIN_LEVEL)
+        symptomList.add(HeadachePages.HEADACHE_AREA)
 
         val nbTokens = stringTokenizer.countTokens()
         if (nbTokens != 0) {
@@ -66,6 +79,12 @@ class HeadacheActivity : AppCompatActivity() {
             }
         }
         lastPage = symptomList.size
+
+        // Init all values with 0
+        symptomValuesList = mutableListOf()
+        for (i in 1..HeadachePages.values().size) {
+            symptomValuesList.add(0)
+        }
 
         //----------------- Shared view model
         model = ViewModelProviders.of(this).get(NumberPickerSharedViewModel::class.java)
@@ -84,7 +103,8 @@ class HeadacheActivity : AppCompatActivity() {
         // On button click
         closeButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+            startActivityIfNeeded(intent, 0)
         }
 
         //------ Help button
@@ -142,30 +162,57 @@ class HeadacheActivity : AppCompatActivity() {
 
                 // TODO : crete event
                 // test event without postition + weahter
-                val user_id : Long = 3;
-                val myEvent = EventsAche(user_id, 97, 126, 65, 8, 4, 1, 5, 0)
+
+                // Get values from MainActivity
+
+                val myEvent = EventsAche(
+                    user_id = userId,
+                    event_hr_ave = MainActivity.heartRateAverageValue,
+                    event_hr_max = MainActivity.heartRateMaxValue,
+                    event_hr_min = MainActivity.heartRateMinValue,
+                    event_acc_activity = MainActivity.activityTimeValue.toInt(),
+                    event_acc_sleep = MainActivity.restTimeValue.toInt(),
+                    event_localisation = MainActivity.localisationValue,
+                    event_humidity = MainActivity.humidityValue.toInt(),
+                    event_geoloc_lat = MainActivity.latitudeValue.toFloat(),
+                    event_geoloc_lon = MainActivity.longitudeValue.toFloat(),
+                    event_wind_speed = MainActivity.windSpeedValue.toInt(),
+                    event_temp = MainActivity.temperatureValue.toInt(),
+                    event_pressure = MainActivity.pressureValue.toInt(),
+                    event_code_weather = MainActivity.meteoIdValue.toString(),
+                    event_visibility = -1,
+                    event_ache_locality = symptomValuesList[HeadachePages.HEADACHE_AREA.ordinal],
+                    event_ache_power = symptomValuesList[HeadachePages.PAIN_LEVEL.ordinal],
+                    event_ache_type = symptomValuesList[HeadachePages.HEADACHE_AREA.ordinal]
+                    )
 
                 // TODO change code weather byte to string
 
                 // TODO uncomment request for add event to database
-//                val myClientRestAPI = ClientRestAPI()
-//                myClientRestAPI.addNewEvents(myEvent, object : getLongCallback {
-//                    override fun onSuccess(myID: Long) {
-//                        Log.v("TAG", "i get my id event : $myID")
-//                    }
-//
-//                    override fun onFailure() {
-//                        // TODO : add notif
-//                        Log.v("TAG", "addNewEvents -> Failed ! ")
-//                    }
-//                })
+                val myClientRestAPI = ClientRestAPI()
+                myClientRestAPI.addNewEvents(myEvent, object : getLongCallback {
+                    override fun onSuccess(myID: Long) {
+                        Log.v("TAG", "i get my id event : $myID")
+                        Toast.makeText(this@HeadacheActivity, "Success", Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun onFailure() {
+                        // TODO : add notif
+                        Log.v("TAG", "addNewEvents -> Failed ! ")
+                        Toast.makeText(this@HeadacheActivity, "Failure", Toast.LENGTH_SHORT).show()
+                    }
+                })
 
                 // Go back to main menu
                 val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
+                intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+                startActivityIfNeeded(intent, 0)
             }
             // If not last page -> Change page
             else {
+                // Get the selected value
+                symptomValuesList[symptomList[actualPage-1].ordinal] = model.selectedItem.value!!
+
                 // Incremente pageCounter
                 actualPage++
 

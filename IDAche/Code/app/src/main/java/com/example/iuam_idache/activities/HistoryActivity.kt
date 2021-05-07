@@ -26,8 +26,6 @@ import java.util.stream.Collectors
 
 //TODO -> Change the way to manage location in DB (lat,long -> location) + add heartBeat in DB
 
-val test = "salut"
-
 class HistoryActivity : AppCompatActivity() {
 
     private lateinit var myClientRestAPI : ClientRestAPI
@@ -68,7 +66,6 @@ class HistoryActivity : AppCompatActivity() {
             date = "Empty list",
             hour = "--:--:--",
             location = "LOCATION",
-            meteoState = "---",
             temperature = "- -",
             humidity = "--",
             pressure = "----",
@@ -76,7 +73,7 @@ class HistoryActivity : AppCompatActivity() {
             hearthBeat = "- - -",
             hearthBeatMin = "---",
             hearthBeatMax = "---",
-            meteoImage = "",
+            meteoID = -1,
             hearthBeatAverage = "---"
         )
     )
@@ -97,7 +94,7 @@ class HistoryActivity : AppCompatActivity() {
         locationTextView = findViewById(R.id.activity_main_meteo_textView_location)
 
         // Scroll the text if too long
-        locationTextView.postDelayed(Runnable {
+        locationTextView.postDelayed({
             locationTextView.maxLines = 1
             locationTextView.ellipsize = TextUtils.TruncateAt.MARQUEE
             locationTextView.marqueeRepeatLimit = 10000
@@ -108,7 +105,7 @@ class HistoryActivity : AppCompatActivity() {
         meteoStateTextView = findViewById(R.id.activity_main_meteo_textView_meteoState)
 
         // Scroll the text if to long
-        meteoStateTextView.postDelayed(Runnable {
+        meteoStateTextView.postDelayed({
             meteoStateTextView.maxLines = 1
             meteoStateTextView.ellipsize = TextUtils.TruncateAt.MARQUEE
             meteoStateTextView.marqueeRepeatLimit = 10000
@@ -173,15 +170,14 @@ class HistoryActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences(userInfoKey, Context.MODE_PRIVATE)
 
         // Get the user ID from shared preferences
-        val userId = 3
-        //val userId : Long = sharedPreferences.getLong(ProfilActivity.userIDKey, -1) // TODO -> Decomment to get the real ID
+        val userId : Long = sharedPreferences.getLong(ProfilActivity.userIDKey, -1) // TODO -> Decomment to get the real ID
 
         //------------------------------------- Client API -----------------------------------------
         // Get the client request API
         myClientRestAPI = ClientRestAPI()
 
         // Get data from server
-        myClientRestAPI.getMyEvents(userId, object : getMyEventsCallback {
+        myClientRestAPI.getMyEvents(userId.toInt(), object : getMyEventsCallback {
             override fun onSuccess(myEvents: List<EventsAche?>?) {
 
                 // Display a msg to inform the user
@@ -213,17 +209,16 @@ class HistoryActivity : AppCompatActivity() {
                                         "/" +
                                         it?.event_timestamp.toString().substring(0, 4),
                                 hour = it?.event_timestamp.toString().substring(11, 19),
-                                hearthBeat = it?.event_HR_ave.toString(),                 // TODO-> Change with real hearthbeat (not average)
+                                hearthBeat = it?.event_HR_ave.toString(),
                                 hearthBeatAverage = it?.event_HR_ave.toString(),
                                 hearthBeatMin = it?.event_HR_min.toString(),
                                 hearthBeatMax = it?.event_HR_max.toString(),
                                 pressure = it?.event_pressure.toString(),
                                 humidity = it?.event_humidity.toString(),
                                 temperature = it?.event_temp.toString(),
-                                meteoState = it?.event_code_weather!!,
-                                location = it?.event_localisation ,
+                                location = it?.event_localisation.toString(),
                                 windSpeed = it?.event_wind_speed.toString(),
-                                meteoImage = "",                                          // TODO, Change the way to manage image
+                                meteoID = it?.event_code_weather!!.toInt(),
                             )
                         )
                     }
@@ -276,7 +271,7 @@ class HistoryActivity : AppCompatActivity() {
         backButton = findViewById(R.id.history_toolbar_back_imageButton)
         backButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
             startActivityIfNeeded(intent, 0)
 
         }
@@ -342,21 +337,51 @@ class HistoryActivity : AppCompatActivity() {
         val position = dateWheelPicker.currentItemPosition
 
         // HearthBeat values
-        hearthBeatTextView.text = data[position].hearthBeat
-        hearthBeatAverageTextView.text = data[position].hearthBeatAverage
-        hearthBeatMinTextView.text = data[position].hearthBeatMin
-        hearthBeatMaxTextView.text = data[position].hearthBeatMax
+        if (data[position].hearthBeat == "-1") {
+            hearthBeatTextView.text = "- - -"
+            hearthBeatAverageTextView.text = "---"
+        }
+        else {
+            hearthBeatTextView.text = data[position].hearthBeat
+            hearthBeatAverageTextView.text = data[position].hearthBeatAverage
+        }
+
+        if (data[position].hearthBeatMin == "-1") {
+            hearthBeatMinTextView.text = "---"
+        }
+        else {
+            hearthBeatMinTextView.text = data[position].hearthBeat
+        }
+
+        if (data[position].hearthBeatMax == "-1") {
+            hearthBeatMaxTextView.text = "---"
+        }
+        else {
+            hearthBeatMaxTextView.text = data[position].hearthBeat
+        }
 
         // Meteo values
-        if (data[position].location.equals("") || data[position].location.equals("None"))
+        if (data[position].location == "" || data[position].location == "None")
             locationTextView.text = getString(R.string.Unknown);
         else
-                locationTextView.text = data[position].location
+            locationTextView.text = data[position].location
 
         pressureTextView.text = data[position].pressure
         humidityTextView.text = data[position].humidity
         temperatureTextView.text = data[position].temperature
-        meteoStateTextView.text = data[position].meteoState
+        val meteoID = MainActivity.weatherIconsList.findLast { weatherIcons -> weatherIcons.iconOpenWeatherID == data[position].meteoID }
+        if (meteoID != null) {
+            if (meteoID.description != "") {
+                meteoStateTextView.text = meteoID.description
+            }
+            if (meteoID.iconDrawableID != -1) {
+                meteoStateImageView.setImageResource(meteoID.iconDrawableID)
+            }
+        }
+        else {
+            meteoStateTextView.text = "Unknown"
+            meteoStateImageView.setImageResource(R.drawable.ic_weather_icon_cloudy)
+        }
         windSpeedTextView.text = data[position].windSpeed
 
         // Hours values
@@ -414,7 +439,6 @@ class HistoryActivity : AppCompatActivity() {
                 date = "Empty list",
                 hour = "--:--:--",
                 location = "LOCATION",
-                meteoState = "---",
                 temperature = "- -",
                 humidity = "--",
                 pressure = "----",
@@ -422,7 +446,7 @@ class HistoryActivity : AppCompatActivity() {
                 hearthBeat = "- - -",
                 hearthBeatMin = "---",
                 hearthBeatMax = "---",
-                meteoImage = "",
+                meteoID = -1,
                 hearthBeatAverage = "---"
             )
         )
@@ -431,7 +455,6 @@ class HistoryActivity : AppCompatActivity() {
     private fun openSearchView() {
         searchEditText.setText("")
         searchRelativeLayout.visibility = View.VISIBLE
-        val width = 300
         val circularReveal = ViewAnimationUtils.createCircularReveal(
             searchRelativeLayout,
             (searchButton.right + searchButton.left) / 2,

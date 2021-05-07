@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/headache_coffee_description_textView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="170dp"
         android:fontFamily="@font/avenir_next_lt_pro_bold"
         android:padding="15dp"
         android:text="@string/indicate_according_to_you_on_a_scale_from_1_to_9_what_is_the_level_of_pain_of_your_headache"
@@ -20,7 +20,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="70dp"
         android:paddingBottom="15dp"
         android:textSize="26sp"
         android:textColor="@color/colorGreenMedium"

@@ -44,9 +44,12 @@ class SymptomFragment : Fragment() {
             when (t) {
                 HeadachePages.PAIN_LEVEL -> {
                     symptomDescription.text = getString(R.string.indicate_according_to_you_on_a_scale_from_1_to_9_what_is_the_level_of_pain_of_your_headache)
-                    symptomImage.setImageResource(R.drawable.ic_headache)
+                    symptomImage.setImageResource(R.drawable.ic_pain_level_5)
                 }
-                HeadachePages.HEADACHE_AREA -> TODO()
+                HeadachePages.HEADACHE_AREA -> {
+                    symptomDescription.text = getString(R.string.headache_positioning_description)
+                    symptomImage.setImageResource(R.drawable.headache_type_tension)
+                }
                 HeadachePages.COFFEE -> {
                     symptomDescription.text = getString(R.string.select_the_amount_of_coffee_consumed_today)
                     symptomImage.setImageResource(R.drawable.ic_coffee_animation_5)
@@ -115,42 +118,42 @@ class SymptomFragment : Fragment() {
                     symptomDescription.text = getString(R.string.indicate_according_to_you_on_a_scale_from_1_to_9_what_is_the_level_of_pain_of_your_headache)
                     when(t) {
                         1 -> {
-                            symptomImage.setImageResource(R.drawable.ic_headache)
-                            symptomLevelDescription.text = "Pain level 1"
+                            symptomImage.setImageResource(R.drawable.ic_pain_level_1)
+                            symptomLevelDescription.text = "Discomforting"
                         }
                         2 -> {
-                            symptomImage.setImageResource(R.drawable.ic_headache)
-                            symptomLevelDescription.text = "Pain level 2"
+                            symptomImage.setImageResource(R.drawable.ic_pain_level_2)
+                            symptomLevelDescription.text = "Tolerable"
                         }
                         3 -> {
-                            symptomImage.setImageResource(R.drawable.ic_headache)
-                            symptomLevelDescription.text = "Pain level 3"
+                            symptomImage.setImageResource(R.drawable.ic_pain_level_3)
+                            symptomLevelDescription.text = "Distressing"
                         }
                         4 -> {
-                            symptomImage.setImageResource(R.drawable.ic_headache)
-                            symptomLevelDescription.text = "Pain level 4"
+                            symptomImage.setImageResource(R.drawable.ic_pain_level_4)
+                            symptomLevelDescription.text = "Very Distressing"
                         }
                         5 -> {
-                            symptomImage.setImageResource(R.drawable.ic_headache)
-                            symptomLevelDescription.text = "Pain level 5"
+                            symptomImage.setImageResource(R.drawable.ic_pain_level_5)
+                            symptomLevelDescription.text = "Intense"
                         }
                         6 -> {
-                            symptomImage.setImageResource(R.drawable.ic_headache)
-                            symptomLevelDescription.text = "Pain level 6"
+                            symptomImage.setImageResource(R.drawable.ic_pain_level_6)
+                            symptomLevelDescription.text = "Very Intense"
                         }
                         7 -> {
-                            symptomImage.setImageResource(R.drawable.ic_headache)
-                            symptomLevelDescription.text = "Pain level 7"
+                            symptomImage.setImageResource(R.drawable.ic_pain_level_7)
+                            symptomLevelDescription.text = "Horrible"
                         }
                         8 -> {
-                            symptomImage.setImageResource(R.drawable.ic_headache)
-                            symptomLevelDescription.text = "Pain level 8"
+                            symptomImage.setImageResource(R.drawable.ic_pain_level_8)
+                            symptomLevelDescription.text = "Unbearable"
                         }
                         9 -> {
-                            symptomImage.setImageResource(R.drawable.ic_headache)
-                            symptomLevelDescription.text = "Pain level 9"
+                            symptomImage.setImageResource(R.drawable.ic_pain_level_9)
+                            symptomLevelDescription.text = "Unspeakable"
                         }
-                        else -> symptomImage.setImageResource(R.drawable.ic_headache)
+                        else -> symptomImage.setImageResource(R.drawable.ic_pain_level_5)
                     }
                 }
 
@@ -159,42 +162,42 @@ class SymptomFragment : Fragment() {
                     symptomDescription.text = getString(R.string.headache_positioning_description)
                     when(t) {
                         1 -> {
-                            symptomImage.setImageResource(R.drawable.ic_headache)
-                            symptomLevelDescription.text = "Position 1"
+                            symptomImage.setImageResource(R.drawable.headache_type_cluster)
+                            symptomLevelDescription.text = "Cluster"
                         }
                         2 -> {
-                            symptomImage.setImageResource(R.drawable.ic_headache)
-                            symptomLevelDescription.text = "Position 2"
+                            symptomImage.setImageResource(R.drawable.headache_type_sinus)
+                            symptomLevelDescription.text = "Sinus"
                         }
                         3 -> {
-                            symptomImage.setImageResource(R.drawable.ic_headache)
-                            symptomLevelDescription.text = "Position 3"
+                            symptomImage.setImageResource(R.drawable.headache_type_tmj)
+                            symptomLevelDescription.text = "TMJ"
                         }
                         4 -> {
-                            symptomImage.setImageResource(R.drawable.ic_headache)
-                            symptomLevelDescription.text = "Position 4"
+                            symptomImage.setImageResource(R.drawable.headache_type_migraine)
+                            symptomLevelDescription.text = "Migraine"
                         }
                         5 -> {
-                            symptomImage.setImageResource(R.drawable.ic_headache)
-                            symptomLevelDescription.text = "Position 5"
+                            symptomImage.setImageResource(R.drawable.headache_type_tension)
+                            symptomLevelDescription.text = "Tension"
                         }
                         6 -> {
-                            symptomImage.setImageResource(R.drawable.ic_headache)
-                            symptomLevelDescription.text = "Position 6"
+                            symptomImage.setImageResource(R.drawable.headache_type_stress)
+                            symptomLevelDescription.text = "Stress"
                         }
                         7 -> {
-                            symptomImage.setImageResource(R.drawable.ic_headache)
-                            symptomLevelDescription.text = "Position 7"
+                            symptomImage.setImageResource(R.drawable.headache_type_allergy)
+                            symptomLevelDescription.text = "Allergy"
                         }
                         8 -> {
-                            symptomImage.setImageResource(R.drawable.ic_headache)
-                            symptomLevelDescription.text = "Position 8"
+                            symptomImage.setImageResource(R.drawable.headache_type_hypertension)
+                            symptomLevelDescription.text = "Hypertension"
                         }
                         9 -> {
-                            symptomImage.setImageResource(R.drawable.ic_headache)
-                            symptomLevelDescription.text = "Position 9"
+                            symptomImage.setImageResource(R.drawable.headache_type_cervical)
+                            symptomLevelDescription.text = "Cervical"
                         }
-                        else -> symptomImage.setImageResource(R.drawable.ic_headache)
+                        else -> symptomImage.setImageResource(R.drawable.headache_type_tension)
                     }
                 }
 

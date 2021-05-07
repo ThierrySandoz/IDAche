@@ -11,7 +11,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/ic_running">
+        android:src="@drawable/ic_sport">
     </ImageView>
 
     <LinearLayout

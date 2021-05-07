@@ -30,6 +30,8 @@ import com.kwabenaberko.openweathermaplib.implementation.callback.CurrentWeather
 import com.kwabenaberko.openweathermaplib.model.currentweather.CurrentWeather
 import java.time.Duration
 import java.util.*
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 var firstLauchBLE = true;
 
@@ -94,79 +96,13 @@ class MainActivity : AppCompatActivity() {
     //-------------- Animation
     private var isAnimationStarted = false
 
-    //-------------- List of meteoIcons
-    private val weatherIconsList : ArrayList<WeatherIcons> = arrayListOf(
-        WeatherIcons(200, R.drawable.ic_weather_icon_thunder, "thunderstorm with light rain"),
-        WeatherIcons(201, R.drawable.ic_weather_icon_thunder, "thunderstorm with rain"),
-        WeatherIcons(202, R.drawable.ic_weather_icon_thunder, "thunderstorm with heavy rain"),
-        WeatherIcons(210, R.drawable.ic_weather_icon_thunder, "light thunderstorm"),
-        WeatherIcons(211, R.drawable.ic_weather_icon_thunder, "thunderstorm"),
-        WeatherIcons(212, R.drawable.ic_weather_icon_thunder, "heavy thunderstorm"),
-        WeatherIcons(221, R.drawable.ic_weather_icon_thunder, "ragged thunderstorm"),
-        WeatherIcons(230, R.drawable.ic_weather_icon_thunder, "thunderstorm with light drizzle"),
-        WeatherIcons(231, R.drawable.ic_weather_icon_thunder, "thunderstorm with drizzle"),
-        WeatherIcons(232, R.drawable.ic_weather_icon_thunder, "thunderstorm with heavy drizzle"),
-
-        WeatherIcons(300, R.drawable.ic_weather_icon_rainy_4, "light intensity drizzle"),
-        WeatherIcons(301, R.drawable.ic_weather_icon_rainy_4, "drizzle"),
-        WeatherIcons(302, R.drawable.ic_weather_icon_rainy_4, "heavy intensity drizzle"),
-        WeatherIcons(310, R.drawable.ic_weather_icon_rainy_5, "light intensity drizzle rain"),
-        WeatherIcons(311, R.drawable.ic_weather_icon_rainy_5, "drizzle rain"),
-        WeatherIcons(312, R.drawable.ic_weather_icon_rainy_5, "heavy intensity drizzle rain"),
-        WeatherIcons(313, R.drawable.ic_weather_icon_rainy_6, "shower rain and drizzle"),
-        WeatherIcons(314, R.drawable.ic_weather_icon_rainy_6, "heavy shower rain and drizzle"),
-        WeatherIcons(321, R.drawable.ic_weather_icon_rainy_6, "shower drizzle"),
-
-        WeatherIcons(500, R.drawable.ic_weather_icon_rainy_2, "light rain"),
-        WeatherIcons(501, R.drawable.ic_weather_icon_rainy_2, "moderate rain"),
-        WeatherIcons(502, R.drawable.ic_weather_icon_rainy_2, "heavy intensity rain"),
-        WeatherIcons(503, R.drawable.ic_weather_icon_rainy_3, "very heavy rain"),
-        WeatherIcons(504, R.drawable.ic_weather_icon_rainy_3, "extreme rain"),
-        WeatherIcons(511, R.drawable.ic_weather_icon_rainy_7, "freezing rain"),
-        WeatherIcons(520, R.drawable.ic_weather_icon_rainy_4, "light intensity shower rain"),
-        WeatherIcons(521, R.drawable.ic_weather_icon_rainy_5, "shower rain"),
-        WeatherIcons(522, R.drawable.ic_weather_icon_rainy_5, "heavy intensity shower rain"),
-        WeatherIcons(531, R.drawable.ic_weather_icon_rainy_6, "ragged shower rain"),
-
-        WeatherIcons(600, R.drawable.ic_weather_icon_snowy_4, "light snow"),
-        WeatherIcons(601, R.drawable.ic_weather_icon_snowy_5, "Snow"),
-        WeatherIcons(602, R.drawable.ic_weather_icon_snowy_6, "Heavy snow"),
-        WeatherIcons(611, R.drawable.ic_weather_icon_snowy_2, "Sleet"),
-        WeatherIcons(612, R.drawable.ic_weather_icon_snowy_2, "Light shower sleet"),
-        WeatherIcons(613, R.drawable.ic_weather_icon_snowy_3, "Shower sleet"),
-        WeatherIcons(615, R.drawable.ic_weather_icon_snowy_4, "Light rain and snow"),
-        WeatherIcons(616, R.drawable.ic_weather_icon_snowy_5, "Rain and snow"),
-        WeatherIcons(620, R.drawable.ic_weather_icon_snowy_4, "Light shower snow"),
-        WeatherIcons(621, R.drawable.ic_weather_icon_snowy_5, "Shower snow"),
-        WeatherIcons(622, R.drawable.ic_weather_icon_snowy_6, "Heavy shower snow"),
-
-        WeatherIcons(701, R.drawable.ic_weather_icon_mist, "mist"),
-        WeatherIcons(711, R.drawable.ic_weather_icon_mist, "Smoke"),
-        WeatherIcons(721, R.drawable.ic_weather_icon_mist, "Haze"),
-        WeatherIcons(731, R.drawable.ic_weather_icon_mist, "sand/ dust whirls"),
-        WeatherIcons(741, R.drawable.ic_weather_icon_mist, "fog"),
-        WeatherIcons(751, R.drawable.ic_weather_icon_mist, "sand"),
-        WeatherIcons(761, R.drawable.ic_weather_icon_mist, "dust"),
-        WeatherIcons(762, R.drawable.ic_weather_icon_mist, "volcanic ash"),
-        WeatherIcons(771, R.drawable.ic_weather_icon_mist, "squalls"),
-        WeatherIcons(781, R.drawable.ic_weather_icon_mist, "tornado"),
-
-        WeatherIcons(800, R.drawable.ic_weather_icon_day, "clear sky"),
-        WeatherIcons(801, R.drawable.ic_weather_icon_cloudy_day_1, "few clouds (11-25%)"),
-        WeatherIcons(802, R.drawable.ic_weather_icon_cloudy_day_2, "scattered clouds (25-50%)"),
-        WeatherIcons(803, R.drawable.ic_weather_icon_cloudy_day_3, "broken clouds (51-84%)"),
-        WeatherIcons(804, R.drawable.ic_weather_icon_cloudy, "overcast clouds (85-100%)"),
-
-        WeatherIcons(900, R.drawable.ic_weather_icon_night, "clear sky"),
-        WeatherIcons(901, R.drawable.ic_weather_icon_cloudy_night_1, "few clouds (11-25%)"),
-        WeatherIcons(902, R.drawable.ic_weather_icon_cloudy_night_2, "scattered clouds (25-50%)"),
-        WeatherIcons(903, R.drawable.ic_weather_icon_cloudy_night_3, "broken clouds (51-84%)"),
-        WeatherIcons(904, R.drawable.ic_weather_icon_cloudy, "overcast clouds (85-100%)"),
-    )
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //----------------------------- const array -------------------------------
+        // Initialize the constant array of meteo icons
+        initializeMeteoIconsArray()
 
         //------------------------------ TextViews --------------------------------
         // Location text view
@@ -239,8 +175,8 @@ class MainActivity : AppCompatActivity() {
 
         val scaleDown: ObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(
             hearthbeatImageView,
-            PropertyValuesHolder.ofFloat("scaleX", 1.2f),
-            PropertyValuesHolder.ofFloat("scaleY", 1.2f)
+            PropertyValuesHolder.ofFloat("scaleX", 0.8f),
+            PropertyValuesHolder.ofFloat("scaleY", 0.8f)
         )
         scaleDown.duration = 300
 
@@ -312,9 +248,16 @@ class MainActivity : AppCompatActivity() {
                         durationActivity = durationActivity.plusMillis(INTERVAL_TIME_ACC_PROCESS)
 
                         activityTimeTextView.text = durationActivity.seconds.toString()
+
+                        // Set the activity time to the companion object
+                        activityTimeValue = durationActivity.seconds
+
                         Log.d("TEST","in Activity ! (duration = ${durationActivity.seconds})\n")
                     } else {
                         durationRest = durationRest.plusMillis(INTERVAL_TIME_ACC_PROCESS)
+
+                        // Set the rest time to the companion object
+                        restTimeValue = durationRest.seconds
 
                         restTimeTextView.text = durationRest.seconds.toString()
                         Log.d("TEST","in Rest ! (duration = ${durationRest.seconds})\n")
@@ -346,6 +289,17 @@ class MainActivity : AppCompatActivity() {
                 val HR_ave = HR_saved.average()
                 val HR_max = HR_saved.maxOrNull()
                 val HR_min = HR_saved.minOrNull()
+
+                // Set values to the companion object
+                if (HR_ave.toInt() != 0) {
+                    heartRateAverageValue = HR_ave.toInt()
+                }
+                if (HR_min != null) {
+                    heartRateMinValue = HR_min
+                }
+                if (HR_max != null) {
+                    heartRateMaxValue = HR_max
+                }
 
                 // Print valus
                 hearthBeatMinTextView.text = HR_min.toString()
@@ -388,9 +342,7 @@ class MainActivity : AppCompatActivity() {
         /** Communiacte with Polar 0H1 **/
         if(BLE_MODE && firstLauchBLE){
             firstLauchBLE = false
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && savedInstanceState == null) {
-                requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
-            }
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
 
 
             pola0H1 = Polar0H1(myPolarCB, "7D41F628", this)
@@ -432,9 +384,9 @@ class MainActivity : AppCompatActivity() {
         var standardDeviation = 0;
 
         for (x in accX) {
-            standardDeviation += (Math.pow((x - mean).toDouble(), 2.0)).toInt()
+            standardDeviation += ((x - mean).toDouble().pow(2.0)).toInt()
         }
-        return Math.sqrt((standardDeviation / size).toDouble()).toInt()
+        return sqrt((standardDeviation / size).toDouble()).toInt()
 
     }
 
@@ -494,6 +446,18 @@ class MainActivity : AppCompatActivity() {
                             humidityTextView.text = actualWeather.main.humidity.toString()
                             pressureTextView.text = actualWeather.main.pressure.toInt().toString()
                             windSpeedTextView.text = actualWeather.wind.speed.toInt().toString()
+
+                            // Set the companion object values
+                            humidityValue = actualWeather.main.humidity
+                            windSpeedValue = actualWeather.wind.speed
+                            temperatureValue = actualWeather.main.temp
+                            pressureValue = actualWeather.main.pressure
+                            localisationValue = actualWeather.name
+                            latitudeValue = actualWeather.coord.lat
+                            longitudeValue = actualWeather.coord.lon
+                            if (weatherId != null) {
+                                meteoIdValue = weatherId.iconOpenWeatherID
+                            }
 
                             /** TEST PRINT MAX INFO **/
                             Log.v(
@@ -601,12 +565,22 @@ class MainActivity : AppCompatActivity() {
 
                                 // Display infos to screen
                                 locationTextView.text = actualWeather.name.toString()
-                                temperatureTextView.text =
-                                    actualWeather.main.temp.toInt().toString()
+                                temperatureTextView.text = actualWeather.main.temp.toInt().toString()
                                 humidityTextView.text = actualWeather.main.humidity.toString()
-                                pressureTextView.text =
-                                    actualWeather.main.pressure.toInt().toString()
+                                pressureTextView.text = actualWeather.main.pressure.toInt().toString()
                                 windSpeedTextView.text = actualWeather.wind.speed.toInt().toString()
+
+                                // Set the companion object values
+                                humidityValue = actualWeather.main.humidity
+                                windSpeedValue = actualWeather.wind.speed
+                                temperatureValue = actualWeather.main.temp
+                                pressureValue = actualWeather.main.pressure
+                                localisationValue = actualWeather.name
+                                latitudeValue = actualWeather.coord.lat
+                                longitudeValue = actualWeather.coord.lon
+                                if (weatherId != null) {
+                                    meteoIdValue = weatherId.iconOpenWeatherID
+                                }
                             }
 
                             override fun onFailure(throwable: Throwable) {
@@ -648,12 +622,24 @@ class MainActivity : AppCompatActivity() {
 
                                 // Display infos to screen
                                 locationTextView.text = actualWeather.name.toString()
-                                temperatureTextView.text =
-                                    actualWeather.main.temp.toInt().toString()
+                                temperatureTextView.text = actualWeather.main.temp.toInt().toString()
                                 humidityTextView.text = actualWeather.main.humidity.toString()
-                                pressureTextView.text =
-                                    actualWeather.main.pressure.toInt().toString()
+                                pressureTextView.text = actualWeather.main.pressure.toInt().toString()
                                 windSpeedTextView.text = actualWeather.wind.speed.toInt().toString()
+
+                                // Set the companion object values
+                                humidityValue = actualWeather.main.humidity
+                                windSpeedValue = actualWeather.wind.speed
+                                temperatureValue = actualWeather.main.temp
+                                pressureValue = actualWeather.main.pressure
+                                localisationValue = actualWeather.name
+                                latitudeValue = actualWeather.coord.lat
+                                longitudeValue = actualWeather.coord.lon
+                                if (weatherId != null) {
+                                    meteoIdValue = weatherId.iconOpenWeatherID
+                                }
+
+
                             }
 
                             override fun onFailure(throwable: Throwable) {
@@ -692,8 +678,93 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun initializeMeteoIconsArray() {
+        weatherIconsList = arrayListOf(
+            WeatherIcons(200, R.drawable.ic_weather_icon_thunder, "thunderstorm with light rain"),
+            WeatherIcons(201, R.drawable.ic_weather_icon_thunder, "thunderstorm with rain"),
+            WeatherIcons(202, R.drawable.ic_weather_icon_thunder, "thunderstorm with heavy rain"),
+            WeatherIcons(210, R.drawable.ic_weather_icon_thunder, "light thunderstorm"),
+            WeatherIcons(211, R.drawable.ic_weather_icon_thunder, "thunderstorm"),
+            WeatherIcons(212, R.drawable.ic_weather_icon_thunder, "heavy thunderstorm"),
+            WeatherIcons(221, R.drawable.ic_weather_icon_thunder, "ragged thunderstorm"),
+            WeatherIcons(230, R.drawable.ic_weather_icon_thunder, "thunderstorm with light drizzle"),
+            WeatherIcons(231, R.drawable.ic_weather_icon_thunder, "thunderstorm with drizzle"),
+            WeatherIcons(232, R.drawable.ic_weather_icon_thunder, "thunderstorm with heavy drizzle"),
+
+            WeatherIcons(300, R.drawable.ic_weather_icon_rainy_4, "light intensity drizzle"),
+            WeatherIcons(301, R.drawable.ic_weather_icon_rainy_4, "drizzle"),
+            WeatherIcons(302, R.drawable.ic_weather_icon_rainy_4, "heavy intensity drizzle"),
+            WeatherIcons(310, R.drawable.ic_weather_icon_rainy_5, "light intensity drizzle rain"),
+            WeatherIcons(311, R.drawable.ic_weather_icon_rainy_5, "drizzle rain"),
+            WeatherIcons(312, R.drawable.ic_weather_icon_rainy_5, "heavy intensity drizzle rain"),
+            WeatherIcons(313, R.drawable.ic_weather_icon_rainy_6, "shower rain and drizzle"),
+            WeatherIcons(314, R.drawable.ic_weather_icon_rainy_6, "heavy shower rain and drizzle"),
+            WeatherIcons(321, R.drawable.ic_weather_icon_rainy_6, "shower drizzle"),
+
+            WeatherIcons(500, R.drawable.ic_weather_icon_rainy_2, "light rain"),
+            WeatherIcons(501, R.drawable.ic_weather_icon_rainy_2, "moderate rain"),
+            WeatherIcons(502, R.drawable.ic_weather_icon_rainy_2, "heavy intensity rain"),
+            WeatherIcons(503, R.drawable.ic_weather_icon_rainy_3, "very heavy rain"),
+            WeatherIcons(504, R.drawable.ic_weather_icon_rainy_3, "extreme rain"),
+            WeatherIcons(511, R.drawable.ic_weather_icon_rainy_7, "freezing rain"),
+            WeatherIcons(520, R.drawable.ic_weather_icon_rainy_4, "light intensity shower rain"),
+            WeatherIcons(521, R.drawable.ic_weather_icon_rainy_5, "shower rain"),
+            WeatherIcons(522, R.drawable.ic_weather_icon_rainy_5, "heavy intensity shower rain"),
+            WeatherIcons(531, R.drawable.ic_weather_icon_rainy_6, "ragged shower rain"),
+
+            WeatherIcons(600, R.drawable.ic_weather_icon_snowy_4, "light snow"),
+            WeatherIcons(601, R.drawable.ic_weather_icon_snowy_5, "Snow"),
+            WeatherIcons(602, R.drawable.ic_weather_icon_snowy_6, "Heavy snow"),
+            WeatherIcons(611, R.drawable.ic_weather_icon_snowy_2, "Sleet"),
+            WeatherIcons(612, R.drawable.ic_weather_icon_snowy_2, "Light shower sleet"),
+            WeatherIcons(613, R.drawable.ic_weather_icon_snowy_3, "Shower sleet"),
+            WeatherIcons(615, R.drawable.ic_weather_icon_snowy_4, "Light rain and snow"),
+            WeatherIcons(616, R.drawable.ic_weather_icon_snowy_5, "Rain and snow"),
+            WeatherIcons(620, R.drawable.ic_weather_icon_snowy_4, "Light shower snow"),
+            WeatherIcons(621, R.drawable.ic_weather_icon_snowy_5, "Shower snow"),
+            WeatherIcons(622, R.drawable.ic_weather_icon_snowy_6, "Heavy shower snow"),
+
+            WeatherIcons(701, R.drawable.ic_weather_icon_mist, "mist"),
+            WeatherIcons(711, R.drawable.ic_weather_icon_mist, "Smoke"),
+            WeatherIcons(721, R.drawable.ic_weather_icon_mist, "Haze"),
+            WeatherIcons(731, R.drawable.ic_weather_icon_mist, "sand/ dust whirls"),
+            WeatherIcons(741, R.drawable.ic_weather_icon_mist, "fog"),
+            WeatherIcons(751, R.drawable.ic_weather_icon_mist, "sand"),
+            WeatherIcons(761, R.drawable.ic_weather_icon_mist, "dust"),
+            WeatherIcons(762, R.drawable.ic_weather_icon_mist, "volcanic ash"),
+            WeatherIcons(771, R.drawable.ic_weather_icon_mist, "squalls"),
+            WeatherIcons(781, R.drawable.ic_weather_icon_mist, "tornado"),
+
+            WeatherIcons(800, R.drawable.ic_weather_icon_day, "clear sky"),
+            WeatherIcons(801, R.drawable.ic_weather_icon_cloudy_day_1, "few clouds (11-25%)"),
+            WeatherIcons(802, R.drawable.ic_weather_icon_cloudy_day_2, "scattered clouds (25-50%)"),
+            WeatherIcons(803, R.drawable.ic_weather_icon_cloudy_day_3, "broken clouds (51-84%)"),
+            WeatherIcons(804, R.drawable.ic_weather_icon_cloudy, "overcast clouds (85-100%)"),
+
+            WeatherIcons(900, R.drawable.ic_weather_icon_night, "clear sky"),
+            WeatherIcons(901, R.drawable.ic_weather_icon_cloudy_night_1, "few clouds (11-25%)"),
+            WeatherIcons(902, R.drawable.ic_weather_icon_cloudy_night_2, "scattered clouds (25-50%)"),
+            WeatherIcons(903, R.drawable.ic_weather_icon_cloudy_night_3, "broken clouds (51-84%)"),
+            WeatherIcons(904, R.drawable.ic_weather_icon_cloudy, "overcast clouds (85-100%)"),
+        )
+    }
+
     companion object {
         const val PERMISSION_CODE_LOCATION = 1001
+        var heartRateAverageValue : Int = -1
+        var heartRateMinValue : Int = -1
+        var heartRateMaxValue : Int = -1
+        var activityTimeValue : Long = -1
+        var restTimeValue : Long = -1
+        var humidityValue : Double = -1.0
+        var windSpeedValue : Double = -1.0
+        var meteoIdValue : Int = -1
+        var latitudeValue : Double = -1.0
+        var longitudeValue : Double = -1.0
+        var temperatureValue : Double = -1.0
+        var pressureValue : Double = -1.0
+        var localisationValue : String = "None"
+        var weatherIconsList : ArrayList<WeatherIcons> = arrayListOf()
     }
 
 }

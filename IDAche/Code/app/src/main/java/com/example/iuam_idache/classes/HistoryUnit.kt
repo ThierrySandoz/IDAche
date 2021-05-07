@@ -1,5 +1,7 @@
 package com.example.iuam_idache.classes
 
+import java.net.IDN
+
 class HistoryUnit(
     val date                : String,
     val hour                : String,
@@ -11,7 +13,6 @@ class HistoryUnit(
     val pressure            : String,
     val humidity            : String,
     val temperature         : String,
-    val meteoState          : String,
-    val meteoImage          : String,
+    val meteoID             : Int,
     val location            : String,
 )
