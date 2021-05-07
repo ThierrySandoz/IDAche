@@ -26,7 +26,8 @@ class SelectSymptomActivity : AppCompatActivity() {
         // On button click
         closeButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            startActivityIfNeeded(intent, 0)
         }
 
         //---- Next button

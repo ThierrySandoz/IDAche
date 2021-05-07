@@ -302,7 +302,7 @@ class MainActivity : AppCompatActivity() {
                     // calcul average of standard Deviation
                     val sdAve = standardDeviation.average()
                     Log.d("TEST","SD ave = $sdAve \n")
-                    
+
 
 
                     // TODO -> handle print unit time (sec / min / hours)
@@ -673,6 +673,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+    }
     override fun onResume() {
         super.onResume()
         /** Need for api ble **/
