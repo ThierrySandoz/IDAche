@@ -1,19 +1,15 @@
 package com.example.iuam_idache.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.example.iuam_idache.R
-import com.example.iuam_idache.activities.HeadacheActivity
 import com.example.iuam_idache.adapters.PickerAdapter
-import com.example.iuam_idache.classes.HeadachePages
 import com.example.iuam_idache.classes.NumberPickerSharedViewModel
 import com.example.iuam_idache.classes.PickerLayoutManager
 import com.example.iuam_idache.classes.ScreenUtils
@@ -30,7 +26,11 @@ class NumberPickerFragment : Fragment() {
 
     private lateinit var model : NumberPickerSharedViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
         // Inflate the view
@@ -44,7 +44,8 @@ class NumberPickerFragment : Fragment() {
 
         // Setting the padding such that the items will appear in the middle of the screen
         val padding: Int = ScreenUtils.getScreenWidth(requireContext()) / 2 - ScreenUtils.dpToPx(
-            requireContext(), 40)
+            requireContext(), 40
+        )
         rvHorizontalPicker.setPadding(padding, 0, padding, 0)
 
         // Setting layout manager
@@ -52,40 +53,16 @@ class NumberPickerFragment : Fragment() {
             callback = object : PickerLayoutManager.OnItemSelectedListener {
                 override fun onItemSelected(layoutPosition: Int) {
 
-                    //headacheActivity.fragmentCoffee(layoutPosition)
-
                     sliderAdapter.setSelectedItem(layoutPosition)
-                    //Log.d("selected text", data[layoutPosition])
-                    //Toast.makeText(context, data[layoutPosition], Toast.LENGTH_SHORT).show()
 
                     //set the message to share to another fragment
-                    model.onItemSelected(layoutPosition+1)
+                    model.onItemSelected(layoutPosition + 1)
 
-                    // Get the actual page to inflate the right layout
-                    when(model.actualPage) {
-                        HeadachePages.PAIN_LEVEL -> {
-                            val fragment = PainLevelFragment()
-                            val fragmentTransaction = parentFragmentManager.beginTransaction()
-                            fragmentTransaction.replace(R.id.fragment_headache_painLevel, fragment)
-                            fragmentTransaction.addToBackStack(null)
-                            fragmentTransaction.commit()
-                        }
-                        HeadachePages.COFFEE -> {
-                            //val fragment = CoffeeFragment()
-                            //val fragmentTransaction = parentFragmentManager.beginTransaction()
-                            //fragmentTransaction.replace(R.id.fragment_headache_coffee, fragment)
-                            //fragmentTransaction.addToBackStack(null)
-                            //fragmentTransaction.commit()
-                        }
-                        HeadachePages.HEADACHE_AREA -> TODO()
-                        HeadachePages.CIGARETTE -> TODO()
-                        HeadachePages.ALCOHOL -> TODO()
-                        HeadachePages.DIZZINESS -> TODO()
-                        HeadachePages.TEMPERATURE -> TODO()
-                        HeadachePages.TOOTHACHE -> TODO()
-                    }
-
-
+                    val fragment = SymptomFragment()
+                    val fragmentTransaction = parentFragmentManager.beginTransaction()
+                    fragmentTransaction.replace(R.id.fragment_headache_symptom, fragment)
+                    fragmentTransaction.addToBackStack(null)
+                    fragmentTransaction.commit()
                 }
             }
         }
@@ -98,8 +75,8 @@ class NumberPickerFragment : Fragment() {
             setData(data)
 
             // Set the default number to 5
-            setSelectedItem(defaultPosition-1)
-            rvHorizontalPicker.scrollToPosition(defaultPosition-1)
+            setSelectedItem(defaultPosition - 1)
+            rvHorizontalPicker.scrollToPosition(defaultPosition - 1)
 
             // Callback on item click to move to the right number
             callback = object : PickerAdapter.Callback {
@@ -112,6 +89,14 @@ class NumberPickerFragment : Fragment() {
                 }
             }
         }
+
+        model.actualPage.observe(viewLifecycleOwner, object : Observer<Any?> {
+            override fun onChanged(t: Any?) {
+                sliderAdapter.setSelectedItem(defaultPosition - 1)
+                rvHorizontalPicker.scrollToPosition(defaultPosition - 1)
+                model.onItemSelected(defaultPosition)
+            }
+        })
 
         // Return the fragment view/layout
         return view

@@ -9,13 +9,11 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.iuam_idache.R
 import com.example.iuam_idache.apiREST.models.EventsAche
 import com.example.iuam_idache.classes.HeadachePages
 import com.example.iuam_idache.classes.NumberPickerSharedViewModel
-import com.example.iuam_idache.fragments.PainLevelFragment
 import java.util.*
 
 
@@ -71,14 +69,7 @@ class HeadacheActivity : AppCompatActivity() {
 
         //----------------- Shared view model
         model = ViewModelProviders.of(this).get(NumberPickerSharedViewModel::class.java)
-        model.actualPage = symptomList[0]
-
-        //----------------- Set the first fragment
-       //val painLevelFragment = PainLevelFragment().newInstance()
-       //val fragmentTransaction = supportFragmentManager.beginTransaction()
-       //fragmentTransaction.replace(R.id.fragment_headache_painLevel, painLevelFragment!!)
-       //fragmentTransaction.addToBackStack(null)
-       //fragmentTransaction.commit()
+        model.actualPage.value = symptomList[actualPage-1]
 
         //------------------------------ TextViews -------------------------------
         //------ Page title
@@ -124,6 +115,9 @@ class HeadacheActivity : AppCompatActivity() {
             if (actualPage == 0) {
                 val intent = Intent(this, SelectSymptomActivity::class.java)
                 startActivity(intent)
+            }
+            else {
+                model.actualPage.value = symptomList[actualPage-1]
             }
 
             // Change the page title
@@ -179,6 +173,8 @@ class HeadacheActivity : AppCompatActivity() {
                 if (actualPage == lastPage) {
                     nextButton.setImageResource(R.drawable.ic_check)
                 }
+
+                model.actualPage.value = symptomList[actualPage-1]
 
                 // Change the page title
                 pageTitle.text = "PAGE n°$actualPage/$lastPage"
