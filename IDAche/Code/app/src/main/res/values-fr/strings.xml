@@ -39,4 +39,6 @@
     <string name="Unknown">Inconnu</string>
     <string name="male">Homme</string>
     <string name="female">Femme</string>
+    <string name="indicate_according_to_you_on_a_scale_from_1_to_9_what_is_the_level_of_pain_of_your_headache">Indiquez selon vous sur une echelle de 1 à 9, quel est le niveau de douleur de votre mal de tête</string>
+    <string name="headache_positioning_description">Indiquez la position de votre mal de tête sur votre tête</string>
 </resources>
