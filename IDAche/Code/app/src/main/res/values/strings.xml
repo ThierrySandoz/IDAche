@@ -47,4 +47,5 @@
     <string name="headache_positioning_description">Indicate the positioning of your headache on your head</string>
     <string name="number_of_cigarettes_smoked_description">Indicate the number of cigarettes smoked today</string>
     <string name="amount_of_alcool_description">Indicate the amount of alcohol drunk today</string>
+    <string name="rest_time">"rest time : "</string>
 </resources>

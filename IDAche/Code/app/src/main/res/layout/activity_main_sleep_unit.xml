@@ -39,7 +39,6 @@
             </TextView>
 
             <TextView
-                android:id="@+id/activity_main_Rest_textView_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/avenir_next_lt_pro_bold"
@@ -47,7 +46,6 @@
                 android:textSize="18sp"></TextView>
 
             <TextView
-                android:id="@+id/activity_main_Rest_textView_unit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" min"
