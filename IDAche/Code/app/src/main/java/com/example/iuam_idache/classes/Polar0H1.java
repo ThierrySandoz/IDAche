@@ -42,6 +42,7 @@ public class Polar0H1 {
     String DEVICE_ID = "7D41F628";
     public boolean BLEPowered = false;
     public boolean connected = false;
+    public boolean ACCReady = false;
 
     public Boolean ACCisStreamed(){
         return accDisposable == null ? false : true;
@@ -57,7 +58,7 @@ public class Polar0H1 {
     public void init() {
         // Notice PolarBleApi.ALL_FEATURES are enabled
         api = PolarBleApiDefaultImpl.defaultImplementation(context, PolarBleApi.ALL_FEATURES);
-        api.setPolarFilter(false);
+        api.setPolarFilter(true);
 
         api.setApiLogger(s -> Log.d(API_LOGGER_TAG, s));
 
@@ -87,6 +88,7 @@ public class Polar0H1 {
             public void deviceDisconnected(@NonNull PolarDeviceInfo polarDeviceInfo) {
                 Log.d(TAG, "DISCONNECTED: " + polarDeviceInfo.deviceId);
                 connected = false;
+                ACCReady = false;
                 ecgDisposable = null;
                 accDisposable = null;
                 gyrDisposable = null;
@@ -100,6 +102,9 @@ public class Polar0H1 {
                                                @NonNull final Set<PolarBleApi.DeviceStreamingFeature> features) {
                 for(PolarBleApi.DeviceStreamingFeature feature : features) {
                     Log.d(TAG, "Streaming feature " + feature.toString() + " is ready");
+                    if (feature.toString().contains("ACC")){
+                        ACCReady = true;
+                    }
                 }
             }
 
@@ -173,6 +178,7 @@ public class Polar0H1 {
         } else {
             // NOTE dispose will stop streaming if it is "running"
             accDisposable.dispose();
+            ACCReady = false;
             accDisposable = null;
         }
     }

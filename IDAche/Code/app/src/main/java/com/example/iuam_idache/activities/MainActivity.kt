@@ -7,6 +7,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.TextUtils
 import android.util.Log
 import android.widget.ImageButton
@@ -26,26 +28,42 @@ import com.kwabenaberko.openweathermaplib.constant.Units
 import com.kwabenaberko.openweathermaplib.implementation.OpenWeatherMapHelper
 import com.kwabenaberko.openweathermaplib.implementation.callback.CurrentWeatherCallback
 import com.kwabenaberko.openweathermaplib.model.currentweather.CurrentWeather
+import java.time.Duration
 import java.util.*
 
-// TODO handle connexion with Polar
 var firstLauchBLE = true;
 
 //-------------- Polar variables
 private lateinit var pola0H1: Polar0H1
 
-// TODO : handle langage
 class MainActivity : AppCompatActivity() {
+
+    //-------------- interval time for process ACC in ms (WARNING : in correlation with time increment of activity time & rest time)
+    private val INTERVAL_TIME_ACC_PROCESS:Long = 1000
+    //-------------- Threashold for pass from rest to activity
+    private val AVERAGE_ACC_THRESHOLD = 150
+
+    //-------------- List of values of the 3 accelerometer axes
+    var ACC_saved_x = mutableListOf<Int>()
+    var ACC_saved_y = mutableListOf<Int>()
+    var ACC_saved_z = mutableListOf<Int>()
+
+    //-------------- Duration that the user is in rest or in activity
+    var durationActivity: Duration = Duration.ofMillis(0)
+    var durationRest: Duration = Duration.ofMillis(0)
 
     //-------------- Weather variables
     private lateinit var actualWeather: CurrentWeather
 
-    /** true : for communiacte with Polar 0H1 **/
+    //-------------- Mode bluetooth
+    /** true : for enable communication with Polar 0H1 **/
     val BLE_MODE = true
 
-    // List of N last measure of HR TODO : maybe opti with LinkedList
+    //--------------  List of N last measure of HR
     var HR_saved = mutableListOf<Int>()
     val N_LAST_MEASURE_HR = 300;
+
+
 
     //-------------- Buttons
     private lateinit var historyButton : ImageButton
@@ -66,6 +84,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var accelXTextView: TextView
     private lateinit var accelYTextView: TextView
     private lateinit var accelZTextView: TextView
+    private lateinit var activityTimeTextView: TextView
+    private lateinit var restTimeTextView: TextView
 
     //-------------- ImageViews
     private lateinit var meteoStateImageView : ImageView
@@ -204,6 +224,12 @@ class MainActivity : AppCompatActivity() {
         // Accel z text view
         accelZTextView = findViewById(R.id.activity_main_accel_textView_z)
 
+        // Activity time text view
+        activityTimeTextView = findViewById(R.id.activity_main_Activity_textView_time)
+        // Rest time text view
+        restTimeTextView = findViewById(R.id.activity_main_Rest_textView_time)
+
+
         //------------------------------ ImageViews --------------------------------
         // Meteo state image
         meteoStateImageView = findViewById(R.id.activity_main_meteo_imageView_meteoState)
@@ -241,6 +267,64 @@ class MainActivity : AppCompatActivity() {
             setLocation()
         }
 
+
+        // Process each INTERVAL_TIME_ACC_PROCESS in ms the acc values
+        val mainHandler = Handler(Looper.getMainLooper())
+        mainHandler.post(object : Runnable {
+            override fun run() {
+
+                var standardDeviation = mutableListOf<Int>(0,0,0)
+
+                Log.d("TEST","ONE SECOND PASSED !!!!!!  \t")
+
+                // Stop the animation
+                if (isAnimationStarted && !pola0H1.connected) {
+                    scaleDown.end()
+                    isAnimationStarted = false
+                }
+
+                // is there is new values
+                if (ACC_saved_x.size != 0) {
+                    // save values & clear saved buffer
+                    val ACC_x = ACC_saved_x.toMutableList()
+                    ACC_saved_x.clear()
+                    val ACC_y = ACC_saved_y.toMutableList()
+                    ACC_saved_y.clear()
+                    val ACC_z = ACC_saved_z.toMutableList()
+                    ACC_saved_z.clear()
+
+                    // calcul standard Deviation
+                    standardDeviation[0] = calculSD(ACC_x)
+                    standardDeviation[1]  = calculSD(ACC_y)
+                    standardDeviation[2]  = calculSD(ACC_z)
+                    Log.d("TEST","SD Y = $standardDeviation\n")
+
+                    // calcul average of standard Deviation
+                    val sdAve = standardDeviation.average()
+                    Log.d("TEST","SD ave = $sdAve \n")
+                    
+
+
+                    // TODO -> handle print unit time (sec / min / hours)
+                    // TODO -> with 2 digit the text return...
+                    // Test if user is in activity or in rest
+                    if (sdAve > AVERAGE_ACC_THRESHOLD){
+                        durationActivity = durationActivity.plusMillis(INTERVAL_TIME_ACC_PROCESS)
+
+                        activityTimeTextView.text = durationActivity.seconds.toString()
+                        Log.d("TEST","in Activity ! (duration = ${durationActivity.seconds})\n")
+                    } else {
+                        durationRest = durationRest.plusMillis(INTERVAL_TIME_ACC_PROCESS)
+
+                        restTimeTextView.text = durationRest.seconds.toString()
+                        Log.d("TEST","in Rest ! (duration = ${durationRest.seconds})\n")
+                    }
+                }
+
+                mainHandler.postDelayed(this, INTERVAL_TIME_ACC_PROCESS)
+            }
+        })
+
         // Interface (Callback via la classe Polar0H1)
         val myPolarCB: CallbackPolar = object : CallbackPolar {
             override fun getHr(hr: Int) {
@@ -270,11 +354,8 @@ class MainActivity : AppCompatActivity() {
 
                 Log.v("TAG", "GET HR : $hr[bpm] \n");
 
-                if ( pola0H1.ACCisStreamed() ) {
-                    Log.d("DBG", "ACCisStreamed = true");
-                } else {
+                if ( !pola0H1.ACCisStreamed() && pola0H1.ACCReady) {
                     Log.d("DBG", "ACCisStreamed = false");
-                    // TODO acc not always OK..
                     pola0H1.getStreamACC();
                 }
 
@@ -282,23 +363,26 @@ class MainActivity : AppCompatActivity() {
                 hearthBeatTextView.text = hr.toString()
             }
 
-            override fun getACC(x: Int, y: Int, z: Int) {
-                Log.v("TAG", "GET ACC : x=$x y=$y z=$z\n");
 
-                // Set the data to the visualisation
-                accelXTextView.text = x.toString()
-                accelYTextView.text = y.toString()
-                accelZTextView.text = z.toString()
+
+
+            override fun getACC(x: Int, y: Int, z: Int) {
+//                Log.v("TAG", "GET ACC : x=$x y=$y z=$z\n");
+//
+//                // Set the data to the visualisation
+//                accelXTextView.text = x.toString()
+//                accelYTextView.text = y.toString()
+//                accelZTextView.text = z.toString()
+
+                ACC_saved_x.add(x)
+                ACC_saved_y.add(y)
+                ACC_saved_z.add(z)
             }
         }
         if(!firstLauchBLE){
             pola0H1.cb = myPolarCB
             pola0H1.connect()
         }
-
-        // TODO -> Stop heartBeat animation when polar disconnected
-        //scaleDown.end()
-        //isAnimationStarted = false
 
         //------------------------------- CONNECT WITH POLAR --------------------------------
         /** Communiacte with Polar 0H1 **/
@@ -313,15 +397,6 @@ class MainActivity : AppCompatActivity() {
             pola0H1.init()
             pola0H1.connect()
 
-            /*
-            Timer("SteamACC", false).schedule(10000) {
-                if (pola0H1.BLEPowered && pola0H1.connected){
-                    Log.v("TAG", "ASK ACC STREAM NOW !\n");
-                    pola0H1.getStreamACC();
-                } else {
-                    Log.v("TAG", "DONT ASK ACC STREAM NOW !\n");
-                }
-            }*/
         }
 
 
@@ -348,6 +423,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun calculSD(accX: MutableList<Int>): Int {
+
+        val size = accX.size
+
+        val somme = accX.sum()
+        val mean = somme / size
+        var standardDeviation = 0;
+
+        for (x in accX) {
+            standardDeviation += (Math.pow((x - mean).toDouble(), 2.0)).toInt()
+        }
+        return Math.sqrt((standardDeviation / size).toDouble()).toInt()
+
+    }
 
 
     /** Need for ble **/

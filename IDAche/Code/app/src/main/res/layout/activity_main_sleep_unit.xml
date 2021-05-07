@@ -39,20 +39,20 @@
             </TextView>
 
             <TextView
+                android:id="@+id/activity_main_Rest_textView_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
                 android:fontFamily="@font/avenir_next_lt_pro_bold"
-                android:text="- -">
-            </TextView>
+                android:text="- -"
+                android:textSize="18sp"></TextView>
 
             <TextView
+                android:id="@+id/activity_main_Rest_textView_unit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" min"
-                android:textSize="18sp"
-                android:textColor="@android:color/darker_gray">
-            </TextView>
+                android:textColor="@android:color/darker_gray"
+                android:textSize="18sp"></TextView>
 
         </LinearLayout>
 
