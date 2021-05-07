@@ -5,8 +5,11 @@ import androidx.lifecycle.ViewModel
 
 class NumberPickerSharedViewModel : ViewModel() {
     val selectedItem = MutableLiveData<Int>()
-    var actualPage : HeadachePages = HeadachePages.PAIN_LEVEL
+    var actualPage = MutableLiveData<HeadachePages>()
     fun onItemSelected(item: Int) {
         selectedItem.value = item
+    }
+    fun onPageSelected(page : HeadachePages) {
+        actualPage.value = page
     }
 }

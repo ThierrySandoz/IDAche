@@ -44,4 +44,7 @@
     <string name="female">Female</string>
     <string name="indicate_according_to_you_on_a_scale_from_1_to_9_what_is_the_level_of_pain_of_your_headache">Indicate according to you on a scale from 1 to 9, what is the level of pain of your headache</string>
     <string name="slight_headache">slight headache</string>
+    <string name="headache_positioning_description">Indicate the positioning of your headache on your head</string>
+    <string name="number_of_cigarettes_smoked_description">Indicate the number of cigarettes smoked today</string>
+    <string name="amount_of_alcool_description">Indicate the amount of alcohol drunk today</string>
 </resources>
