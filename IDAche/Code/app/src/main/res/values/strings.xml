@@ -139,4 +139,19 @@
     <string name="down_button">Down button</string>
     <string name="hh_mm_ss" translatable="false">--:--:--</string>
     <string name="unknown">Unknown</string>
+    <string name="Discomforting">Discomforting</string>
+    <string name="tolerable">Tolerable</string>
+    <string name="distressing">Distressing</string>
+    <string name="very_distressing">Very Distressing</string>
+    <string name="intense">Intense</string>
+    <string name="very_intense">Very Intense</string>
+    <string name="horrible">Horrible</string>
+    <string name="unbearable">Unbearable</string>
+    <string name="unspeakable">Unspeakable</string>
+    <string name="coffee">coffee</string>
+    <string name="cigarettes">cigarettes</string>
+    <string name="alcohol">alcohol</string>
+    <string name="dizziness">dizziness</string>
+    <string name="temperature">temperature</string>
+    <string name="toothache">toothache</string>
 </resources>

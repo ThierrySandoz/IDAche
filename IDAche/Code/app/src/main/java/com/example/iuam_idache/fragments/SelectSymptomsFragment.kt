@@ -68,42 +68,42 @@ class SelectSymptomsFragment : Fragment() {
         // Populate the mutable list
         selectorList = mutableListOf(
             SymptomSelectorUI(
-                "coffee",
+                getString(R.string.coffee),
                 R.drawable.ic_coffee,
                 R.drawable.ic_coffee_blank,
                 symptomList.contains(HeadachePages.COFFEE),
                 HeadachePages.COFFEE
             ),
             SymptomSelectorUI(
-                "cigarettes",
+                getString(R.string.cigarettes),
                 R.drawable.ic_cigarette,
                 R.drawable.ic_cigarette_blank,
                 symptomList.contains(HeadachePages.CIGARETTE),
                 HeadachePages.CIGARETTE
             ),
             SymptomSelectorUI(
-                "alcohol",
+                getString(R.string.alcohol),
                 R.drawable.ic_bier,
                 R.drawable.ic_bier_blank,
                 symptomList.contains(HeadachePages.ALCOHOL),
                 HeadachePages.ALCOHOL
             ),
             SymptomSelectorUI(
-                "dizziness",
+                getString(R.string.dizziness),
                 R.drawable.ic_dizziness,
                 R.drawable.ic_dizziness_blank,
                 symptomList.contains(HeadachePages.DIZZINESS),
                 HeadachePages.DIZZINESS
             ),
             SymptomSelectorUI(
-                "temperature",
+                getString(R.string.temperature),
                 R.drawable.ic_high_temperature,
                 R.drawable.ic_high_temperature_blank,
                 symptomList.contains(HeadachePages.TEMPERATURE),
                 HeadachePages.TEMPERATURE
             ),
             SymptomSelectorUI(
-                "toothache",
+                getString(R.string.toothache),
                 R.drawable.ic_toothache,
                 R.drawable.ic_toothache_blank,
                 symptomList.contains(HeadachePages.TOOTHACHE),

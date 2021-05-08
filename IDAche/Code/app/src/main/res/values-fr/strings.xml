@@ -10,7 +10,7 @@
     <string name="wind_speed">"vitesse du vent : "</string>
     <string name="sleep">"sommeil : "</string>
     <string name="deep_sleep">"sommeil profond : "</string>
-    <string name="select_the_amount_of_coffee_consumed_today">Selectionnez la valeur de café consommée</string>
+    <string name="select_the_amount_of_coffee_consumed_today">Indiquez la quantité de café consommée</string>
     <string name="few_1_expresso">Peu : 1 expresso</string>
     <string name="history">HISTORIQUE</string>
     <string name="description">description</string>
@@ -120,4 +120,19 @@
     <string name="up_button">Bouton haut</string>
     <string name="down_button">Bouton bas</string>
     <string name="unknown">Inconnu</string>
+    <string name="Discomforting">Inconfortable</string>
+    <string name="tolerable">Tolérable</string>
+    <string name="distressing">Pénible</string>
+    <string name="very_distressing">Très pénible</string>
+    <string name="intense">Intense</string>
+    <string name="very_intense">Très intense</string>
+    <string name="horrible">Horrible</string>
+    <string name="unbearable">Insupportable</string>
+    <string name="unspeakable">Indescriptible</string>
+    <string name="coffee">café</string>
+    <string name="cigarettes">cigarettes</string>
+    <string name="alcohol">alcool</string>
+    <string name="dizziness">vertiges</string>
+    <string name="temperature">temperature</string>
+    <string name="toothache">mal de dents</string>
 </resources>

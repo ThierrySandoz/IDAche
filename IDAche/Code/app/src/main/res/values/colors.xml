@@ -10,4 +10,6 @@
     <color name="colorEndGradient">#65d457</color>
     <color name="colorStartGradient">#0a8270</color>
     <color name="colorDarkGray">#AAAAAA</color>
+    <color name="colorGrayPopup">#888888</color>
+    <color name="colorWhite">#FFFFFF</color>
 </resources>

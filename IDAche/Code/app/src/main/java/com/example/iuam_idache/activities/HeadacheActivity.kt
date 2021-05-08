@@ -6,11 +6,14 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProviders
 import com.example.iuam_idache.R
 import com.example.iuam_idache.apiREST.classes.ClientRestAPI
@@ -18,6 +21,7 @@ import com.example.iuam_idache.apiREST.interfaces.getLongCallback
 import com.example.iuam_idache.apiREST.models.EventsAche
 import com.example.iuam_idache.classes.HeadachePages
 import com.example.iuam_idache.classes.NumberPickerSharedViewModel
+import com.skydoves.balloon.*
 import java.util.*
 
 
@@ -34,7 +38,6 @@ class HeadacheActivity : AppCompatActivity() {
     //-------------- Variables
     private var actualPage : Int = 1
     private var lastPage : Int = 1
-    private var actualPageType : HeadachePages = HeadachePages.PAIN_LEVEL
 
     //-------------- SharedPreferences
     private lateinit var sharedPreferences : SharedPreferences
@@ -42,7 +45,7 @@ class HeadacheActivity : AppCompatActivity() {
     private val headachePagesKey : String = "headache_pages"
     private lateinit var stringTokenizer: StringTokenizer
     private lateinit var symptomList: MutableList<HeadachePages>
-    private lateinit var symptomValuesList : MutableList<Int>
+    //private lateinit var symptomValuesList : MutableList<Int>
     private lateinit var sharedPreferencesID: SharedPreferences
     private val userInfoKey : String = "user_information"
     private var userId : Long = -1
@@ -81,9 +84,13 @@ class HeadacheActivity : AppCompatActivity() {
         lastPage = symptomList.size
 
         // Init all values with 0
-        symptomValuesList = mutableListOf()
         for (i in 1..HeadachePages.values().size) {
             symptomValuesList.add(0)
+        }
+
+        // Init the selected symptoms to 5
+        for (symptom in symptomList) {
+            symptomValuesList[symptom.ordinal] = 5
         }
 
         //----------------- Shared view model
@@ -113,7 +120,29 @@ class HeadacheActivity : AppCompatActivity() {
         // On button click
         helpButton.setOnClickListener {
             // TODO -> Do something when click on help
+            val balloon = createBalloon(this) {
+                setArrowSize(10)
+                setWidth(BalloonSizeSpec.WRAP)
+                setArrowPosition(0.5f)
+                setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
+                setMarginLeft(15)
+                setTextGravity(Gravity.START)
+                setCornerRadius(10f)
+                setAlpha(0.95f)
+                setPadding(15)
+                setTextSize(20f)
+                setBalloonAnimation(BalloonAnimation.ELASTIC)
+                setTextTypeface(ResourcesCompat.getFont(baseContext,R.font.avenir_next_lt_pro)!!)
+                setText("This is a Popup used to help the user")
+                setTextColorResource(R.color.colorWhite)
+                setBackgroundColorResource(R.color.colorGrayPopup)
+                setBalloonAnimation(BalloonAnimation.FADE)
+                setLifecycleOwner(lifecycleOwner)
+            }
+            helpButton.showAlignBottom(balloon)
         }
+
+
 
         //------ Back button
         backButton = findViewById(R.id.headache_toolbar_back_imageButton)
@@ -218,5 +247,9 @@ class HeadacheActivity : AppCompatActivity() {
                 pageTitle.text = "PAGE n°$actualPage/$lastPage"
             }
         }
+    }
+
+    companion object {
+        var symptomValuesList : MutableList<Int> = mutableListOf()
     }
 }

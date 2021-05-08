@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.example.iuam_idache.R
+import com.example.iuam_idache.activities.HeadacheActivity
 import com.example.iuam_idache.adapters.PickerAdapter
+import com.example.iuam_idache.classes.HeadachePages
 import com.example.iuam_idache.classes.NumberPickerSharedViewModel
 import com.example.iuam_idache.classes.PickerLayoutManager
 import com.example.iuam_idache.classes.ScreenUtils
@@ -87,9 +89,10 @@ class NumberPickerFragment : Fragment() {
         }
 
         model.actualPage.observe(viewLifecycleOwner, {
-            sliderAdapter.setSelectedItem(defaultPosition - 1)
-            rvHorizontalPicker.scrollToPosition(defaultPosition - 1)
-            model.onItemSelected(defaultPosition)
+            val position = HeadacheActivity.symptomValuesList[it.ordinal]
+            sliderAdapter.setSelectedItem(position - 1)
+            rvHorizontalPicker.scrollToPosition(position - 1)
+            model.onItemSelected(position)
         })
 
         // Return the fragment view/layout
