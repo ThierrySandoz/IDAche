@@ -277,10 +277,16 @@ class MainActivity : AppCompatActivity() {
                         } else {
                             restTimeTextView.text = durationRest.seconds.toString()
                             restTimeUnitTextView.text = " sec"
+
+
                         }
 
                         Log.d("TEST","in Rest ! (duration = ${durationRest.seconds})\n")
                     }
+
+                    // Set the activity and rest time to the companion object
+                    activityTimeValue = durationActivity.seconds
+                    restTimeValue = durationRest.seconds
                 }
 
                 mainHandler.postDelayed(this, INTERVAL_TIME_ACC_PROCESS)
