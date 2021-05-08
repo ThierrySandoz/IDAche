@@ -88,6 +88,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var accelZTextView: TextView
     private lateinit var activityTimeTextView: TextView
     private lateinit var restTimeTextView: TextView
+    private lateinit var activityTimeUnitTextView: TextView
+    private lateinit var restTimeUnitTextView: TextView
 
     //-------------- ImageViews
     private lateinit var meteoStateImageView : ImageView
@@ -165,6 +167,11 @@ class MainActivity : AppCompatActivity() {
         // Rest time text view
         restTimeTextView = findViewById(R.id.activity_main_Rest_textView_time)
 
+        // Activity time unit text view
+        activityTimeUnitTextView = findViewById(R.id.activity_main_Activity_textView_unit)
+        // Rest time unit text view
+        restTimeUnitTextView = findViewById(R.id.activity_main_Activity_textView_unit2)
+
 
         //------------------------------ ImageViews --------------------------------
         // Meteo state image
@@ -239,27 +246,39 @@ class MainActivity : AppCompatActivity() {
                     val sdAve = standardDeviation.average()
                     Log.d("TEST","SD ave = $sdAve \n")
 
-
-
-                    // TODO -> handle print unit time (sec / min / hours)
-                    // TODO -> with 2 digit the text return...
                     // Test if user is in activity or in rest
                     if (sdAve > AVERAGE_ACC_THRESHOLD){
                         durationActivity = durationActivity.plusMillis(INTERVAL_TIME_ACC_PROCESS)
 
-                        activityTimeTextView.text = durationActivity.seconds.toString()
-
-                        // Set the activity time to the companion object
-                        activityTimeValue = durationActivity.seconds
+                        if (durationActivity.seconds >= 60){
+                            if (durationActivity.toMinutes() >= 60 ){
+                                activityTimeTextView.text = durationActivity.toHours().toString()
+                                activityTimeUnitTextView.text = " h"
+                            } else {
+                                activityTimeTextView.text = durationActivity.toMinutes().toString()
+                                activityTimeUnitTextView.text = " min"
+                            }
+                        } else {
+                            activityTimeTextView.text = durationActivity.seconds.toString()
+                            activityTimeUnitTextView.text = " sec"
+                        }
 
                         Log.d("TEST","in Activity ! (duration = ${durationActivity.seconds})\n")
                     } else {
                         durationRest = durationRest.plusMillis(INTERVAL_TIME_ACC_PROCESS)
+                        if (durationRest.seconds >= 60){
+                            if (durationActivity.toMinutes() >= 60 ){
+                                restTimeTextView.text = durationRest.toHours().toString()
+                                restTimeUnitTextView.text = " h"
+                            } else {
+                                restTimeTextView.text = durationRest.toMinutes().toString()
+                                restTimeUnitTextView.text = " min"
+                            }
+                        } else {
+                            restTimeTextView.text = durationRest.seconds.toString()
+                            restTimeUnitTextView.text = " sec"
+                        }
 
-                        // Set the rest time to the companion object
-                        restTimeValue = durationRest.seconds
-
-                        restTimeTextView.text = durationRest.seconds.toString()
                         Log.d("TEST","in Rest ! (duration = ${durationRest.seconds})\n")
                     }
                 }
