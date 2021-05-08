@@ -11,7 +11,8 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/ic_sport">
+        android:src="@drawable/ic_sport"
+        android:contentDescription="@string/activity_time_image">
     </ImageView>
 
     <LinearLayout
@@ -41,16 +42,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/avenir_next_lt_pro_bold"
-                android:text="- -"
-                android:textSize="18sp"></TextView>
+                android:text="@string/__l__"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/activity_main_Activity_textView_unit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" min"
+                android:text="@string/min"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="18sp"></TextView>
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -66,24 +67,24 @@
                 android:fontFamily="@font/avenir_next_lt_pro_demi"
                 android:text="@string/rest_time"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="18sp"></TextView>
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/activity_main_Rest_textView_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/avenir_next_lt_pro_bold"
-                android:text="- - "
-                android:textSize="18sp"></TextView>
+                android:text="@string/__l__"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/activity_main_Activity_textView_unit2"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text=" min"
+                android:text="@string/min"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="18sp"></TextView>
+                android:textSize="18sp" />
 
         </LinearLayout>
 

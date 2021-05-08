@@ -13,7 +13,7 @@
         android:singleLine="false"
         android:fontFamily="@font/avenir_next_lt_pro_demi"
         android:textSize="18sp"
-        android:text="Select relevant elements of your day">
+        android:text="@string/select_relevant_elements_of_your_day">
     </TextView>
 
     <androidx.recyclerview.widget.RecyclerView

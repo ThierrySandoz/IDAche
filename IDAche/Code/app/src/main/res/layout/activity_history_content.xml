@@ -21,7 +21,7 @@
             android:fontFamily="@font/avenir_next_lt_pro_demi"
             android:textSize="25sp"
             android:textColor="@color/colorGreenMedium"
-            android:text="--:--:--">
+            android:text="@string/hh_mm_ss">
         </TextView>
 
         <View

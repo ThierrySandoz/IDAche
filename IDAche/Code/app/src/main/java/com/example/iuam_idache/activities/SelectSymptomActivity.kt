@@ -1,14 +1,10 @@
 package com.example.iuam_idache.activities
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import com.example.iuam_idache.R
-import com.example.iuam_idache.classes.HeadachePages
-import com.example.iuam_idache.fragments.SelectSymptomsFragment
 
 class SelectSymptomActivity : AppCompatActivity() {
 
@@ -26,7 +22,7 @@ class SelectSymptomActivity : AppCompatActivity() {
         // On button click
         closeButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+            intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
             startActivityIfNeeded(intent, 0)
         }
 

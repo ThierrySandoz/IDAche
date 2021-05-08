@@ -12,7 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_baseline_keyboard_arrow_up">
+        android:src="@drawable/ic_baseline_keyboard_arrow_up"
+        android:contentDescription="@string/up_button">
     </ImageButton>
 
     <com.aigestudio.wheelpicker.WheelPicker
@@ -35,7 +36,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_baseline_keyboard_arrow_down">
+        android:src="@drawable/ic_baseline_keyboard_arrow_down"
+        android:contentDescription="@string/down_button">
     </ImageButton>
 
 </LinearLayout>

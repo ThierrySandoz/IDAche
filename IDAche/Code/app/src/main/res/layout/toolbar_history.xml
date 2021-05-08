@@ -19,7 +19,8 @@
             android:src="@drawable/ic_left_arrow"
             android:background="@null"
             android:layout_marginEnd="5dp"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/back_button" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -72,7 +73,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/avenir_next_lt_pro_demi"
-            android:layout_toEndOf="@id/history_toolbar_close_search_button" />
+            android:layout_toEndOf="@id/history_toolbar_close_search_button"
+            android:autofillHints="01/01/2021"
+            android:inputType="text" />
 
     </RelativeLayout>
 

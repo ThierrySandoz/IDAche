@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.example.iuam_idache.R
@@ -15,9 +14,6 @@ import com.example.iuam_idache.classes.PickerLayoutManager
 import com.example.iuam_idache.classes.ScreenUtils
 
 class NumberPickerFragment : Fragment() {
-
-    //------------ Activities
-    //private lateinit var headacheActivity: HeadacheActivity
 
     private val data = (1..9).toList().map { it.toString() } as ArrayList<String>
     private lateinit var rvHorizontalPicker: RecyclerView
@@ -90,12 +86,10 @@ class NumberPickerFragment : Fragment() {
             }
         }
 
-        model.actualPage.observe(viewLifecycleOwner, object : Observer<Any?> {
-            override fun onChanged(t: Any?) {
-                sliderAdapter.setSelectedItem(defaultPosition - 1)
-                rvHorizontalPicker.scrollToPosition(defaultPosition - 1)
-                model.onItemSelected(defaultPosition)
-            }
+        model.actualPage.observe(viewLifecycleOwner, {
+            sliderAdapter.setSelectedItem(defaultPosition - 1)
+            rvHorizontalPicker.scrollToPosition(defaultPosition - 1)
+            model.onItemSelected(defaultPosition)
         })
 
         // Return the fragment view/layout

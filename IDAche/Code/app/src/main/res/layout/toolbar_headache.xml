@@ -18,7 +18,8 @@
             android:src="@drawable/ic_close"
             android:background="@null"
             android:layout_marginEnd="10dp"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/close_button" />
 
         <ImageButton
             android:id="@+id/headache_toolbar_help_imageButton"
@@ -28,7 +29,8 @@
             android:layout_toEndOf="@+id/headache_toolbar_close_imageButton"
             android:layout_marginEnd="10dp"
             android:background="@null"
-            android:src="@drawable/ic_help">
+            android:src="@drawable/ic_help"
+            android:contentDescription="@string/help_button">
         </ImageButton>
 
         <TextView
@@ -37,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textColor="@android:color/white"
-            android:text="HEADACHE"
+            android:text="@string/headache"
             android:textSize="20sp"
             android:textStyle="bold"
             android:fontFamily="@font/avenir_next_lt_pro_bold">
@@ -48,10 +50,11 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/headache_toolbar_next_imageButton"
+            android:layout_toStartOf="@+id/headache_toolbar_next_imageButton"
             android:layout_marginEnd="10dp"
             android:background="@null"
-            android:src="@drawable/ic_left_arrow">
+            android:src="@drawable/ic_left_arrow"
+            android:contentDescription="@string/back_button">
         </ImageButton>
 
         <ImageButton
@@ -62,7 +65,8 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
             android:background="@null"
-            android:src="@drawable/ic_right_arrow">
+            android:src="@drawable/ic_right_arrow"
+            android:contentDescription="@string/next_button">
         </ImageButton>
 
     </RelativeLayout>

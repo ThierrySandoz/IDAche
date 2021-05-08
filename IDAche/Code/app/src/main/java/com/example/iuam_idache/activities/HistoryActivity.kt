@@ -24,8 +24,6 @@ import com.example.iuam_idache.apiREST.models.EventsAche
 import com.example.iuam_idache.classes.HistoryUnit
 import java.util.stream.Collectors
 
-//TODO -> Change the way to manage location in DB (lat,long -> location) + add heartBeat in DB
-
 class HistoryActivity : AppCompatActivity() {
 
     private lateinit var myClientRestAPI : ClientRestAPI
@@ -165,12 +163,11 @@ class HistoryActivity : AppCompatActivity() {
         updateList(historyUnitDisplayedList)
 
         //--------------------------------- Shared Preferences -------------------------------------
-
         // Get shared preferences
         sharedPreferences = getSharedPreferences(userInfoKey, Context.MODE_PRIVATE)
 
         // Get the user ID from shared preferences
-        val userId : Long = sharedPreferences.getLong(ProfilActivity.userIDKey, -1) // TODO -> Decomment to get the real ID
+        val userId : Long = sharedPreferences.getLong(ProfilActivity.userIDKey, -1)
 
         //------------------------------------- Client API -----------------------------------------
         // Get the client request API
@@ -362,7 +359,7 @@ class HistoryActivity : AppCompatActivity() {
 
         // Meteo values
         if (data[position].location == "" || data[position].location == "None")
-            locationTextView.text = getString(R.string.Unknown);
+            locationTextView.text = getString(R.string.Unknown)
         else
             locationTextView.text = data[position].location
 
@@ -379,7 +376,7 @@ class HistoryActivity : AppCompatActivity() {
             }
         }
         else {
-            meteoStateTextView.text = "Unknown"
+            meteoStateTextView.text = getString(R.string.unknown)
             meteoStateImageView.setImageResource(R.drawable.ic_weather_icon_cloudy)
         }
         windSpeedTextView.text = data[position].windSpeed

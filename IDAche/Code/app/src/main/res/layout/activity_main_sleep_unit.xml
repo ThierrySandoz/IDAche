@@ -12,7 +12,8 @@
         android:layout_height="47dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="5dp"
-        android:src="@drawable/ic_sleep">
+        android:src="@drawable/ic_sleep"
+        android:contentDescription="@string/sleep_time_image">
 
     </ImageView>
 
@@ -42,15 +43,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/avenir_next_lt_pro_bold"
-                android:text="- -"
-                android:textSize="18sp"></TextView>
+                android:text="@string/__"
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" min"
+                android:text="@string/min"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="18sp"></TextView>
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -74,14 +75,14 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:fontFamily="@font/avenir_next_lt_pro_bold"
-                android:text="- -">
+                android:text="@string/__">
             </TextView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                android:text=" min"
+                android:text="@string/min"
                 android:textColor="@android:color/darker_gray">
             </TextView>
 

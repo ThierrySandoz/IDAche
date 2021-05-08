@@ -183,7 +183,7 @@ class ProfilActivity : AppCompatActivity() {
 
                     // Go to main menu
                     val intent = Intent(this, MainActivity::class.java)
-                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                    intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
                     startActivityIfNeeded(intent, 0)
 
                 }

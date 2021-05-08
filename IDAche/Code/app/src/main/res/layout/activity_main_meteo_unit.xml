@@ -15,7 +15,8 @@
         android:scaleX="1.2"
         android:scaleY="1.2"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/ic_weather_icon_cloudy">
+        android:src="@drawable/ic_weather_icon_cloudy"
+        android:contentDescription="@string/weather_icon">
     </ImageView>
 
     <LinearLayout
@@ -49,7 +50,7 @@
             android:marqueeRepeatLimit ="marquee_forever"
             android:singleLine="true"
             android:scrollHorizontally="true"
-            android:text="---"
+            android:text="@string/_l_l_"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/avenir_next_lt_pro_demi"
             android:textColor="@android:color/darker_gray"
@@ -65,14 +66,14 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/avenir_next_lt_pro_bold"
                 android:textSize="20sp"
-                android:text ="- -">
+                android:text ="@string/_l_">
             </TextView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/avenir_next_lt_pro_bold"
                 android:textSize="20sp"
-                android:text ="°C">
+                android:text ="@string/c">
             </TextView>
         </LinearLayout>
 
@@ -106,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:fontFamily="@font/avenir_next_lt_pro_bold"
-                android:text="--">
+                android:text ="@string/_l_">
             </TextView>
 
             <TextView
@@ -114,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:fontFamily="@font/avenir_next_lt_pro_demi"
-                android:text=" %">
+                android:text="@string/_percent">
             </TextView>
 
         </LinearLayout>
@@ -139,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:fontFamily="@font/avenir_next_lt_pro_bold"
-                android:text="----">
+                android:text="@string/_l_l_l_">
             </TextView>
 
             <TextView
@@ -147,7 +148,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:fontFamily="@font/avenir_next_lt_pro_demi"
-                android:text=" hPa">
+                android:text="@string/hpa">
             </TextView>
 
         </LinearLayout>
@@ -172,7 +173,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:fontFamily="@font/avenir_next_lt_pro_bold"
-                android:text="---">
+                android:text="@string/_l_l_">
             </TextView>
 
             <TextView
@@ -180,7 +181,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:fontFamily="@font/avenir_next_lt_pro_demi"
-                android:text=" m/s">
+                android:text="@string/m_s">
             </TextView>
 
         </LinearLayout>

@@ -49,4 +49,94 @@
     <string name="amount_of_alcool_description">Indicate the amount of alcohol drunk today</string>
     <string name="rest_time">"rest time : "</string>
     <string name="Indicate_the_position_of_your_headache">Indicate the position of your headache</string>
+    <string name="thunderstorm_with_light_rain">Thunderstorm with light rain</string>
+    <string name="broken_clouds_51_84">Broken clouds (51-84%)</string>
+    <string name="clear_sky">Clear sky</string>
+    <string name="few_clouds_11_25">Few clouds (11-25%)</string>
+    <string name="scattered_clouds_25_50">Scattered clouds (25-50%)</string>
+    <string name="overcast_clouds_85_100">Overcast clouds (85-100%)</string>
+    <string name="mist">Mist</string>
+    <string name="smoke">Smoke</string>
+    <string name="haze">Haze</string>
+    <string name="sand_dust_whirls">Sand/dust whirls</string>
+    <string name="fog">Fog</string>
+    <string name="sand">Sand</string>
+    <string name="dust">Dust</string>
+    <string name="volcanic_ash">Volcanic ash</string>
+    <string name="squalls">Squalls</string>
+    <string name="tornado">Tornado</string>
+    <string name="heavy_shower_snow">Heavy shower snow</string>
+    <string name="shower_snow">Shower snow</string>
+    <string name="light_shower_snow">Light shower snow</string>
+    <string name="rain_and_snow">Rain and snow</string>
+    <string name="light_rain_and_snow">Light rain and snow</string>
+    <string name="shower_sleet">Shower sleet</string>
+    <string name="light_shower_sleet">Light shower sleet</string>
+    <string name="sleet">Sleet</string>
+    <string name="heavy_snow">Heavy snow</string>
+    <string name="snow">Snow</string>
+    <string name="light_snow">Light snow</string>
+    <string name="ragged_shower_rain">Ragged shower rain</string>
+    <string name="heavy_intensity_shower_rain">Heavy intensity shower rain</string>
+    <string name="shower_rain">Shower rain</string>
+    <string name="light_intensity_shower_rain">Light intensity shower rain</string>
+    <string name="freezing_rain">Freezing rain</string>
+    <string name="extreme_rain">Extreme rain</string>
+    <string name="very_heavy_rain">Very heavy rain</string>
+    <string name="heavy_intensity_rain">Heavy intensity rain</string>
+    <string name="moderate_rain">Moderate rain</string>
+    <string name="light_rain">Light rain</string>
+    <string name="shower_drizzle">Shower drizzle</string>
+    <string name="heavy_shower_rain_and_drizzle">Heavy shower rain and drizzle</string>
+    <string name="shower_rain_and_drizzle">Shower rain and drizzle</string>
+    <string name="heavy_intensity_drizzle_rain">Heavy intensity drizzle rain</string>
+    <string name="drizzle_rain">Drizzle rain</string>
+    <string name="light_intensity_drizzle_rain">Light intensity drizzle rain</string>
+    <string name="heavy_intensity_drizzle">Heavy intensity drizzle</string>
+    <string name="drizzle">Drizzle</string>
+    <string name="light_intensity_drizzle">Light intensity drizzle</string>
+    <string name="thunderstorm_with_heavy_drizzle">Thunderstorm with heavy drizzle</string>
+    <string name="thunderstorm_with_drizzle">Thunderstorm with drizzle</string>
+    <string name="thunderstorm_with_light_drizzle">Thunderstorm with light drizzle</string>
+    <string name="ragged_thunderstorm">Ragged thunderstorm</string>
+    <string name="heavy_thunderstorm">Heavy thunderstorm</string>
+    <string name="thunderstorm">Thunderstorm</string>
+    <string name="light_thunderstorm">Light thunderstorm</string>
+    <string name="thunderstorm_with_heavy_rain">Thunderstorm with heavy rain</string>
+    <string name="thunderstorm_with_rain">Thunderstorm with rain</string>
+    <string name="select_relevant_elements_of_your_day">Select relevant elements of your day</string>
+    <string name="headache">HEADACHE</string>
+    <string name="next_arrow">Next arrow</string>
+    <string name="profil_button">Profil button</string>
+    <string name="history_button">History button</string>
+    <string name="back_button">Back button</string>
+    <string name="close_button">Close button</string>
+    <string name="next_button">Next button</string>
+    <string name="help_button">Help button</string>
+    <string name="symptom_description">Symptom description</string>
+    <string name="symptom_image">Symptom image</string>
+    <string name="sleep_time_image">Sleep time image</string>
+    <string name="min" translatable="false">" min"</string>
+    <string name="__" translatable="false">- -</string>
+    <string name="_l_l_" translatable="false">---</string>
+    <string name="_l_" translatable="false">- -</string>
+    <string name="c" translatable="false">°C</string>
+    <string name="_percent" translatable="false">%</string>
+    <string name="_l_l_l_" translatable="false">----</string>
+    <string name="hpa" translatable="false">" hPa"</string>
+    <string name="m_s" translatable="false">" m/s"</string>
+    <string name="weather_icon">Weather icon</string>
+    <string name="hearthbeat_image">HearthBeat image</string>
+    <string name="__l__l__" translatable="false">- - -</string>
+    <string name="bpm" translatable="false">" bpm"</string>
+    <string name="activity_time_image">Activity time image</string>
+    <string name="__l__" translatable="false">- -</string>
+    <string name="accelerometer_image">Accelerometer image</string>
+    <string name="x" translatable="false">x :</string>
+    <string name="y" translatable="false">y :</string>
+    <string name="z" translatable="false">z :</string>
+    <string name="up_button">Up button</string>
+    <string name="down_button">Down button</string>
+    <string name="hh_mm_ss" translatable="false">--:--:--</string>
+    <string name="unknown">Unknown</string>
 </resources>

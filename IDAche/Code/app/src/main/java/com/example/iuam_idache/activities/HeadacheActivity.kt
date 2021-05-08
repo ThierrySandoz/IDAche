@@ -158,13 +158,8 @@ class HeadacheActivity : AppCompatActivity() {
 
             // If last page -> Save the data + go back to main menu
             if (actualPage == lastPage) {
-                // TODO -> Save the data
 
-                // TODO : crete event
-                // test event without postition + weahter
-
-                // Get values from MainActivity
-
+                // Create the event
                 val myEvent = EventsAche(
                     user_id = userId,
                     event_hr_ave = MainActivity.heartRateAverageValue,
@@ -186,9 +181,6 @@ class HeadacheActivity : AppCompatActivity() {
                     event_ache_type = symptomValuesList[HeadachePages.HEADACHE_AREA.ordinal]
                     )
 
-                // TODO change code weather byte to string
-
-                // TODO uncomment request for add event to database
                 val myClientRestAPI = ClientRestAPI()
                 myClientRestAPI.addNewEvents(myEvent, object : getLongCallback {
                     override fun onSuccess(myID: Long) {
@@ -197,7 +189,6 @@ class HeadacheActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure() {
-                        // TODO : add notif
                         Log.v("TAG", "addNewEvents -> Failed ! ")
                         Toast.makeText(this@HeadacheActivity, "Failure", Toast.LENGTH_SHORT).show()
                     }

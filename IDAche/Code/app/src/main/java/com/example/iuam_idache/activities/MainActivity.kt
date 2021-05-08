@@ -33,7 +33,7 @@ import java.util.*
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-var firstLauchBLE = true;
+var firstLauchBLE = true
 
 //-------------- Polar variables
 private lateinit var pola0H1: Polar0H1
@@ -63,8 +63,7 @@ class MainActivity : AppCompatActivity() {
 
     //--------------  List of N last measure of HR
     var HR_saved = mutableListOf<Int>()
-    val N_LAST_MEASURE_HR = 300;
-
+    val N_LAST_MEASURE_HR = 300
 
 
     //-------------- Buttons
@@ -277,8 +276,6 @@ class MainActivity : AppCompatActivity() {
                         } else {
                             restTimeTextView.text = durationRest.seconds.toString()
                             restTimeUnitTextView.text = " sec"
-
-
                         }
 
                         Log.d("TEST","in Rest ! (duration = ${durationRest.seconds})\n")
@@ -331,11 +328,11 @@ class MainActivity : AppCompatActivity() {
                 hearthBeatAverageTextView.text = String.format("%.1f", HR_ave)
                 hearthBeatMaxTextView.text = HR_max.toString()
 
-                Log.v("TAG", "GET HR : $hr[bpm] \n");
+                Log.v("TAG", "GET HR : $hr[bpm] \n")
 
                 if ( !pola0H1.ACCisStreamed() && pola0H1.ACCReady) {
-                    Log.d("DBG", "ACCisStreamed = false");
-                    pola0H1.getStreamACC();
+                    Log.d("DBG", "ACCisStreamed = false")
+                    pola0H1.getStreamACC()
                 }
 
                 // Set the data to the visualisation
@@ -406,7 +403,7 @@ class MainActivity : AppCompatActivity() {
 
         val somme = accX.sum()
         val mean = somme / size
-        var standardDeviation = 0;
+        var standardDeviation = 0
 
         for (x in accX) {
             standardDeviation += ((x - mean).toDouble().pow(2.0)).toInt()
@@ -461,7 +458,7 @@ class MainActivity : AppCompatActivity() {
                                 meteoStateTextView.text = weatherId.description
                                 meteoStateImageView.setImageResource(weatherId.iconDrawableID)
                             } else {
-                                meteoStateTextView.text = "Unknown"
+                                meteoStateTextView.text = getString(R.string.unknown)
                                 meteoStateImageView.setImageResource(R.drawable.ic_weather_icon_cloudy)
                             }
 
@@ -584,7 +581,7 @@ class MainActivity : AppCompatActivity() {
                                     meteoStateTextView.text = weatherId.description
                                     meteoStateImageView.setImageResource(weatherId.iconDrawableID)
                                 } else {
-                                    meteoStateTextView.text = "Unknown"
+                                    meteoStateTextView.text = getString(R.string.unknown)
                                     meteoStateImageView.setImageResource(R.drawable.ic_weather_icon_cloudy)
                                 }
 
@@ -641,7 +638,7 @@ class MainActivity : AppCompatActivity() {
                                     meteoStateTextView.text = weatherId.description
                                     meteoStateImageView.setImageResource(weatherId.iconDrawableID)
                                 } else {
-                                    meteoStateTextView.text = "Unknown"
+                                    meteoStateTextView.text = getString(R.string.unknown)
                                     meteoStateImageView.setImageResource(R.drawable.ic_weather_icon_cloudy)
                                 }
 
@@ -684,9 +681,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
     override fun onResume() {
         super.onResume()
         /** Need for api ble **/
@@ -703,74 +697,74 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun initializeMeteoIconsArray() {
+    private fun initializeMeteoIconsArray() {
         weatherIconsList = arrayListOf(
-            WeatherIcons(200, R.drawable.ic_weather_icon_thunder, "thunderstorm with light rain"),
-            WeatherIcons(201, R.drawable.ic_weather_icon_thunder, "thunderstorm with rain"),
-            WeatherIcons(202, R.drawable.ic_weather_icon_thunder, "thunderstorm with heavy rain"),
-            WeatherIcons(210, R.drawable.ic_weather_icon_thunder, "light thunderstorm"),
-            WeatherIcons(211, R.drawable.ic_weather_icon_thunder, "thunderstorm"),
-            WeatherIcons(212, R.drawable.ic_weather_icon_thunder, "heavy thunderstorm"),
-            WeatherIcons(221, R.drawable.ic_weather_icon_thunder, "ragged thunderstorm"),
-            WeatherIcons(230, R.drawable.ic_weather_icon_thunder, "thunderstorm with light drizzle"),
-            WeatherIcons(231, R.drawable.ic_weather_icon_thunder, "thunderstorm with drizzle"),
-            WeatherIcons(232, R.drawable.ic_weather_icon_thunder, "thunderstorm with heavy drizzle"),
+            WeatherIcons(200, R.drawable.ic_weather_icon_thunder, getString(R.string.thunderstorm_with_light_rain)),
+            WeatherIcons(201, R.drawable.ic_weather_icon_thunder, getString(R.string.thunderstorm_with_rain)),
+            WeatherIcons(202, R.drawable.ic_weather_icon_thunder, getString(R.string.thunderstorm_with_heavy_rain)),
+            WeatherIcons(210, R.drawable.ic_weather_icon_thunder, getString(R.string.light_thunderstorm)),
+            WeatherIcons(211, R.drawable.ic_weather_icon_thunder, getString(R.string.thunderstorm)),
+            WeatherIcons(212, R.drawable.ic_weather_icon_thunder, getString(R.string.heavy_thunderstorm)),
+            WeatherIcons(221, R.drawable.ic_weather_icon_thunder, getString(R.string.ragged_thunderstorm)),
+            WeatherIcons(230, R.drawable.ic_weather_icon_thunder, getString(R.string.thunderstorm_with_light_drizzle)),
+            WeatherIcons(231, R.drawable.ic_weather_icon_thunder, getString(R.string.thunderstorm_with_drizzle)),
+            WeatherIcons(232, R.drawable.ic_weather_icon_thunder, getString(R.string.thunderstorm_with_heavy_drizzle)),
 
-            WeatherIcons(300, R.drawable.ic_weather_icon_rainy_4, "light intensity drizzle"),
-            WeatherIcons(301, R.drawable.ic_weather_icon_rainy_4, "drizzle"),
-            WeatherIcons(302, R.drawable.ic_weather_icon_rainy_4, "heavy intensity drizzle"),
-            WeatherIcons(310, R.drawable.ic_weather_icon_rainy_5, "light intensity drizzle rain"),
-            WeatherIcons(311, R.drawable.ic_weather_icon_rainy_5, "drizzle rain"),
-            WeatherIcons(312, R.drawable.ic_weather_icon_rainy_5, "heavy intensity drizzle rain"),
-            WeatherIcons(313, R.drawable.ic_weather_icon_rainy_6, "shower rain and drizzle"),
-            WeatherIcons(314, R.drawable.ic_weather_icon_rainy_6, "heavy shower rain and drizzle"),
-            WeatherIcons(321, R.drawable.ic_weather_icon_rainy_6, "shower drizzle"),
+            WeatherIcons(300, R.drawable.ic_weather_icon_rainy_4, getString(R.string.light_intensity_drizzle)),
+            WeatherIcons(301, R.drawable.ic_weather_icon_rainy_4, getString(R.string.drizzle)),
+            WeatherIcons(302, R.drawable.ic_weather_icon_rainy_4, getString(R.string.heavy_intensity_drizzle)),
+            WeatherIcons(310, R.drawable.ic_weather_icon_rainy_5, getString(R.string.light_intensity_drizzle_rain)),
+            WeatherIcons(311, R.drawable.ic_weather_icon_rainy_5, getString(R.string.drizzle_rain)),
+            WeatherIcons(312, R.drawable.ic_weather_icon_rainy_5, getString(R.string.heavy_intensity_drizzle_rain)),
+            WeatherIcons(313, R.drawable.ic_weather_icon_rainy_6, getString(R.string.shower_rain_and_drizzle)),
+            WeatherIcons(314, R.drawable.ic_weather_icon_rainy_6, getString(R.string.heavy_shower_rain_and_drizzle)),
+            WeatherIcons(321, R.drawable.ic_weather_icon_rainy_6, getString(R.string.shower_drizzle)),
 
-            WeatherIcons(500, R.drawable.ic_weather_icon_rainy_2, "light rain"),
-            WeatherIcons(501, R.drawable.ic_weather_icon_rainy_2, "moderate rain"),
-            WeatherIcons(502, R.drawable.ic_weather_icon_rainy_2, "heavy intensity rain"),
-            WeatherIcons(503, R.drawable.ic_weather_icon_rainy_3, "very heavy rain"),
-            WeatherIcons(504, R.drawable.ic_weather_icon_rainy_3, "extreme rain"),
-            WeatherIcons(511, R.drawable.ic_weather_icon_rainy_7, "freezing rain"),
-            WeatherIcons(520, R.drawable.ic_weather_icon_rainy_4, "light intensity shower rain"),
-            WeatherIcons(521, R.drawable.ic_weather_icon_rainy_5, "shower rain"),
-            WeatherIcons(522, R.drawable.ic_weather_icon_rainy_5, "heavy intensity shower rain"),
-            WeatherIcons(531, R.drawable.ic_weather_icon_rainy_6, "ragged shower rain"),
+            WeatherIcons(500, R.drawable.ic_weather_icon_rainy_2, getString(R.string.light_rain)),
+            WeatherIcons(501, R.drawable.ic_weather_icon_rainy_2, getString(R.string.moderate_rain)),
+            WeatherIcons(502, R.drawable.ic_weather_icon_rainy_2, getString(R.string.heavy_intensity_rain)),
+            WeatherIcons(503, R.drawable.ic_weather_icon_rainy_3, getString(R.string.very_heavy_rain)),
+            WeatherIcons(504, R.drawable.ic_weather_icon_rainy_3, getString(R.string.extreme_rain)),
+            WeatherIcons(511, R.drawable.ic_weather_icon_rainy_7, getString(R.string.freezing_rain)),
+            WeatherIcons(520, R.drawable.ic_weather_icon_rainy_4, getString(R.string.light_intensity_shower_rain)),
+            WeatherIcons(521, R.drawable.ic_weather_icon_rainy_5, getString(R.string.shower_rain)),
+            WeatherIcons(522, R.drawable.ic_weather_icon_rainy_5, getString(R.string.heavy_intensity_shower_rain)),
+            WeatherIcons(531, R.drawable.ic_weather_icon_rainy_6, getString(R.string.ragged_shower_rain)),
 
-            WeatherIcons(600, R.drawable.ic_weather_icon_snowy_4, "light snow"),
-            WeatherIcons(601, R.drawable.ic_weather_icon_snowy_5, "Snow"),
-            WeatherIcons(602, R.drawable.ic_weather_icon_snowy_6, "Heavy snow"),
-            WeatherIcons(611, R.drawable.ic_weather_icon_snowy_2, "Sleet"),
-            WeatherIcons(612, R.drawable.ic_weather_icon_snowy_2, "Light shower sleet"),
-            WeatherIcons(613, R.drawable.ic_weather_icon_snowy_3, "Shower sleet"),
-            WeatherIcons(615, R.drawable.ic_weather_icon_snowy_4, "Light rain and snow"),
-            WeatherIcons(616, R.drawable.ic_weather_icon_snowy_5, "Rain and snow"),
-            WeatherIcons(620, R.drawable.ic_weather_icon_snowy_4, "Light shower snow"),
-            WeatherIcons(621, R.drawable.ic_weather_icon_snowy_5, "Shower snow"),
-            WeatherIcons(622, R.drawable.ic_weather_icon_snowy_6, "Heavy shower snow"),
+            WeatherIcons(600, R.drawable.ic_weather_icon_snowy_4, getString(R.string.light_snow)),
+            WeatherIcons(601, R.drawable.ic_weather_icon_snowy_5, getString(R.string.snow)),
+            WeatherIcons(602, R.drawable.ic_weather_icon_snowy_6, getString(R.string.heavy_snow)),
+            WeatherIcons(611, R.drawable.ic_weather_icon_snowy_2, getString(R.string.sleet)),
+            WeatherIcons(612, R.drawable.ic_weather_icon_snowy_2, getString(R.string.light_shower_sleet)),
+            WeatherIcons(613, R.drawable.ic_weather_icon_snowy_3, getString(R.string.shower_sleet)),
+            WeatherIcons(615, R.drawable.ic_weather_icon_snowy_4, getString(R.string.light_rain_and_snow)),
+            WeatherIcons(616, R.drawable.ic_weather_icon_snowy_5, getString(R.string.rain_and_snow)),
+            WeatherIcons(620, R.drawable.ic_weather_icon_snowy_4, getString(R.string.light_shower_snow)),
+            WeatherIcons(621, R.drawable.ic_weather_icon_snowy_5, getString(R.string.shower_snow)),
+            WeatherIcons(622, R.drawable.ic_weather_icon_snowy_6, getString(R.string.heavy_shower_snow)),
 
-            WeatherIcons(701, R.drawable.ic_weather_icon_mist, "mist"),
-            WeatherIcons(711, R.drawable.ic_weather_icon_mist, "Smoke"),
-            WeatherIcons(721, R.drawable.ic_weather_icon_mist, "Haze"),
-            WeatherIcons(731, R.drawable.ic_weather_icon_mist, "sand/ dust whirls"),
-            WeatherIcons(741, R.drawable.ic_weather_icon_mist, "fog"),
-            WeatherIcons(751, R.drawable.ic_weather_icon_mist, "sand"),
-            WeatherIcons(761, R.drawable.ic_weather_icon_mist, "dust"),
-            WeatherIcons(762, R.drawable.ic_weather_icon_mist, "volcanic ash"),
-            WeatherIcons(771, R.drawable.ic_weather_icon_mist, "squalls"),
-            WeatherIcons(781, R.drawable.ic_weather_icon_mist, "tornado"),
+            WeatherIcons(701, R.drawable.ic_weather_icon_mist, getString(R.string.mist)),
+            WeatherIcons(711, R.drawable.ic_weather_icon_mist, getString(R.string.smoke)),
+            WeatherIcons(721, R.drawable.ic_weather_icon_mist, getString(R.string.haze)),
+            WeatherIcons(731, R.drawable.ic_weather_icon_mist, getString(R.string.sand_dust_whirls)),
+            WeatherIcons(741, R.drawable.ic_weather_icon_mist, getString(R.string.fog)),
+            WeatherIcons(751, R.drawable.ic_weather_icon_mist, getString(R.string.sand)),
+            WeatherIcons(761, R.drawable.ic_weather_icon_mist, getString(R.string.dust)),
+            WeatherIcons(762, R.drawable.ic_weather_icon_mist, getString(R.string.volcanic_ash)),
+            WeatherIcons(771, R.drawable.ic_weather_icon_mist, getString(R.string.squalls)),
+            WeatherIcons(781, R.drawable.ic_weather_icon_mist, getString(R.string.tornado)),
 
-            WeatherIcons(800, R.drawable.ic_weather_icon_day, "clear sky"),
-            WeatherIcons(801, R.drawable.ic_weather_icon_cloudy_day_1, "few clouds (11-25%)"),
-            WeatherIcons(802, R.drawable.ic_weather_icon_cloudy_day_2, "scattered clouds (25-50%)"),
-            WeatherIcons(803, R.drawable.ic_weather_icon_cloudy_day_3, "broken clouds (51-84%)"),
-            WeatherIcons(804, R.drawable.ic_weather_icon_cloudy, "overcast clouds (85-100%)"),
+            WeatherIcons(800, R.drawable.ic_weather_icon_day, getString(R.string.clear_sky)),
+            WeatherIcons(801, R.drawable.ic_weather_icon_cloudy_day_1, getString(R.string.few_clouds_11_25)),
+            WeatherIcons(802, R.drawable.ic_weather_icon_cloudy_day_2, getString(R.string.scattered_clouds_25_50)),
+            WeatherIcons(803, R.drawable.ic_weather_icon_cloudy_day_3, getString(R.string.broken_clouds_51_84)),
+            WeatherIcons(804, R.drawable.ic_weather_icon_cloudy, getString(R.string.overcast_clouds_85_100)),
 
-            WeatherIcons(900, R.drawable.ic_weather_icon_night, "clear sky"),
-            WeatherIcons(901, R.drawable.ic_weather_icon_cloudy_night_1, "few clouds (11-25%)"),
-            WeatherIcons(902, R.drawable.ic_weather_icon_cloudy_night_2, "scattered clouds (25-50%)"),
-            WeatherIcons(903, R.drawable.ic_weather_icon_cloudy_night_3, "broken clouds (51-84%)"),
-            WeatherIcons(904, R.drawable.ic_weather_icon_cloudy, "overcast clouds (85-100%)"),
+            WeatherIcons(900, R.drawable.ic_weather_icon_night, getString(R.string.clear_sky)),
+            WeatherIcons(901, R.drawable.ic_weather_icon_cloudy_night_1, getString(R.string.few_clouds_11_25)),
+            WeatherIcons(902, R.drawable.ic_weather_icon_cloudy_night_2, getString(R.string.scattered_clouds_25_50)),
+            WeatherIcons(903, R.drawable.ic_weather_icon_cloudy_night_3, getString(R.string.broken_clouds_51_84)),
+            WeatherIcons(904, R.drawable.ic_weather_icon_cloudy, getString(R.string.overcast_clouds_85_100)),
         )
     }
 

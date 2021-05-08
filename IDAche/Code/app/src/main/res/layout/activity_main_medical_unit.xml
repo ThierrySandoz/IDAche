@@ -15,7 +15,8 @@
         android:layout_marginTop="3dp"
         android:layout_marginStart="5dp"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/ic_heartbeat">
+        android:src="@drawable/ic_heartbeat"
+        android:contentDescription="@string/hearthbeat_image">
     </ImageView>
 
     <LinearLayout
@@ -32,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/avenir_next_lt_pro_bold"
-            android:text="- - -"
+            android:text="@string/__l__l__"
             android:textSize="26sp">
         </TextView>
 
@@ -42,7 +43,7 @@
             android:layout_gravity="center_vertical"
             android:textColor="@android:color/darker_gray"
             android:fontFamily="@font/avenir_next_lt_pro_demi"
-            android:text=" bpm"
+            android:text="@string/bpm"
             android:textSize="26sp">
         </TextView>
 
@@ -76,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:fontFamily="@font/avenir_next_lt_pro_bold"
-                android:text="---">
+                android:text="@string/_l_l_">
             </TextView>
 
             <TextView
@@ -84,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:fontFamily="@font/avenir_next_lt_pro_demi"
-                android:text=" bpm">
+                android:text="@string/bpm">
             </TextView>
 
         </LinearLayout>
@@ -109,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:fontFamily="@font/avenir_next_lt_pro_bold"
-                android:text="---">
+                android:text="@string/_l_l_">
             </TextView>
 
             <TextView
@@ -117,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:fontFamily="@font/avenir_next_lt_pro_demi"
-                android:text=" bpm">
+                android:text="@string/bpm">
             </TextView>
 
         </LinearLayout>
@@ -141,7 +142,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/avenir_next_lt_pro_bold"
-                android:text="---"
+                android:text="@string/_l_l_"
                 android:textSize="13sp">
             </TextView>
 
@@ -150,7 +151,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:fontFamily="@font/avenir_next_lt_pro_demi"
-                android:text=" bpm">
+                android:text="@string/bpm">
             </TextView>
 
         </LinearLayout>

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/conversation_toolbar"
     android:layout_height="60dp"
     android:layout_width="match_parent"
@@ -24,7 +22,7 @@
             android:textSize="23sp"
             android:textStyle="bold"
             android:fontFamily="@font/avenir_next_lt_pro_bold"
-            android:text="IDAche">
+            android:text="@string/idache">
         </TextView>
 
         <ImageButton
@@ -33,9 +31,10 @@
             android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_marginEnd="5dp"
-            android:layout_toLeftOf="@+id/main_toolbar_imageButton_history"
+            android:layout_toStartOf="@+id/main_toolbar_imageButton_history"
             android:background="@null"
-            android:src="@drawable/ic_profile_user">
+            android:src="@drawable/ic_profile_user"
+            android:contentDescription="@string/profil_button">
         </ImageButton>
 
         <ImageButton
@@ -46,7 +45,8 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
             android:background="@null"
-            android:src="@drawable/ic_history">
+            android:src="@drawable/ic_history"
+            android:contentDescription="@string/history_button">
         </ImageButton>
 
 
