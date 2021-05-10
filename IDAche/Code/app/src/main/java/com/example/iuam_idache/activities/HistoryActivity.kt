@@ -347,14 +347,14 @@ class HistoryActivity : AppCompatActivity() {
             hearthBeatMinTextView.text = "---"
         }
         else {
-            hearthBeatMinTextView.text = data[position].hearthBeat
+            hearthBeatMinTextView.text = data[position].hearthBeatMin
         }
 
         if (data[position].hearthBeatMax == "-1") {
             hearthBeatMaxTextView.text = "---"
         }
         else {
-            hearthBeatMaxTextView.text = data[position].hearthBeat
+            hearthBeatMaxTextView.text = data[position].hearthBeatMax
         }
 
         // Meteo values

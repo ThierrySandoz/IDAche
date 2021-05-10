@@ -207,7 +207,10 @@ class HeadacheActivity : AppCompatActivity() {
                     event_visibility = -1,
                     event_ache_locality = symptomValuesList[HeadachePages.HEADACHE_AREA.ordinal],
                     event_ache_power = symptomValuesList[HeadachePages.PAIN_LEVEL.ordinal],
-                    event_ache_type = symptomValuesList[HeadachePages.HEADACHE_AREA.ordinal]
+                    event_ache_type = symptomValuesList[HeadachePages.HEADACHE_AREA.ordinal],
+                    event_alcohol = symptomValuesList[HeadachePages.ALCOHOL.ordinal],
+                    event_cigarette = symptomValuesList[HeadachePages.CIGARETTE.ordinal],
+                    event_coffee  = symptomValuesList[HeadachePages.COFFEE.ordinal],
                     )
 
                 val myClientRestAPI = ClientRestAPI()

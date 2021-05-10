@@ -26,6 +26,10 @@ class EventsAche {
     var event_Ache_power: Byte = -1
     var event_Ache_type: Byte = -1
 
+    var event_alcohol  = -1
+    var event_cigarette = -1
+    var event_coffee = -1
+
     // With all
     constructor(
         event_geoloc_lat: Float,
@@ -45,7 +49,11 @@ class EventsAche {
         event_acc_sleep: Int,
         event_ache_locality: Int,
         event_ache_power: Int,
-        event_ache_type: Int
+        event_ache_type: Int,
+        event_alcohol: Int,
+        event_cigarette: Int,
+        event_coffee: Int
+
     ) {
         this.event_geoloc_lat = event_geoloc_lat
         this.event_geoloc_lon = event_geoloc_lon
@@ -65,6 +73,9 @@ class EventsAche {
         event_Ache_locality = event_ache_locality.toByte()
         event_Ache_power = event_ache_power.toByte()
         event_Ache_type = event_ache_type.toByte()
+        this.event_alcohol = event_alcohol
+        this.event_cigarette = event_cigarette
+        this.event_coffee = event_coffee
     }
 
     // Without position -> without weather AND Without bluetooth / Polar
@@ -73,7 +84,10 @@ class EventsAche {
         user_id: Long,
         event_ache_locality: Int,
         event_ache_power: Int,
-        event_ache_type: Int
+        event_ache_type: Int,
+        event_alcohol: Int,
+        event_cigarette: Int,
+        event_coffee: Int
     ) : this(
         -1f,
         -1f,
@@ -92,7 +106,11 @@ class EventsAche {
         -1,
         event_ache_locality,
         event_ache_power,
-        event_ache_type
+        event_ache_type,
+        event_alcohol,
+        event_cigarette,
+        event_coffee
+
     ) {
     }
 
@@ -109,7 +127,10 @@ class EventsAche {
         event_acc_sleep: Int,
         event_ache_locality: Int,
         event_ache_power: Int,
-        event_ache_type: Int
+        event_ache_type: Int,
+        event_alcohol: Int,
+        event_cigarette: Int,
+        event_coffee: Int
     ) : this(
         -1f,
         -1f,
@@ -128,7 +149,10 @@ class EventsAche {
         event_acc_sleep,
         event_ache_locality,
         event_ache_power,
-        event_ache_type
+        event_ache_type,
+        event_alcohol,
+        event_cigarette,
+        event_coffee
     ) {
     }
 
@@ -146,7 +170,10 @@ class EventsAche {
         event_pressure: Int,
         event_ache_locality: Int,
         event_ache_power: Int,
-        event_ache_type: Int
+        event_ache_type: Int,
+        event_alcohol: Int,
+        event_cigarette: Int,
+        event_coffee: Int
     ) : this(
         event_geoloc_lat,
         event_geoloc_lon,
@@ -165,7 +192,10 @@ class EventsAche {
         -1,
         event_ache_locality,
         event_ache_power,
-        event_ache_type
+        event_ache_type,
+        event_alcohol,
+        event_cigarette,
+        event_coffee
     ) {
     }
 
@@ -180,6 +210,9 @@ class EventsAche {
         -1,
         -1,
         "",
+        -1,
+        -1,
+        -1,
         -1,
         -1,
         -1,
