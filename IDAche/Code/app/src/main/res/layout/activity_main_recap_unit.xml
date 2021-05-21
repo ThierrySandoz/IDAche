@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:paddingVertical="5dp"
+    android:paddingHorizontal="5dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="50dp"
+        android:layout_height="90dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/activity_main_recap_textView_painLevel"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:gravity="center_horizontal"
+            android:fontFamily="@font/avenir_next_lt_pro_bold"
+            android:textSize="26sp"
+            android:layout_gravity="center_horizontal">
+
+        </TextView>
+        <ImageView
+            android:id="@+id/activity_main_recap_imageView_painLevel"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:src="@drawable/ic_pain_level_5"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/weather_icon">
+        </ImageView>
+
+    </LinearLayout>
+
+    <View
+        style="@style/VerticalDivider"
+        android:layout_marginVertical="7dp"/>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="50dp"
+        android:layout_height="90dp"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/activity_main_recap_textView_painType"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:gravity="center_horizontal"
+            android:fontFamily="@font/avenir_next_lt_pro_bold"
+            android:textSize="26sp"
+            android:layout_gravity="center_horizontal">
+
+        </TextView>
+        <ImageView
+            android:id="@+id/activity_main_recap_imageView_painType"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:src="@drawable/headache_type_migraine"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/weather_icon">
+        </ImageView>
+
+    </LinearLayout>
+
+    <View
+        style="@style/VerticalDivider"
+        android:layout_marginVertical="7dp"/>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="50dp"
+        android:layout_height="90dp"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/activity_main_recap_textView_coffee"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:gravity="center_horizontal"
+            android:fontFamily="@font/avenir_next_lt_pro_bold"
+            android:textSize="26sp"
+            android:layout_gravity="center_horizontal">
+
+        </TextView>
+        <ImageView
+            android:id="@+id/activity_main_recap_imageView_coffee"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:translationX="5dp"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:src="@drawable/ic_coffee_5"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/weather_icon">
+        </ImageView>
+
+    </LinearLayout>
+
+    <View
+        style="@style/VerticalDivider"
+        android:layout_marginVertical="7dp"/>
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="50dp"
+        android:layout_height="90dp"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/activity_main_recap_textView_cigarette"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:gravity="center_horizontal"
+            android:fontFamily="@font/avenir_next_lt_pro_bold"
+            android:textSize="26sp"
+            android:layout_gravity="center_horizontal">
+
+        </TextView>
+        <ImageView
+            android:id="@+id/activity_main_recap_imageView_cigarette"
+            android:layout_width="70dp"
+            android:layout_height="55dp"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:src="@drawable/ic_cigarette_5"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/weather_icon">
+        </ImageView>
+
+    </LinearLayout>
+
+</LinearLayout>

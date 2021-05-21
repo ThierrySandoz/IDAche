@@ -5,6 +5,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <View
+        style="@style/HorizontalDivider"
+        android:layout_marginHorizontal="15dp">
+    </View>
+
     <include
         layout="@layout/activity_main_medical_unit">
     </include>
@@ -17,5 +22,19 @@
     <include
         layout="@layout/activity_main_meteo_unit">
     </include>
+
+    <View
+        style="@style/HorizontalDivider"
+        android:layout_marginHorizontal="15dp">
+    </View>
+
+    <include
+        layout="@layout/activity_main_recap_unit">
+    </include>
+
+    <View
+        style="@style/HorizontalDivider"
+        android:layout_marginHorizontal="15dp">
+    </View>
 
 </LinearLayout>

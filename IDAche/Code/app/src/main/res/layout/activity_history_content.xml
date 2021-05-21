@@ -1,61 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
-    <RelativeLayout
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/activity_history_hour_textView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_gravity="center_horizontal"
+        android:layout_marginVertical="10dp"
+        android:fontFamily="@font/avenir_next_lt_pro_demi"
+        android:textSize="25sp"
+        android:textColor="@color/colorGreenMedium"
+        android:text="@string/hh_mm_ss">
+    </TextView>
 
-        <TextView
-            android:id="@+id/activity_history_hour_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginVertical="10dp"
-            android:layout_centerHorizontal="true"
-            android:fontFamily="@font/avenir_next_lt_pro_demi"
-            android:textSize="25sp"
-            android:textColor="@color/colorGreenMedium"
-            android:text="@string/hh_mm_ss">
-        </TextView>
+    <include
+        android:layout_weight="1"
+        android:id="@+id/activity_history_recap"
+        layout="@layout/activity_history_recap"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content">
+    </include>
 
-        <View
-            style="@style/HorizontalDivider"
-            android:layout_centerHorizontal="true"
-            android:layout_above="@+id/activity_history_recap"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="15dp">
-        </View>
+    <include
+        android:layout_marginTop="10dp"
+        layout="@layout/activity_history_datepicker"
+        android:layout_height="200dp"
+        android:layout_weight="2"
+        android:layout_width="match_parent">
+    </include>
 
-        <include
-            android:layout_below="@+id/activity_history_hour_textView"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/activity_history_recap"
-            layout="@layout/activity_history_recap"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content">
-        </include>
-
-        <View
-            style="@style/HorizontalDivider"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/activity_history_recap"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginBottom="15dp">
-        </View>
-
-        <include
-            android:layout_below="@+id/activity_history_recap"
-            layout="@layout/activity_history_datepicker"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent">
-        </include>
-
-    </RelativeLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="80dp"
+        app:wheel_visible_item_count="3"
         app:wheel_item_align="center"
         app:wheel_item_space="20dp"
         app:wheel_curved="true"

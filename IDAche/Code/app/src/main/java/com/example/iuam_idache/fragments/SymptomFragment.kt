@@ -47,42 +47,42 @@ class SymptomFragment : Fragment() {
                     symptomDescription.text = getString(R.string.select_the_amount_of_coffee_consumed_today)
                     when(t) {
                         1 -> {
-                            symptomImage.setImageResource(R.drawable.ic_coffee_animation_1)
+                            symptomImage.setImageResource(R.drawable.ic_coffee_1)
                             symptomLevelDescription.text = "Few : 1 coffee"
                         }
                         2 -> {
-                            symptomImage.setImageResource(R.drawable.ic_coffee_animation_2)
+                            symptomImage.setImageResource(R.drawable.ic_coffee_2)
                             symptomLevelDescription.text = "Few : 2 coffees"
                         }
                         3 -> {
-                            symptomImage.setImageResource(R.drawable.ic_coffee_animation_3)
+                            symptomImage.setImageResource(R.drawable.ic_coffee_3)
                             symptomLevelDescription.text = "Medium : 3 coffees"
                         }
                         4 -> {
-                            symptomImage.setImageResource(R.drawable.ic_coffee_animation_4)
+                            symptomImage.setImageResource(R.drawable.ic_coffee_4)
                             symptomLevelDescription.text = "Medium : 4 coffees"
                         }
                         5 -> {
-                            symptomImage.setImageResource(R.drawable.ic_coffee_animation_5)
+                            symptomImage.setImageResource(R.drawable.ic_coffee_5)
                             symptomLevelDescription.text = "Medium : 5 coffees"
                         }
                         6 -> {
-                            symptomImage.setImageResource(R.drawable.ic_coffee_animation_6)
+                            symptomImage.setImageResource(R.drawable.ic_coffee_6)
                             symptomLevelDescription.text = "A lot : 6 coffees"
                         }
                         7 -> {
-                            symptomImage.setImageResource(R.drawable.ic_coffee_animation_7)
+                            symptomImage.setImageResource(R.drawable.ic_coffee_7)
                             symptomLevelDescription.text = "A lot : 7 coffees"
                         }
                         8 -> {
-                            symptomImage.setImageResource(R.drawable.ic_coffee_animation_8)
+                            symptomImage.setImageResource(R.drawable.ic_coffee_8)
                             symptomLevelDescription.text = "A lot : 8 coffees"
                         }
                         9 -> {
-                            symptomImage.setImageResource(R.drawable.ic_coffee_animation_9)
+                            symptomImage.setImageResource(R.drawable.ic_coffee_9)
                             symptomLevelDescription.text = "A lot : More than 9 coffees"
                         }
-                        else -> symptomImage.setImageResource(R.drawable.ic_coffee_animation_5)
+                        else -> symptomImage.setImageResource(R.drawable.ic_coffee_5)
                     }
                 }
                 //=============================== PAIN LEVEL =======================================

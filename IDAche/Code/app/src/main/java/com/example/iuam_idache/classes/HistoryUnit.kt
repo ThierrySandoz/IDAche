@@ -15,4 +15,8 @@ class HistoryUnit(
     val temperature         : String,
     val meteoID             : Int,
     val location            : String,
+    val painLevel           : String,
+    val painType            : String,
+    val coffee              : String,
+    val cigarette           : String
 )

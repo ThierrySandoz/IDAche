@@ -57,6 +57,10 @@ class HistoryActivity : AppCompatActivity() {
     private lateinit var hearthBeatAverageTextView: TextView
     private lateinit var hearthBeatMaxTextView: TextView
     private lateinit var hourTextView: TextView
+    private lateinit var painLevelTextView: TextView
+    private lateinit var painTypeTextView: TextView
+    private lateinit var coffeeTextView: TextView
+    private lateinit var cigaretteTextView: TextView
 
     //-------------- Lists
     private val historyUnitList : MutableList<HistoryUnit> = mutableListOf(
@@ -72,13 +76,21 @@ class HistoryActivity : AppCompatActivity() {
             hearthBeatMin = "---",
             hearthBeatMax = "---",
             meteoID = -1,
-            hearthBeatAverage = "---"
+            hearthBeatAverage = "---",
+            painLevel = "-",
+            painType = "-",
+            coffee = "-",
+            cigarette = "-"
         )
     )
     private var historyUnitDisplayedList : MutableList<HistoryUnit> = historyUnitList
 
     //-------------- ImageViews
     private lateinit var meteoStateImageView : ImageView
+    private lateinit var painLevelImageView : ImageView
+    private lateinit var painTypeImageView: ImageView
+    private lateinit var coffeeImageView: ImageView
+    private lateinit var cigaretteImageView: ImageView
 
     //-------------- Adapters
     private lateinit var dateWheelPicker: WheelPicker
@@ -137,9 +149,33 @@ class HistoryActivity : AppCompatActivity() {
         // Hour text view
         hourTextView = findViewById(R.id.activity_history_hour_textView)
 
+        // Pain level text view
+        painLevelTextView = findViewById(R.id.activity_main_recap_textView_painLevel)
+
+        // Pain type text view
+        painTypeTextView = findViewById(R.id.activity_main_recap_textView_painType)
+
+        // Coffee text view
+        coffeeTextView = findViewById(R.id.activity_main_recap_textView_coffee)
+
+        // Cigarette text view
+        cigaretteTextView = findViewById(R.id.activity_main_recap_textView_cigarette)
+
         //------------------------------------ ImageViews ------------------------------------------
         // Meteo state image
         meteoStateImageView = findViewById(R.id.activity_main_meteo_imageView_meteoState)
+
+        // Pain level image
+        painLevelImageView = findViewById(R.id.activity_main_recap_imageView_painLevel)
+
+        // Pain type image
+        painTypeImageView = findViewById(R.id.activity_main_recap_imageView_painType)
+
+        // Coffee image
+        coffeeImageView = findViewById(R.id.activity_main_recap_imageView_coffee)
+
+        // Cigarette image
+        cigaretteImageView = findViewById(R.id.activity_main_recap_imageView_cigarette)
 
         //--------------------------------- Relative layouts ---------------------------------------
         searchRelativeLayout = findViewById(R.id.history_toolbar_searchView)
@@ -216,6 +252,10 @@ class HistoryActivity : AppCompatActivity() {
                                 location = it?.event_localisation.toString(),
                                 windSpeed = it?.event_wind_speed.toString(),
                                 meteoID = it?.event_code_weather!!.toInt(),
+                                painLevel = it.event_Ache_power.toString(),
+                                painType = it.event_Ache_type.toString(),
+                                coffee = it.event_coffee.toString(),
+                                cigarette = it.event_cigarette.toString()
                             )
                         )
                     }
@@ -381,6 +421,68 @@ class HistoryActivity : AppCompatActivity() {
         }
         windSpeedTextView.text = data[position].windSpeed
 
+        // Recap values
+        painLevelTextView.text = data[position].painLevel
+        painTypeTextView.text = data[position].painType
+        coffeeTextView.text = data[position].coffee
+        cigaretteTextView.text = data[position].cigarette
+
+        when(data[position].painLevel) {
+            "1" -> painLevelImageView.setImageResource(R.drawable.ic_pain_level_1)
+            "2" -> painLevelImageView.setImageResource(R.drawable.ic_pain_level_2)
+            "3" -> painLevelImageView.setImageResource(R.drawable.ic_pain_level_3)
+            "4" -> painLevelImageView.setImageResource(R.drawable.ic_pain_level_4)
+            "5" -> painLevelImageView.setImageResource(R.drawable.ic_pain_level_5)
+            "6" -> painLevelImageView.setImageResource(R.drawable.ic_pain_level_6)
+            "7" -> painLevelImageView.setImageResource(R.drawable.ic_pain_level_7)
+            "8" -> painLevelImageView.setImageResource(R.drawable.ic_pain_level_8)
+            "9" -> painLevelImageView.setImageResource(R.drawable.ic_pain_level_9)
+        }
+
+        when(data[position].painType) {
+            "1" -> painTypeImageView.setImageResource(R.drawable.headache_type_cluster)
+            "2" -> painTypeImageView.setImageResource(R.drawable.headache_type_sinus)
+            "3" -> painTypeImageView.setImageResource(R.drawable.headache_type_tmj)
+            "4" -> painTypeImageView.setImageResource(R.drawable.headache_type_migraine)
+            "5" -> painTypeImageView.setImageResource(R.drawable.headache_type_tension)
+            "6" -> painTypeImageView.setImageResource(R.drawable.headache_type_stress)
+            "7" -> painTypeImageView.setImageResource(R.drawable.headache_type_allergy)
+            "8" -> painTypeImageView.setImageResource(R.drawable.headache_type_hypertension)
+            "9" -> painTypeImageView.setImageResource(R.drawable.headache_type_cervical)
+        }
+
+        when(data[position].coffee) {
+            "1" -> coffeeImageView.setImageResource(R.drawable.ic_coffee_1)
+            "2" -> coffeeImageView.setImageResource(R.drawable.ic_coffee_2)
+            "3" -> coffeeImageView.setImageResource(R.drawable.ic_coffee_3)
+            "4" -> coffeeImageView.setImageResource(R.drawable.ic_coffee_4)
+            "5" -> coffeeImageView.setImageResource(R.drawable.ic_coffee_5)
+            "6" -> coffeeImageView.setImageResource(R.drawable.ic_coffee_6)
+            "7" -> coffeeImageView.setImageResource(R.drawable.ic_coffee_7)
+            "8" -> coffeeImageView.setImageResource(R.drawable.ic_coffee_8)
+            "9" -> coffeeImageView.setImageResource(R.drawable.ic_coffee_9)
+            else -> {
+                coffeeImageView.setImageResource(R.drawable.ic_coffee_0)
+                coffeeTextView.text = "0"
+            }
+        }
+
+        when(data[position].cigarette) {
+            "1" -> cigaretteImageView.setImageResource(R.drawable.ic_cigarette_1)
+            "2" -> cigaretteImageView.setImageResource(R.drawable.ic_cigarette_2)
+            "3" -> cigaretteImageView.setImageResource(R.drawable.ic_cigarette_3)
+            "4" -> cigaretteImageView.setImageResource(R.drawable.ic_cigarette_4)
+            "5" -> cigaretteImageView.setImageResource(R.drawable.ic_cigarette_5)
+            "6" -> cigaretteImageView.setImageResource(R.drawable.ic_cigarette_6)
+            "7" -> cigaretteImageView.setImageResource(R.drawable.ic_cigarette_7)
+            "8" -> cigaretteImageView.setImageResource(R.drawable.ic_cigarette_8)
+            "9" -> cigaretteImageView.setImageResource(R.drawable.ic_cigarette_9)
+            else -> {
+                cigaretteImageView.setImageResource(R.drawable.ic_cigarette_0)
+                cigaretteTextView.text = "0"
+            }
+        }
+
         // Hours values
         hourTextView.text = data[position].hour
 
@@ -444,7 +546,11 @@ class HistoryActivity : AppCompatActivity() {
                 hearthBeatMin = "---",
                 hearthBeatMax = "---",
                 meteoID = -1,
-                hearthBeatAverage = "---"
+                hearthBeatAverage = "---",
+                painLevel = "-",
+                painType = "-",
+                coffee = "-",
+                cigarette = "-"
             )
         )
     }
