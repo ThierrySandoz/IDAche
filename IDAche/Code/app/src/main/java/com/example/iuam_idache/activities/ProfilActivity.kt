@@ -158,33 +158,45 @@ class ProfilActivity : AppCompatActivity() {
 
                 if (LocalDate.parse(birthDate2).isBefore(LocalDate.now(ZoneId.of("Africa/Tunis")))) {
 
-                    // Gender
-                    when (btnGender.getDirection()) {
-                        StickySwitch.Direction.LEFT -> editor.putString(
-                            userGenderKey,
-                            GenderType.MAN
-                        )
-                        StickySwitch.Direction.RIGHT -> editor.putString(
-                            userGenderKey,
-                            GenderType.WOMAN
-                        )
-                        else -> throw IllegalArgumentException("Error in gender selection")
+                    if (heightEditText.text.toString() != "" &&
+                        weightEditText.text.toString() != "") {
+
+                        // Gender
+                        when (btnGender.getDirection()) {
+                            StickySwitch.Direction.LEFT -> editor.putString(
+                                userGenderKey,
+                                GenderType.MAN
+                            )
+                            StickySwitch.Direction.RIGHT -> editor.putString(
+                                userGenderKey,
+                                GenderType.WOMAN
+                            )
+                            else -> throw IllegalArgumentException("Error in gender selection")
+                        }
+
+                        // Build the user
+                        buildUser()
+                        // Save the data in shared preferences
+                        editor.putString(userBirthDayKey, birthDayEditText.text.toString())
+                        editor.putString(userBirthMonthKey, birthMonthEditText.text.toString())
+                        editor.putString(userBirthYearKey, birthYearEditText.text.toString())
+                        editor.putString(userHeightKey, heightEditText.text.toString())
+                        editor.putString(userWeightKey, weightEditText.text.toString())
+                        editor.apply()
+
+                        // Go to main menu
+                        val intent = Intent(this, MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+                        startActivityIfNeeded(intent, 0)
                     }
-
-                    // Build the user
-                    buildUser()
-                    // Save the data in shared preferences
-                    editor.putString(userBirthDayKey, birthDayEditText.text.toString())
-                    editor.putString(userBirthMonthKey, birthMonthEditText.text.toString())
-                    editor.putString(userBirthYearKey, birthYearEditText.text.toString())
-                    editor.putString(userHeightKey, heightEditText.text.toString())
-                    editor.putString(userWeightKey, weightEditText.text.toString())
-                    editor.apply()
-
-                    // Go to main menu
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
-                    startActivityIfNeeded(intent, 0)
+                    else {
+                        if (heightEditText.text.toString() == "") {
+                            heightEditText.error = "Should not be empty"
+                        }
+                        if (weightEditText.text.toString() == "") {
+                            weightEditText.error = "Should not be empty"
+                        }
+                    }
 
                 }
                 else {
@@ -219,6 +231,7 @@ class ProfilActivity : AppCompatActivity() {
             GenderType.WOMAN -> sex = 1
             GenderType.MAN -> sex = 0
         }
+
         val height = heightEditText.text.toString().toInt()
         val weight = weightEditText.text.toString().toInt()
 
