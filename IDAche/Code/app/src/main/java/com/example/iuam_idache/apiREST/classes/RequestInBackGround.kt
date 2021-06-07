@@ -60,7 +60,6 @@ abstract class RequestInBackGround : AsyncTask<String?, Void?, Any?> {
                 conn.requestMethod = "GET"
             }
 
-            // TODO utile ?
             conn.connect()
 
             // Read the code response
